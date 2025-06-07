@@ -33,7 +33,7 @@ A modern, responsive website for Spangle Education and Computer Institute Pvt. L
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/spangle.edu.np.git
+   git clone https://github.com/bhola-dev58/spangle.edu.np.git
    cd spangle.edu.np
    ```
 
