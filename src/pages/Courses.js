@@ -5,6 +5,7 @@ const Courses = () => {
     {
       id: 1,
       title: 'Basic Computer Course',
+      img: "",
       duration: '3 months',
       description: 'Learn fundamental computer skills including MS Office, Internet, and basic troubleshooting.',
       fee: 'Rs. 5,000'
