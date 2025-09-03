@@ -28,7 +28,7 @@ const Contact = () => {
                 <div>
                   <h3 className="text-xl font-semibold mb-2">Contact Information</h3>
                   <p className="text-gray-600">
-                    Phone: +977-XXXXXXXXXX<br />
+                    Phone: +977-9804400140<br />
                     Email: info@spangle.edu.np
                   </p>
                 </div>
