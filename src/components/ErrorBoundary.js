@@ -28,8 +28,11 @@ class ErrorBoundary extends React.Component {
       }
 
       return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-DEFAULT">
-          <div className="text-center p-8 max-w-md">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-DEFAULT transition-colors duration-300">
+          <div className="text-center p-8 max-w-md bg-white dark:bg-dark-light rounded-lg shadow-lg border border-gray-100 dark:border-gray-600">
+            <div className="w-16 h-16 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
+              <span className="text-white text-2xl font-bold">!</span>
+            </div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Something went wrong
             </h1>
@@ -39,7 +42,7 @@ class ErrorBoundary extends React.Component {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-primary-DEFAULT text-white rounded-md hover:bg-primary-dark transition-colors"
+              className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors duration-200 font-medium"
             >
               Refresh Page
             </button>

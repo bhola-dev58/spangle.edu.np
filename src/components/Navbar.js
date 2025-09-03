@@ -76,12 +76,12 @@ const Navbar = () => {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden py-4">
+          <div className="md:hidden py-4 border-t border-gray-200 dark:border-gray-600 transition-colors duration-300">
             {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
-                className="block py-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary-dark transition-colors font-medium"
+                className="block py-3 px-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary-dark hover:bg-gray-50 dark:hover:bg-dark-light rounded-lg transition-colors font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 {item.name}
