@@ -8,8 +8,13 @@ import {
   StarIcon,
   MapPinIcon,
   PhoneIcon,
-  EnvelopeIcon
+  EnvelopeIcon,
+  ChevronLeftIcon as ChevronLeft,
+  ChevronRightIcon as ChevronRight,
+  PlayIcon as Play,
+  PauseIcon as Pause
 } from '@heroicons/react/24/outline';
+import { StarIcon as Star } from '@heroicons/react/24/solid';
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState({});
@@ -29,7 +34,24 @@ const Home = () => {
     const elements = document.querySelectorAll('[id^="section-"]');
     elements.forEach((el) => observer.observe(el));
 
-    return () => observer.disconnect();
+    // Add parallax scroll effect
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('.parallax');
+      
+      parallaxElements.forEach((element) => {
+        const speed = element.dataset.speed || 0.5;
+        const yPos = -(scrolled * speed);
+        element.style.transform = `translateY(${yPos}px)`;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const stats = [
@@ -80,16 +102,184 @@ const Home = () => {
     }
   ];
 
+  const [currentStaffIndex, setCurrentStaffIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
+  // Import staff images
+  const staffImages = {
+    'kk_sir': require('../assets/kk sir.jpg'),
+    'amit_parjapati': require('../assets/Amit_parjapati.jpg'),
+    'ashfaq_hussein': require('../assets/Ashfaq_hussein.jpg'),
+    'bharat_giri': require('../assets/Bharat_Giri.jpg'),
+    'jatish_chaudahry': require('../assets/Jatish chaudahry.jpg'),
+    'kushal_gautam': require('../assets/Kushal_gautam.jpg'),
+    'muarli': require('../assets/Muarli.jpg'),
+    'rohit_yadav': require('../assets/Rohit_yadav.jpg'),
+    'sailendra_yadav': require('../assets/Sailendra_yadav.jpg'),
+    'sakcham_tripathi': require('../assets/Sakcham_tripathi.jpg')
+  };
+
+  const staffMembers = [
+    {
+      id: 'kk_sir',
+      name: 'K.K. Sir',
+      position: 'Principal & Senior Faculty',
+      department: 'Administration',
+      experience: 20,
+      rating: 5,
+      quote: 'Education is the foundation of progress',
+      image: staffImages.kk_sir,
+      specialties: ['Leadership', 'Educational Management', 'Strategic Planning']
+    },
+    {
+      id: 'amit_parjapati',
+      name: 'Amit Prajapati',
+      position: 'Senior Developer & Instructor',
+      department: 'Web Development',
+      experience: 12,
+      rating: 5,
+      quote: 'Code is poetry written in logic',
+      image: staffImages.amit_parjapati,
+      specialties: ['React.js', 'Node.js', 'Full Stack Development']
+    },
+    {
+      id: 'ashfaq_hussein',
+      name: 'Ashfaq Hussein',
+      position: 'Graphics Design Expert',
+      department: 'Creative Arts',
+      experience: 10,
+      rating: 5,
+      quote: 'Design is intelligence made visible',
+      image: staffImages.ashfaq_hussein,
+      specialties: ['Adobe Creative Suite', 'UI/UX Design', 'Brand Identity']
+    },
+    {
+      id: 'bharat_giri',
+      name: 'Bharat Giri',
+      position: 'Network Administrator',
+      department: 'IT Infrastructure',
+      experience: 8,
+      rating: 4,
+      quote: 'Networks connect minds and possibilities',
+      image: staffImages.bharat_giri,
+      specialties: ['Network Security', 'System Administration', 'Cloud Computing']
+    },
+    {
+      id: 'jatish_chaudahry',
+      name: 'Jatish Chaudhary',
+      position: 'Digital Marketing Strategist',
+      department: 'Marketing',
+      experience: 7,
+      rating: 5,
+      quote: 'Digital marketing bridges brands and hearts',
+      image: staffImages.jatish_chaudahry,
+      specialties: ['SEO', 'Social Media', 'Content Marketing']
+    },
+    {
+      id: 'kushal_gautam',
+      name: 'Kushal Gautam',
+      position: 'Software Engineer',
+      department: 'Programming',
+      experience: 6,
+      rating: 4,
+      quote: 'Innovation distinguishes leaders from followers',
+      image: staffImages.kushal_gautam,
+      specialties: ['Python', 'Machine Learning', 'Data Analysis']
+    },
+    {
+      id: 'muarli',
+      name: 'Murali',
+      position: 'Hardware Specialist',
+      department: 'Technical Support',
+      experience: 9,
+      rating: 4,
+      quote: 'Hardware is the foundation, software is the soul',
+      image: staffImages.muarli,
+      specialties: ['Hardware Repair', 'System Building', 'Technical Support']
+    },
+    {
+      id: 'rohit_yadav',
+      name: 'Rohit Yadav',
+      position: 'Mobile App Developer',
+      department: 'Mobile Development',
+      experience: 5,
+      rating: 4,
+      quote: 'Mobile apps are the future of digital interaction',
+      image: staffImages.rohit_yadav,
+      specialties: ['React Native', 'Flutter', 'Mobile UI/UX']
+    },
+    {
+      id: 'sailendra_yadav',
+      name: 'Sailendra Yadav',
+      position: 'Database Administrator',
+      department: 'Data Management',
+      experience: 11,
+      rating: 5,
+      quote: 'Data is the new oil, databases are the refineries',
+      image: staffImages.sailendra_yadav,
+      specialties: ['MySQL', 'MongoDB', 'Database Optimization']
+    },
+    {
+      id: 'sakcham_tripathi',
+      name: 'Sakcham Tripathi',
+      position: 'Academic Coordinator',
+      department: 'Curriculum Development',
+      experience: 8,
+      rating: 5,
+      quote: 'Quality education shapes tomorrow\'s leaders',
+      image: staffImages.sakcham_tripathi,
+      specialties: ['Curriculum Design', 'Educational Technology', 'Student Assessment']
+    }
+  ];
+
+  // Auto-play functionality for staff carousel
+  useEffect(() => {
+    if (isAutoPlaying) {
+      const interval = setInterval(() => {
+        setCurrentStaffIndex((prevIndex) => 
+          prevIndex === staffMembers.length - 1 ? 0 : prevIndex + 1
+        );
+      }, 4000); // Change every 4 seconds
+      
+      return () => clearInterval(interval);
+    }
+  }, [isAutoPlaying, staffMembers.length]);
+
+  // Navigation functions
+  const goToPreviousStaff = () => {
+    setIsAutoPlaying(false);
+    setCurrentStaffIndex((prevIndex) => 
+      prevIndex === 0 ? staffMembers.length - 1 : prevIndex - 1
+    );
+  };
+
+  const goToNextStaff = () => {
+    setIsAutoPlaying(false);
+    setCurrentStaffIndex((prevIndex) => 
+      prevIndex === staffMembers.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  const goToStaff = (index) => {
+    setIsAutoPlaying(false);
+    setCurrentStaffIndex(index);
+  };
+
+  const toggleAutoPlay = () => {
+    setIsAutoPlaying(!isAutoPlaying);
+  };
+
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 overflow-hidden">
         {/* Animated Background Elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
-          <div className="absolute top-1/3 right-20 w-32 h-32 bg-white/5 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-white/10 rounded-full animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-white/5 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+        <div className="absolute inset-0 parallax">
+          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse float-animation"></div>
+          <div className="absolute top-1/3 right-20 w-32 h-32 bg-white/5 rounded-full float-animation" style={{ animationDelay: '1s' }}></div>
+          <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-white/10 rounded-full float-animation" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-white/5 rounded-full float-animation" style={{ animationDelay: '0.5s' }}></div>
+          <div className="absolute top-1/2 left-1/2 w-12 h-12 bg-white/5 rounded-full float-animation" style={{ animationDelay: '3s' }}></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
@@ -129,7 +319,11 @@ const Home = () => {
               {stats.map((stat, index) => {
                 const IconComponent = stat.icon;
                 return (
-                  <div key={index} className="glass-effect p-6 rounded-xl transform hover:scale-105 transition-transform duration-300">
+                  <div 
+                    key={index} 
+                    className="glass-effect p-6 rounded-xl transform hover:scale-105 transition-all duration-500 stagger-animation card-hover-lift"
+                    style={{ animationDelay: `${1.2 + index * 0.2}s` }}
+                  >
                     <IconComponent className="h-12 w-12 mx-auto mb-4 text-yellow-300" />
                     <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
                     <div className="text-gray-200 font-medium">{stat.label}</div>
@@ -223,8 +417,8 @@ const Home = () => {
             {features.map((feature, index) => (
               <div 
                 key={index} 
-                className="card group"
-                style={{ transitionDelay: `${index * 150}ms` }}
+                className="card group stagger-animation card-hover-lift"
+                style={{ animationDelay: `${index * 200}ms` }}
               >
                 <div className={`p-4 rounded-full bg-gradient-to-br ${feature.gradient} inline-block mb-6 text-white group-hover:scale-110 transition-transform`}>
                   <feature.icon className="h-8 w-8" />
@@ -332,21 +526,149 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Staff Section */}
+      <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Meet Our Expert Team
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our dedicated staff members bring years of experience and passion for education
+              to help you achieve your academic goals.
+            </p>
+          </div>
+          
+          <div className="relative">
+            {/* Staff Card */}
+            <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+              <div className="relative">
+                <img
+                  src={staffMembers[currentStaffIndex].image}
+                  alt={staffMembers[currentStaffIndex].name}
+                  className="w-full h-64 object-cover"
+                />
+                <div className="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full px-3 py-1">
+                  <span className="text-sm font-semibold text-gray-700">
+                    {currentStaffIndex + 1} / {staffMembers.length}
+                  </span>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                  {staffMembers[currentStaffIndex].name}
+                </h3>
+                <p className="text-blue-600 font-semibold mb-1">
+                  {staffMembers[currentStaffIndex].position}
+                </p>
+                <p className="text-gray-600 mb-3">
+                  {staffMembers[currentStaffIndex].department}
+                </p>
+                <p className="text-sm text-gray-600 mb-4">
+                  {staffMembers[currentStaffIndex].experience} years of experience
+                </p>
+                
+                {/* Rating */}
+                <div className="flex items-center mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${
+                        i < staffMembers[currentStaffIndex].rating
+                          ? 'text-yellow-400 fill-current'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                  <span className="ml-2 text-sm text-gray-600">
+                    {staffMembers[currentStaffIndex].rating}/5
+                  </span>
+                </div>
+                
+                <blockquote className="text-gray-700 italic border-l-4 border-blue-500 pl-4">
+                  "{staffMembers[currentStaffIndex].quote}"
+                </blockquote>
+              </div>
+            </div>
+            
+            {/* Navigation Buttons */}
+            <button
+              onClick={goToPreviousStaff}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110"
+              aria-label="Previous staff member"
+            >
+              <ChevronLeft className="w-6 h-6 text-gray-700" />
+            </button>
+            
+            <button
+              onClick={goToNextStaff}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110"
+              aria-label="Next staff member"
+            >
+              <ChevronRight className="w-6 h-6 text-gray-700" />
+            </button>
+          </div>
+          
+          {/* Controls */}
+          <div className="flex flex-col items-center space-y-4 mt-8">
+            {/* Dots Navigation */}
+            <div className="flex justify-center space-x-2">
+              {staffMembers.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToStaff(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-200 ${
+                    index === currentStaffIndex
+                      ? 'bg-blue-600 scale-125'
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  aria-label={`Go to staff member ${index + 1}`}
+                />
+              ))}
+            </div>
+            
+            {/* Auto-play toggle */}
+            <button
+              onClick={toggleAutoPlay}
+              className={`flex items-center space-x-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                isAutoPlaying
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              {isAutoPlaying ? (
+                <>
+                  <Pause className="w-4 h-4" />
+                  <span>Pause</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4" />
+                  <span>Auto-play</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
       <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2"></div>
-          <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3"></div>
+          <div className="absolute top-0 left-0 w-40 h-40 bg-white/10 rounded-full -translate-x-1/2 -translate-y-1/2 float-animation"></div>
+          <div className="absolute bottom-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3 float-animation" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-white/5 rounded-full float-animation" style={{ animationDelay: '4s' }}></div>
         </div>
         <div className="relative container mx-auto px-4 section-padding text-center text-white">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
             Start Your Educational Journey
           </h2>
           <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto leading-relaxed">
             Join our community of successful students and take the first step towards your future.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/courses" className="btn btn-secondary text-lg px-8 py-4">
+            <Link to="/courses" className="btn btn-secondary text-lg px-8 py-4 glow">
               Explore Courses
             </Link>
             <Link to="/contact" className="btn glass-effect text-white hover:bg-white/20 text-lg px-8 py-4">
