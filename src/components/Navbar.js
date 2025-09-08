@@ -6,15 +6,21 @@ import {
   HomeIcon,
   AcademicCapIcon,
   InformationCircleIcon,
-  PhoneIcon
+  PhoneIcon,
+  UserIcon,
+  ArrowRightOnRectangleIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import { SunIcon, MoonIcon } from '@heroicons/react/24/solid';
 import { ThemeContext } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { isDarkMode, toggleTheme } = useContext(ThemeContext);
+  const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
 
   const navItems = [
@@ -44,6 +50,23 @@ const Navbar = () => {
     return location.pathname === path;
   };
 
+  const handleLogout = async () => {
+    await logout();
+    setUserMenuOpen(false);
+  };
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuOpen && !event.target.closest('.user-menu')) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [userMenuOpen]);
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       scrolled 
@@ -54,8 +77,8 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300">
+            <div className="relative float-animation">
+              <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 pulse-glow">
                 <span className="text-white font-bold text-xl lg:text-2xl">S</span>
               </div>
               <div className="absolute -top-1 -right-1 w-3 h-3 bg-pink-500 rounded-full animate-pulse"></div>
@@ -114,12 +137,63 @@ const Navbar = () => {
               </div>
             </button>
             
-            <Link
-              to="/contact"
-              className="btn btn-primary text-sm px-6 py-2.5 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-            >
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <div className="relative user-menu">
+                <button
+                  onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  className="flex items-center space-x-2 p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
+                >
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
+                    {user?.profile?.firstName?.[0] || user?.email?.[0] || 'U'}
+                  </div>
+                  <span className="font-medium">{user?.profile?.firstName || 'User'}</span>
+                  <ChevronDownIcon className={`h-4 w-4 transition-transform ${
+                    userMenuOpen ? 'rotate-180' : ''
+                  }`} />
+                </button>
+                
+                {userMenuOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
+                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {user?.profile?.firstName} {user?.profile?.lastName}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+                    </div>
+                    <Link
+                      to="/profile"
+                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <UserIcon className="h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
+                    >
+                      <ArrowRightOnRectangleIcon className="h-4 w-4" />
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="flex items-center space-x-3">
+                <Link
+                  to="/login"
+                  className="text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="btn btn-primary text-sm px-6 py-2.5 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* Mobile menu controls */}
@@ -192,14 +266,52 @@ const Navbar = () => {
               );
             })}
             
-            {/* Mobile CTA Button */}
-            <div className="pt-4 border-t border-gray-200/20 dark:border-gray-700/20">
-              <Link
-                to="/contact"
-                className="btn btn-primary w-full text-center py-3 shadow-lg transform hover:scale-105 transition-all duration-300"
-              >
-                Get Started
-              </Link>
+            {/* Mobile Auth Buttons */}
+            <div className="pt-4 border-t border-gray-200/20 dark:border-gray-700/20 space-y-3">
+              {isAuthenticated ? (
+                <>
+                  <div className="flex items-center space-x-3 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
+                      {user?.profile?.firstName?.[0] || user?.email?.[0] || 'U'}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {user?.profile?.firstName} {user?.profile?.lastName}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
+                    </div>
+                  </div>
+                  <Link
+                    to="/profile"
+                    className="flex items-center space-x-2 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
+                  >
+                    <UserIcon className="h-5 w-5" />
+                    <span>Profile</span>
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center space-x-2 w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors text-left"
+                  >
+                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
+                    <span>Logout</span>
+                  </button>
+                </>
+              ) : (
+                <div className="space-y-2">
+                  <Link
+                    to="/login"
+                    className="btn btn-outline w-full text-center py-3 transition-all duration-300"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="btn btn-primary w-full text-center py-3 shadow-lg transition-all duration-300"
+                  >
+                    Sign Up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
