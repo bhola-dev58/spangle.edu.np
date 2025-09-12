@@ -55,9 +55,9 @@ const Home = () => {
   }, []);
 
   const stats = [
-    { number: '500+', label: 'Students Enrolled', icon: UserGroupIcon },
-    { number: '15+', label: 'Expert Instructors', icon: AcademicCapIcon },
-    { number: '10+', label: 'Course Programs', icon: ComputerDesktopIcon },
+    { number: '5000+', label: 'Students Enrolled', icon: UserGroupIcon },
+    { number: '20+', label: 'Expert Instructors', icon: AcademicCapIcon },
+    { number: '25+', label: 'Course Programs', icon: ComputerDesktopIcon },
   ];
 
   const features = [
@@ -493,7 +493,7 @@ const Home = () => {
                   <PhoneIcon className="h-6 w-6 text-primary dark:text-primary-dark mt-1" />
                   <div>
                     <h3 className="font-semibold text-gray-900 dark:text-white">Phone</h3>
-                    <p className="text-gray-600 dark:text-gray-300">+977-71-523456</p>
+                    <p className="text-gray-600 dark:text-gray-300">+977-9804400140</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-4">

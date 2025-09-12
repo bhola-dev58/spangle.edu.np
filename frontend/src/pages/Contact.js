@@ -22,8 +22,8 @@ const Contact = () => {
       icon: PhoneIcon,
       title: 'Phone',
       details: [
-        '+977-71-523456',
-        '+977-9841234567'
+        '+977-9804400140',
+        '+977-9827426058'
       ],
       gradient: 'from-purple-500 to-pink-600'
     },
@@ -41,7 +41,8 @@ const Contact = () => {
       title: 'Office Hours',
       details: [
         'Sunday - Friday: 6:00 AM - 6:00 PM',
-        'Saturday: 6:00 AM - 12:00 PM'
+        'Saturday: Closed',
+        'Public Holidays: Closed'
       ],
       gradient: 'from-red-500 to-orange-600'
     }
