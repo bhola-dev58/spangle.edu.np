@@ -39,10 +39,10 @@ const Profile = () => {
           phone: user.profile?.phone || '',
           bio: user.profile?.bio || '',
           address: {
-            street: user.profile?.address?.street || '',
-            city: user.profile?.address?.city || '',
-            state: user.profile?.address?.state || '',
-            zipCode: user.profile?.address?.zipCode || '',
+            street: user.profile?.address?.street || 'Devkota chowk',
+            city: user.profile?.address?.city || 'Bhairahawa',
+            state: user.profile?.address?.state || 'Lumbini',
+            zipCode: user.profile?.address?.zipCode || '32900',
             country: user.profile?.address?.country || 'Nepal'
           }
         },

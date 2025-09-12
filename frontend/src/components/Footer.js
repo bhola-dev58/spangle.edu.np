@@ -49,7 +49,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <span className="mr-2">📞</span>
-                <span>+977-XXXXXXXXXX</span>
+                <span>+977-9804400140</span>
               </li>
               <li className="flex items-center">
                 <span className="mr-2">✉️</span>
