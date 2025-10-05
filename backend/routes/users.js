@@ -6,9 +6,6 @@ const { body, validationResult } = require('express-validator');
 
 const router = express.Router();
 
-// @route   GET /api/users/:id
-// @desc    Get user profile by ID
-// @access  Private (Own profile or Admin)
 router.get('/:id', protect, authorizeOwnershipOrAdmin, async (req, res) => {
   try {
     const user = await User.findById(req.params.id)

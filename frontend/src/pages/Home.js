@@ -286,7 +286,7 @@ const Home = () => {
           <div className="max-w-5xl mx-auto text-center text-white">
             <div className="animate-fade-in-up">
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-                Welcome to 
+                Welcome to{' '}
                 <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
                   Spangle Education
                 </span>
@@ -365,7 +365,7 @@ const Home = () => {
                   About Us
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                  <span className="gradient-text">Excellence</span> in Education Since 2005
+                  <span className="gradient-text">Excellence</span> in Education Since 2010
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Spangle Education and Computer Institute Pvt. Ltd. is a premier educational institution located in Siddharthanagar-13, Devkota Chowk, Rupandehi. We are committed to providing quality education and computer training to help students achieve their academic and professional goals.
@@ -541,14 +541,18 @@ const Home = () => {
           
           <div className="relative">
             {/* Staff Card */}
-            <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-              <div className="relative">
+            <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg overflow-hidden group">
+              <div className="relative overflow-hidden">
                 <img
                   src={staffMembers[currentStaffIndex].image}
                   alt={staffMembers[currentStaffIndex].name}
-                  className="w-full h-64 object-cover"
+                  className="card-image transition-transform duration-500 group-hover:scale-110"
+                  onError={(e) => {
+                    e.target.src = 'https://via.placeholder.com/400x256/6366f1/white?text=Staff+Photo';
+                  }}
                 />
-                <div className="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full px-3 py-1">
+                <div className="image-overlay"></div>
+                <div className="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full px-3 py-1 z-10">
                   <span className="text-sm font-semibold text-gray-700">
                     {currentStaffIndex + 1} / {staffMembers.length}
                   </span>

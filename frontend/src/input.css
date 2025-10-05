@@ -94,6 +94,27 @@
     @apply transition-all duration-300 hover:scale-105 hover:rotate-1;
   }
   
+  /* Image fitting utilities for cards */
+  .card-image {
+    @apply w-full h-64 object-cover rounded-t-xl;
+  }
+  
+  .card-image-square {
+    @apply w-full aspect-square object-cover rounded-t-xl;
+  }
+  
+  .card-image-contain {
+    @apply w-full h-64 object-contain bg-gray-100 dark:bg-gray-700 rounded-t-xl;
+  }
+  
+  .card-avatar {
+    @apply w-20 h-20 object-cover rounded-full border-4 border-white shadow-lg;
+  }
+  
+  .image-overlay {
+    @apply absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-t-xl;
+  }
+  
   .float-animation {
     animation: float 6s ease-in-out infinite;
   }
