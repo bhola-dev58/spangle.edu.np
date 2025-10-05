@@ -13,6 +13,7 @@ const contactSchema = new mongoose.Schema({
     trim: true,
     lowercase: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+    // index: true, // Removed to avoid duplicate index
   },
   phone: {
     type: String,

@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary to-secondary text-white py-20">
+      <section className="bg-gradient-to-r from-primary to-secondary text-black py-20">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center">About Spangle Education</h1>
         </div>
