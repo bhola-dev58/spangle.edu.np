@@ -12,7 +12,7 @@ const courseSchema = new mongoose.Schema({
     unique: true,
     lowercase: true,
     trim: true
-    // index: true, // Removed to avoid duplicate index
+    // Removed index: true to avoid duplicate index
   },
   description: {
     type: String,

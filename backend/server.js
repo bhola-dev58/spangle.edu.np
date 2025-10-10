@@ -51,7 +51,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
+
+
+// Always use spangleDB as the database name
+const mongoUri = 'mongodb://localhost:27017/spangleDB';
+mongoose.connect(mongoUri)
 .then(() => {
   console.log('✅ Connected to MongoDB');
   console.log(`📝 Database: ${mongoose.connection.name}`);
@@ -61,9 +65,9 @@ mongoose.connect(process.env.MONGODB_URI)
   process.exit(1);
 });
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
+// Routes (authentication temporarily removed)
+// app.use('/api/auth', require('./routes/auth'));
+// app.use('/api/users', require('./routes/users'));
 app.use('/api/contact', require('./routes/contact'));
 app.use('/api/courses', require('./routes/courses'));
 app.use('/api/enrollments', require('./routes/enrollments'));
@@ -80,7 +84,7 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Error handling middleware
+// Error handling middleware (unchanged)
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.stack);
   

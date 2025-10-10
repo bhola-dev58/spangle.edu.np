@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     trim: true,
     match: [/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/, 'Please enter a valid email']
+    // Removed index: true to avoid duplicate index
   },
   password: {
     type: String,
@@ -72,6 +73,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       unique: true,
       sparse: true // Allow null values but ensure uniqueness when present
+      // Removed index: true to avoid duplicate index
     },
     enrollmentDate: {
       type: Date,
@@ -94,6 +96,7 @@ const userSchema = new mongoose.Schema({
       courseId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
+        // Removed index: true to avoid duplicate index
       },
       enrollmentDate: {
         type: Date,
