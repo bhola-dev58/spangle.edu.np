@@ -51,20 +51,18 @@ const Contact = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 py-24 overflow-hidden">
-        {/* Background Elements */}
+      <section className="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 py-24 overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse"></div>
           <div className="absolute bottom-20 right-20 w-32 h-32 bg-white/5 rounded-full animate-bounce" style={{ animationDelay: '1s' }}></div>
         </div>
-
         <div className="container mx-auto px-4 relative z-10">
           <div className="text-center text-white">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up">
               Contact Us
             </h1>
             <p className="text-xl md:text-2xl mb-8 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              Get in touch with us for any inquiries or admissions
+              Get in touch for inquiries, admissions, or support. We respond promptly and professionally.
             </p>
             <div className="w-24 h-1 bg-white mx-auto animate-fade-in-up" style={{ animationDelay: '0.6s' }}></div>
           </div>

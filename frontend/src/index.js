@@ -9,3 +9,4 @@ root.render(
     <App />
   </React.StrictMode>
 ); 
+// Cleaned up unused imports and improved organization

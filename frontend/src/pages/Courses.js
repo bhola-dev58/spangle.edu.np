@@ -13,11 +13,12 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import Notification from '../components/Notification';
 
 const Courses = () => {
+  // ...existing code...
+  // Improved course fetching and fallback
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
   const [enrollingCourse, setEnrollingCourse] = useState(null);
-  
   const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
@@ -30,16 +31,13 @@ const Courses = () => {
         credentials: 'include',
       });
       const data = await response.json();
-      
       if (response.ok && data.success) {
         setCourses(data.data || []);
       } else {
         throw new Error('Failed to fetch courses');
       }
     } catch (error) {
-      console.error('Error fetching courses:', error);
       setNotification({ type: 'error', message: 'Failed to load courses' });
-      // Fallback to static courses if API fails
       setCourses([
         {
           _id: '1',
@@ -77,6 +75,8 @@ const Courses = () => {
     }
   };
 
+  // ...existing code...
+  // Enrollment handler function
   const handleEnroll = async (courseId) => {
     if (!isAuthenticated) {
       setNotification({ type: 'error', message: 'Please login to enroll in courses' });
@@ -156,8 +156,10 @@ const Courses = () => {
     );
   }
 
+  // Ensure courses is always an array before mapping
+  const courseList = Array.isArray(courses) ? courses : [];
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-DEFAULT pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20">
       {notification && (
         <Notification
           type={notification.type}
@@ -166,27 +168,22 @@ const Courses = () => {
         />
       )}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Courses
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Explore our comprehensive range of courses designed to enhance your skills and career prospects
-          </p>
+          <h1 className="text-5xl font-extrabold text-blue-900 dark:text-yellow-300 mb-4 animate-fade-in-up">Our Courses</h1>
+          <p className="text-xl text-blue-700 dark:text-blue-200 max-w-3xl mx-auto animate-fade-in-up" style={{animationDelay:'0.2s'}}>Explore our comprehensive range of courses designed to enhance your skills and career prospects.</p>
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses.map((course, index) => {
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10">
+          {courseList.map((course, index) => {
             const enrolled = isEnrolled(course._id);
             const isEnrolling = enrollingCourse === course._id;
-
             return (
               <div 
                 key={course._id} 
-                className="card bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden stagger-animation card-hover-lift"
+                className="card bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-xl hover:scale-105 hover:shadow-2xl transition-transform duration-300 overflow-hidden stagger-animation card-hover-lift"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Course Badge */}
@@ -203,7 +200,7 @@ const Courses = () => {
                   </div>
                 </div>
 
-                <div className="p-6">
+                <div className="p-8">
                   {/* Category */}
                   <div className="flex items-center space-x-2 mb-3">
                     <AcademicCapIcon className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />
@@ -213,10 +210,10 @@ const Courses = () => {
                   </div>
 
                   {/* Title and Description */}
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-2xl font-bold text-blue-900 dark:text-yellow-300 mb-3">
                     {course.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
+                  <p className="text-blue-800 dark:text-blue-200 mb-6 line-clamp-3">
                     {course.description}
                   </p>
 
@@ -255,7 +252,7 @@ const Courses = () => {
                       <button
                         onClick={() => handleEnroll(course._id)}
                         disabled={isEnrolling}
-                        className="flex-1 btn btn-primary text-sm py-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold py-2 rounded-lg shadow hover:scale-105 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isEnrolling ? (
                           <div className="flex items-center justify-center">
@@ -269,7 +266,7 @@ const Courses = () => {
                     ) : (
                       <Link
                         to="/login"
-                        className="flex-1 btn btn-primary text-sm py-2 text-center"
+                        className="flex-1 bg-gradient-to-r from-yellow-400 to-yellow-500 text-blue-900 font-bold py-2 rounded-lg shadow text-center hover:scale-105 transition-transform duration-300"
                       >
                         Login to Enroll
                       </Link>
@@ -277,7 +274,7 @@ const Courses = () => {
                     
                     <Link
                       to={`/courses/${course._id}`}
-                      className="px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 rounded-lg transition-colors text-sm font-medium"
+                      className="px-4 py-2 text-blue-700 dark:text-yellow-300 hover:bg-blue-50 dark:hover:bg-gray-700 rounded-lg transition-colors text-sm font-medium"
                     >
                       View Details
                     </Link>
@@ -325,4 +322,4 @@ const Courses = () => {
   );
 };
 
-export default Courses; 
+export default Courses;

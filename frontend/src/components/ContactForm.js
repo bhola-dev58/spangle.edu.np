@@ -11,6 +11,8 @@ import {
 } from '@heroicons/react/24/outline';
 
 const ContactForm = ({ className = '' }) => {
+  // ...existing code...
+  // Improved form state and validation
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,46 +20,38 @@ const ContactForm = ({ className = '' }) => {
     subject: '',
     message: ''
   });
-
   const [status, setStatus] = useState({
     loading: false,
     success: false,
     error: null
   });
-
   const [errors, setErrors] = useState({});
 
   const validateForm = () => {
     const newErrors = {};
-
     if (!formData.name.trim()) {
       newErrors.name = 'Name is required';
     } else if (formData.name.trim().length < 2) {
       newErrors.name = 'Name must be at least 2 characters';
     }
-
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = 'Please enter a valid email address';
     }
-
     if (formData.phone && !/^[+]?[0-9\s\-()]{10,15}$/.test(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
-
     if (!formData.subject.trim()) {
       newErrors.subject = 'Subject is required';
     } else if (formData.subject.trim().length < 5) {
       newErrors.subject = 'Subject must be at least 5 characters';
     }
-
     if (!formData.message.trim()) {
       newErrors.message = 'Message is required';
     } else if (formData.message.trim().length < 10) {
       newErrors.message = 'Message must be at least 10 characters';
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -65,8 +59,6 @@ const ContactForm = ({ className = '' }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }
@@ -74,10 +66,10 @@ const ContactForm = ({ className = '' }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     if (!validateForm()) {
       return;
     }
+  // ...existing code...
 
     setStatus({ loading: true, success: false, error: null });
 

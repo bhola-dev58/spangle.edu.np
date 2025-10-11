@@ -6,9 +6,6 @@ import {
   UserGroupIcon,
   CheckCircleIcon,
   StarIcon,
-  MapPinIcon,
-  PhoneIcon,
-  EnvelopeIcon,
   ChevronLeftIcon as ChevronLeft,
   ChevronRightIcon as ChevronRight,
   PlayIcon as Play,
@@ -118,6 +115,7 @@ const Home = () => {
     'sailendra_yadav': require('../assets/Sailendra_yadav.jpg'),
     'sakcham_tripathi': require('../assets/Sakcham_tripathi.jpg')
   };
+
 
   const staffMembers = [
     {
@@ -270,102 +268,103 @@ const Home = () => {
   };
 
   return (
-    <div className="overflow-hidden">
+  <div className="overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
+      {/* Announcement Bar */}
+      <div className="w-full bg-yellow-400 text-gray-900 py-2 px-4 flex justify-center items-center text-sm font-semibold">
+        <span>New batches for Full Stack Development start October 25th! &nbsp;</span>
+        <Link to="/courses" className="bg-white text-yellow-700 font-bold px-4 py-1 rounded shadow hover:bg-yellow-100 ml-2">Enroll Now</Link>
+      </div>
+
+      {/* Header removed: navigation is handled by global Navbar */}
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 dark:from-indigo-700 dark:via-purple-700 dark:to-pink-700 overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 parallax">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-full animate-pulse float-animation"></div>
-          <div className="absolute top-1/3 right-20 w-32 h-32 bg-white/5 rounded-full float-animation" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-white/10 rounded-full float-animation" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute bottom-1/3 right-1/3 w-24 h-24 bg-white/5 rounded-full float-animation" style={{ animationDelay: '0.5s' }}></div>
-          <div className="absolute top-1/2 left-1/2 w-12 h-12 bg-white/5 rounded-full float-animation" style={{ animationDelay: '3s' }}></div>
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="max-w-5xl mx-auto text-center text-white">
-            <div className="animate-fade-in-up">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight">
-                Welcome to{' '}
-                <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
-                  Spangle Education
-                </span>
-              </h1>
-            </div>
-            <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-              <p className="text-xl md:text-2xl lg:text-3xl mb-8 text-gray-100 font-light leading-relaxed max-w-4xl mx-auto">
-                Empowering students with quality education and cutting-edge computer training in Siddharthanagar
-              </p>
-            </div>
-            <div className="animate-fade-in-up flex flex-col sm:flex-row gap-6 justify-center mb-16" style={{ animationDelay: '0.6s' }}>
-              <Link
-                to="/courses"
-                className="btn btn-secondary text-lg px-8 py-4 glow"
-                aria-label="Explore our courses"
-              >
-                Explore Courses
-              </Link>
-              <Link
-                to="/contact"
-                className="btn glass-effect text-white hover:bg-white/20 text-lg px-8 py-4"
-                aria-label="Contact us for more information"
-              >
+      <section className="min-h-[60vh] flex items-center justify-center px-2 sm:px-8 md:px-16 lg:px-32 xl:px-40 bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-gray-900">
+        <div className="max-w-screen-xl w-full flex flex-col md:flex-row items-center gap-2 space-x-5 md:gap-6 xl:gap-10 py-6 md:py-12 xl:py-16">
+       { /* Left: Text */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center w-full">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 md:mb-6 xl:mb-8 leading-tight text-blue-900 dark:text-yellow-300">
+            <span className="block mb-2 font-bold text-4xl sm:text-2xl md:text-3xl lg:text-4xl">
+              Empowering Your Academic & Career Success
+            </span>
+            <span className="text-blue-600 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+              Comprehensive Coaching & Professional Courses
+            </span>
+          </h1>
+          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-center">
+            <Link to="/courses">
+              <button className="bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                Explore Our Courses
+              </button>
+            </Link>
+            <Link to="/contact">
+              <button className="bg-gradient-to-r from-gray-300 to-gray-100 text-gray-800 font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
                 Contact Us
-              </Link>
-            </div>
-
-            {/* Stats Section */}
-            <div className="animate-fade-in-up grid grid-cols-1 md:grid-cols-3 gap-8 mt-16" style={{ animationDelay: '0.9s' }}>
-              {stats.map((stat, index) => {
-                const IconComponent = stat.icon;
-                return (
-                  <div 
-                    key={index} 
-                    className="glass-effect p-6 rounded-xl transform hover:scale-105 transition-all duration-500 stagger-animation card-hover-lift"
-                    style={{ animationDelay: `${1.2 + index * 0.2}s` }}
-                  >
-                    <IconComponent className="h-12 w-12 mx-auto mb-4 text-yellow-300" />
-                    <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                    <div className="text-gray-200 font-medium">{stat.label}</div>
-                  </div>
-                );
-              })}
-            </div>
+              </button>
+            </Link>
           </div>
         </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white rounded-full mt-2 animate-pulse"></div>
+        {/* Right: Image Card with Play Button */}
+          <div className="flex-1 flex justify-center items-center animate-fade-in-up">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-video group border-4 border-blue-200 dark:border-white-800 mx-auto">
+              <img src={require('../assets/bridge-course-team.jpg')} alt="Students" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              <button className="absolute inset-0 flex items-center justify-center">
+                <span className="bg-white bg-opacity-90 dark:bg-gray-900 dark:bg-opacity-90 rounded-full p-5 shadow-xl hover:scale-110 transition-transform duration-300 border-2 border-blue-300 dark:border-yellow-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-10 w-10 text-blue-700 dark:text-yellow-400">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-6.518-3.651A1 1 0 007 8.618v6.764a1 1 0 001.234.97l6.518-1.513a1 1 0 00.748-.97v-2.764a1 1 0 00-.748-.97z" />
+                  </svg>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
+  
+  <section className="bg-blue-100 dark:bg-gray-00 py-10">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">12,500+</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Successful Graduates</span>
+            <svg className="h-8 w-8 text-yellow-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" /></svg>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">93%</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Placement Rate</span>
+            <svg className="h-8 w-8 text-green-500 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 17v-6a4 4 0 014-4h10a4 4 0 014 4v6" /></svg>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">4.8/5.0</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Student Rating</span>
+            <svg className="h-8 w-8 text-yellow-400 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">20+</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Years & Excellence</span>
+            <svg className="h-8 w-8 text-blue-500 dark:text-blue-300 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3" /></svg>
+          </div>
+        </div>
+      </section>
+
+
       <section id="section-about" className={`section-padding bg-white dark:bg-gray-800 ${isVisible['section-about'] ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="w-full md:w-1/2 relative">
-              <div className="rounded-3xl overflow-hidden shadow-2xl transform hover:rotate-1 hover:scale-105 transition-all duration-500">
-                <div className="relative bg-gradient-to-br from-primary to-secondary aspect-video rounded-3xl overflow-hidden flex items-center justify-center">
-                  <div className="text-white text-7xl font-bold">S</div>
-                  <div className="absolute inset-0 bg-black/20"></div>
-                </div>
+            {/* <div className="w-full md:w-1/2 relative"> */}
+              <div className="w-full md:w-1/2 md:h-1/2 relative flex justify-center items-center">
+                <img
+                  src={require('../assets/exclence.jpg')}
+                  alt="Institute Excellence"
+                  className="rounded-3xl shadow-2xl w-full max-w-md h-[300px] object-cover border-4 border-blue-200 dark:border-yellow-400 transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-1"
+                />
               </div>
-              
-              {/* Decoration elements */}
-              <div className="absolute -top-6 -left-6 w-24 h-24 bg-yellow-300/20 dark:bg-yellow-500/10 rounded-full z-0 animate-pulse"></div>
-              <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-primary/10 dark:bg-primary/20 rounded-full z-0"></div>
-            </div>
 
             <div className="w-full md:w-1/2">
               <div className="space-y-6">
-                <div className="inline-block rounded-lg bg-gray-100 dark:bg-dark-light px-4 py-2 font-medium text-primary dark:text-primary-dark">
+                <div className="inline-block rounded-lg bg-blue-100 dark:bg-dark-light px-4 py-2 font-medium text-primary dark:text-primary-dark">
                   About Us
                 </div>
                 <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
-                  <span className="gradient-text">Excellence</span> in Education Since 2010
+                  <span className="gradient-text">Excellence</span> in Education Since 2015
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                   Spangle Education and Computer Institute Pvt. Ltd. is a premier educational institution located in Siddharthanagar-13, Devkota Chowk, Rupandehi. We are committed to providing quality education and computer training to help students achieve their academic and professional goals.
@@ -467,65 +466,6 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Location Section */}
-      <section id="section-location" className={`section-padding bg-gray-50 dark:bg-gray-900 ${isVisible['section-location'] ? 'animate-fade-in' : 'opacity-0'}`}>
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-block rounded-lg bg-primary/10 dark:bg-primary/20 px-4 py-2 font-medium text-primary dark:text-primary-dark mb-4">
-                Location
-              </div>
-              <h2 className="text-4xl font-bold mb-6 text-gray-900 dark:text-white">
-                Visit Our Campus
-              </h2>
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <MapPinIcon className="h-6 w-6 text-primary dark:text-primary-dark mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Address</h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Siddharthanagar-13, Devkota Chowk<br />
-                      Rupandehi, Nepal
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <PhoneIcon className="h-6 w-6 text-primary dark:text-primary-dark mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Phone</h3>
-                    <p className="text-gray-600 dark:text-gray-300">+977-9804400140</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-4">
-                  <EnvelopeIcon className="h-6 w-6 text-primary dark:text-primary-dark mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-white">Email</h3>
-                    <p className="text-gray-600 dark:text-gray-300">info@spangle.edu.np</p>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-8">
-                <Link to="/contact" className="btn btn-primary inline-flex items-center group">
-                  Get Directions
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="bg-gradient-to-br from-primary to-secondary rounded-2xl p-8 text-white text-center transform hover:rotate-1 hover:scale-105 transition-all duration-500">
-                <h3 className="text-2xl font-bold mb-4">Office Hours</h3>
-                <div className="space-y-2 text-lg">
-                  <p>Sunday - Friday: 6:00 AM - 6:00 PM</p>
-                  <p>Saturday: 6:00 AM - 12:00 PM</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Staff Section */}
       <section className="bg-gradient-to-br from-blue-50 to-indigo-100 py-20">
         <div className="max-w-6xl mx-auto px-6">
@@ -546,7 +486,8 @@ const Home = () => {
                 <img
                   src={staffMembers[currentStaffIndex].image}
                   alt={staffMembers[currentStaffIndex].name}
-                  className="card-image transition-transform duration-500 group-hover:scale-110"
+                  className="card-image transition-transform duration-500 group-hover:scale-110 w-full object-cover"
+                  style={{ height: '600px', minHeight: '450px', maxHeight: '450px' }}
                   onError={(e) => {
                     e.target.src = 'https://via.placeholder.com/400x256/6366f1/white?text=Staff+Photo';
                   }}
@@ -657,6 +598,9 @@ const Home = () => {
         </div>
       </section>
 
+
+      
+
       {/* Call to Action */}
       <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">
         <div className="absolute inset-0">
@@ -685,4 +629,4 @@ const Home = () => {
   );
 };
 
-export default Home; 
+export default Home;
