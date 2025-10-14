@@ -68,10 +68,11 @@ mongoose.connect(mongoUri)
 // Routes (authentication temporarily removed)
 // app.use('/api/auth', require('./routes/auth'));
 // app.use('/api/users', require('./routes/users'));
-app.use('/api/contact', require('./routes/contact'));
-app.use('/api/courses', require('./routes/courses'));
-app.use('/api/enrollments', require('./routes/enrollments'));
-app.use('/api/testimonials', require('./routes/testimonials'));
+ app.use('/api/contact', require('./routes/contactMySQL'));
+ app.use('/api/courses', require('./routes/coursesMySQL'));
+app.use('/api/enrollments', require('./routes/enrollmentsMySQL'));
+app.use('/api/testimonials', require('./routes/testimonialsMySQL'));
+app.use('/api/users', require('./routes/usersMySQL'));
 app.use('/api/admin', require('./routes/admin'));
 
 // Health check endpoint
@@ -115,10 +116,3 @@ app.use('*', (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
-  console.log(`🔗 API URL: http://localhost:${PORT}/api`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV}`);
-});

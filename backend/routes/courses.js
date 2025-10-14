@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult, query } = require('express-validator');
-const Course = require('../models/Course');
+const { getCourses, addCourse } = require('../mysql/courseModel');
 
 // @route   GET /api/courses
 // @desc    Get all courses with filtering, sorting, and pagination
@@ -49,12 +49,8 @@ router.get('/', [
       ];
     }
 
-    const courses = await Course.find(query)
-      .sort(sort)
-      .limit(limit * 1)
-      .skip((page - 1) * limit)
-      .populate('instructor.name')
-      .select('-curriculum -prerequisites'); // Exclude detailed info for list view
+    // Use MySQL for fetching courses
+    const courses = await getCourses();
 
     const total = await Course.countDocuments(query);
 
@@ -187,8 +183,8 @@ router.post('/', [
       });
     }
 
-    const course = new Course(req.body);
-    await course.save();
+    const id = await addCourse(req.body);
+    res.status(201).json({ id });
 
     res.status(201).json({
       success: true,

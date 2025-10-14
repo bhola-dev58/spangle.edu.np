@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 const rateLimit = require('express-rate-limit');
-const Contact = require('../models/Contact');
+// MongoDB/Mongoose removed. Add MySQL logic here as needed.
 
 // Rate limiting for contact form - more restrictive
 const contactLimiter = rateLimit({

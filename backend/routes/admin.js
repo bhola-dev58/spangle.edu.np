@@ -1,16 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+// MongoDB/Mongoose removed. Add MySQL logic here as needed.
 
 // @route   GET /api/admin/dashboard
 // @desc    Get dashboard statistics (Admin only)
 // @access  Private
 router.get('/dashboard', async (req, res) => {
   try {
-    const Contact = mongoose.model('Contact');
-    const Course = mongoose.model('Course');
-    const Enrollment = mongoose.model('Enrollment');
-    const Testimonial = mongoose.model('Testimonial');
+  // TODO: Replace with MySQL queries for dashboard statistics
 
     // Get current date ranges
     const today = new Date();
@@ -19,115 +16,23 @@ router.get('/dashboard', async (req, res) => {
     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
 
     // Contact statistics
-    const contactStats = {
-      total: await Contact.countDocuments(),
-      today: await Contact.countDocuments({ createdAt: { $gte: startOfDay } }),
-      thisWeek: await Contact.countDocuments({ createdAt: { $gte: startOfWeek } }),
-      thisMonth: await Contact.countDocuments({ createdAt: { $gte: startOfMonth } }),
-      pending: await Contact.countDocuments({ status: 'pending' }),
-      responded: await Contact.countDocuments({ status: 'responded' })
-    };
+    const contactStats = {};
 
     // Course statistics
-    const courseStats = {
-      total: await Course.countDocuments(),
-      published: await Course.countDocuments({ status: 'published' }),
-      draft: await Course.countDocuments({ status: 'draft' }),
-      featured: await Course.countDocuments({ featured: true })
-    };
+    const courseStats = {};
 
     // Enrollment statistics
-    const enrollmentStats = {
-      total: await Enrollment.countDocuments(),
-      today: await Enrollment.countDocuments({ enrollmentDate: { $gte: startOfDay } }),
-      thisWeek: await Enrollment.countDocuments({ enrollmentDate: { $gte: startOfWeek } }),
-      thisMonth: await Enrollment.countDocuments({ enrollmentDate: { $gte: startOfMonth } }),
-      pending: await Enrollment.countDocuments({ status: 'pending' }),
-      approved: await Enrollment.countDocuments({ status: 'approved' }),
-      completed: await Enrollment.countDocuments({ status: 'completed' })
-    };
+    const enrollmentStats = {};
 
     // Testimonial statistics
-    const testimonialStats = {
-      total: await Testimonial.countDocuments(),
-      pending: await Testimonial.countDocuments({ status: 'pending' }),
-      approved: await Testimonial.countDocuments({ status: 'approved' }),
-      featured: await Testimonial.countDocuments({ featured: true })
-    };
+    const testimonialStats = {};
 
     // Recent activities
-    const recentContacts = await Contact.find()
-      .sort({ createdAt: -1 })
-      .limit(5)
-      .select('name email subject createdAt status');
-
-    const recentEnrollments = await Enrollment.find()
-      .populate('courseId', 'title')
-      .sort({ enrollmentDate: -1 })
-      .limit(5)
-      .select('studentInfo.firstName studentInfo.lastName courseId enrollmentDate status');
-
-    // Popular courses (by enrollment count)
-    const popularCourses = await Enrollment.aggregate([
-      { $match: { status: { $in: ['pending', 'approved', 'completed'] } } },
-      {
-        $group: {
-          _id: '$courseId',
-          enrollmentCount: { $sum: 1 }
-        }
-      },
-      { $sort: { enrollmentCount: -1 } },
-      { $limit: 5 },
-      {
-        $lookup: {
-          from: 'courses',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'course'
-        }
-      },
-      { $unwind: '$course' },
-      {
-        $project: {
-          title: '$course.title',
-          category: '$course.category',
-          enrollmentCount: 1
-        }
-      }
-    ]);
-
-    // Monthly enrollment trends (last 6 months)
-    const sixMonthsAgo = new Date();
-    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
-
-    const enrollmentTrends = await Enrollment.aggregate([
-      { $match: { enrollmentDate: { $gte: sixMonthsAgo } } },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$enrollmentDate' },
-            month: { $month: '$enrollmentDate' }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      { $sort: { '_id.year': 1, '_id.month': 1 } }
-    ]);
-
-    // Contact trends (last 6 months)
-    const contactTrends = await Contact.aggregate([
-      { $match: { createdAt: { $gte: sixMonthsAgo } } },
-      {
-        $group: {
-          _id: {
-            year: { $year: '$createdAt' },
-            month: { $month: '$createdAt' }
-          },
-          count: { $sum: 1 }
-        }
-      },
-      { $sort: { '_id.year': 1, '_id.month': 1 } }
-    ]);
+    const recentContacts = [];
+    const recentEnrollments = [];
+    const popularCourses = [];
+    const enrollmentTrends = [];
+    const contactTrends = [];
 
     res.json({
       success: true,
