@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
 
 const socialLinks = [
@@ -23,10 +24,10 @@ const navLinks = [
 
 const Footer = () => (
   <footer style={{ backgroundColor: "#2b2c2e" }} className="border-t border-gray-800 text-white transition-colors duration-300">
-    <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
+  <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10 pb-4 border-b border-gray-800">
         <div className="flex items-center gap-4">
-          <img src="/favicon.ico" alt="Spangle Logo" className="w-14 h-14 rounded-full shadow-lg border-2 " />
+         <img src={logo} alt="Spangle Logo" className="w-14 h-14 rounded-full shadow-lg border-2 transition-transform duration-300 hover:scale-110 hover:rotate-3" />
           <span className="text-2xl md:text-3xl tracking-tight text-white drop-shadow">Spangle Education & Computer Institute Pvt.Ltd.</span>
         </div>
       </div>
@@ -34,31 +35,30 @@ const Footer = () => (
           <nav aria-label="Footer Navigation" className="col-span-1">
             <ul className="flex flex-col gap-4">
             {navLinks.map(link => (
-              <li key={link.to}>
+              <li key={link.to} className="transition-transform duration-300 hover:scale-105">
                 <Link to={link.to} className="font-semibold text-white hover:text-blue-400 transition-colors duration-200 focus:outline-none focus:underline">{link.label}</Link>
               </li>
             ))}
           </ul>
         </nav>
         <div className="col-span-1">
-         <h4 className="font-bold mb-4 text-white">Contact</h4>
+         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Contact</h4>
          <ul className="text-base flex flex-col gap-3">
-            <li className="flex items-center gap-2"><span aria-label="Location" role="img">📍</span> Siddharthanagar-13, Devkota Chowk, Rupandehi, Nepal</li>
-            <li className="flex items-center gap-2"><span aria-label="Phone" role="img">📞</span> <a href="tel:+9779804400140" className="hover:text-blue-400 transition-colors">+977-9804400140</a></li>
-            <li className="flex items-center gap-2"><span aria-label="Email" role="img">✉️</span> <a href="mailto:info@spangle.edu.np" className="hover:text-blue-400 transition-colors">info@spangle.edu.np</a></li>
+            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Location" role="img">📍</span> Siddharthanagar-13, Devkota Chowk, Rupandehi, Nepal</li>
+            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Phone" role="img">📞</span> <a href="tel:+9779804400140" className="hover:text-blue-400 transition-colors">+977-9804400140</a></li>
+            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Email" role="img">✉️</span> <a href="mailto:info@spangle.edu.np" className="hover:text-blue-400 transition-colors">info@spangle.edu.np</a></li>
           </ul>
         </div>
         <div className="col-span-1">
-         <h4 className="font-bold mb-4 text-white">Office Hours</h4>
+         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Office Hours</h4>
          <ul className="text-base flex flex-col gap-3">
-            <li><span className="font-medium">Sun - Fri:</span> 6:00 AM - 6:00 PM</li>
-            <li><span className="font-medium">Saturday:</span> 6:00 AM - 2:00 PM</li>
-            <li><span className="font-medium">Public Holidays:</span> Closed</li>
+            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Sun - Fri:</span> 6:00 AM - 6:00 PM</li>
+            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Saturday:</span> 6:00 AM - 2:00 PM</li>
+            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Public Holidays:</span> Closed</li>
           </ul>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
-         <h4 className="font-bold mb-4 text-white">Follow Us</h4>
-         
+         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Follow Us</h4>
          <div className="flex gap-4 mb-6">
             {socialLinks.map(({ href, label, icon }) => (
               <a
@@ -67,7 +67,7 @@ const Footer = () => (
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="rounded-full p-3 bg-gray-900 text-white hover:bg-blue-900 hover:text-blue-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow"
+                className="rounded-full p-3 bg-gray-900 text-white hover:bg-blue-900 hover:text-blue-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow transition-transform duration-300 hover:scale-110 hover:-rotate-3"
               >
                 {icon}
               </a>

@@ -352,9 +352,9 @@ const Home = () => {
             {/* <div className="w-full md:w-1/2 relative"> */}
               <div className="w-full md:w-1/2 md:h-1/2 relative flex justify-center items-center">
                 <img
-                  src={require('../assets/exclence.jpg')}
+                  src={require('../assets/exclence.png')}
                   alt="Institute Excellence"
-                  className="rounded-3xl shadow-2xl w-full max-w-md h-[300px] object-cover border-4 border-blue-200 dark:border-yellow-400 transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-1"
+                  className="rounded-3xl w-full h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-1"
                 />
               </div>
 
