@@ -94,27 +94,22 @@ export const CourseCard = ({ course, actions, ...props }) => (
 );
 
 export const StaffCard = ({ staff, ...props }) => (
-  <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-col md:flex-row items-stretch max-w-2xl mx-auto transition-transform duration-300 hover:scale-[1.02]">
-    <div className="relative md:w-1/2 w-full h-72 md:h-auto flex-shrink-0">
+  <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-row items-center max-w-3xl mx-auto transition-transform duration-300 hover:scale-[1.02] min-h-[160px] h-44 md:h-48 lg:h-52 w-full">
+    <div className="relative flex items-center justify-center w-28 h-28 md:w-32 md:h-32 flex-shrink-0 ml-6">
       <img
         src={staff.image}
         alt={staff.name}
-        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 rounded-t-2xl md:rounded-l-2xl md:rounded-t-none"
-        onError={e => { e.target.src = 'https://via.placeholder.com/400x256/6366f1/white?text=Image+Not+Found'; }}
+        className="w-24 h-24 md:w-28 md:h-28 object-cover transition-transform duration-500 group-hover:scale-105 rounded-full border-4 border-blue-200 bg-white shadow-lg"
+        onError={e => { e.target.src = 'https://via.placeholder.com/112x112/6366f1/white?text=Image+Not+Found'; }}
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent pointer-events-none rounded-t-2xl md:rounded-l-2xl md:rounded-t-none"></div>
-      {staff.score && (
-        <div className="absolute top-4 right-4 bg-white dark:bg-gray-900 bg-opacity-90 dark:bg-opacity-90 rounded-full px-3 py-1 z-10 shadow">
-          <span className="text-sm font-semibold text-gray-700 dark:text-yellow-300">{staff.score}</span>
-        </div>
-      )}
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent pointer-events-none rounded-full"></div>
     </div>
-    <div className="flex-1 p-8 flex flex-col justify-center">
-      <h3 className="text-2xl font-extrabold text-blue-900 dark:text-yellow-300 mb-1 leading-tight">{staff.name}</h3>
-      <p className="text-lg font-semibold text-blue-700 dark:text-blue-200 mb-1">{staff.position}</p>
-      <p className="text-base text-blue-800 dark:text-blue-200 mb-2">{staff.department}</p>
-      <p className="text-sm text-blue-700 dark:text-blue-200 mb-3">{staff.experience} years of experience</p>
-      <div className="flex items-center mb-3">
+    <div className="flex-1 px-6 py-4 flex flex-col justify-center min-w-0">
+      <h3 className="text-xl md:text-2xl font-extrabold text-blue-900 dark:text-yellow-300 mb-1 leading-tight">{staff.name}</h3>
+      <p className="text-base md:text-lg font-semibold text-blue-700 dark:text-blue-200 mb-1">{staff.position}</p>
+      <p className="text-sm md:text-base text-blue-800 dark:text-blue-200 mb-2">{staff.department}</p>
+      <p className="text-xs md:text-sm text-blue-700 dark:text-blue-200 mb-2">{staff.experience} years of experience</p>
+      <div className="flex items-center mb-2">
         {[...Array(5)].map((_, i) => (
           <svg
             key={i}
@@ -122,14 +117,14 @@ export const StaffCard = ({ staff, ...props }) => (
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
-            className={`w-5 h-5 ${i < staff.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+            className={`w-4 h-4 md:w-5 md:h-5 ${i < staff.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
           >
             <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
           </svg>
         ))}
-        <span className="ml-2 text-base text-blue-900 dark:text-yellow-300 font-medium">{staff.rating}/5</span>
+        <span className="ml-2 text-sm md:text-base text-blue-900 dark:text-yellow-300 font-medium">{staff.rating}/5</span>
       </div>
-      <blockquote className="text-blue-800 dark:text-blue-200 italic border-l-4 border-blue-500 pl-4 text-base">{staff.quote}</blockquote>
+      <blockquote className="text-blue-800 dark:text-blue-200 italic border-l-4 border-blue-500 pl-3 md:pl-4 text-xs md:text-base">{staff.quote}</blockquote>
     </div>
   </div>
 );

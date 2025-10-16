@@ -12,6 +12,8 @@ import {
   PauseIcon as Pause
 } from '@heroicons/react/24/outline';
 import { StarIcon as Star } from '@heroicons/react/24/solid';
+import ScrollingCountryFlags from '../components/ScrollingCountryFlags';
+import '../components/ScrollingCountryFlags.css';
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState({});
@@ -598,8 +600,7 @@ const Home = () => {
         </div>
       </section>
 
-
-      
+      <ScrollingCountryFlags />
 
       {/* Call to Action */}
       <section className="relative bg-gradient-to-r from-indigo-600 to-purple-600 overflow-hidden">

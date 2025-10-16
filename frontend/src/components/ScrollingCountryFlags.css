@@ -1,0 +1,29 @@
+
+.scrolling-flags-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 0.5rem 0;
+}
+
+.scrolling-flags {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  animation: scroll-flags 40s linear infinite;
+  will-change: transform;
+}
+
+.flag-img {
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.flag-img:hover {
+  transform: scale(1.12);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+@keyframes scroll-flags {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
