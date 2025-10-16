@@ -26,6 +26,7 @@ const Navbar = () => {
     { name: 'Courses', path: '/courses', icon: AcademicCapIcon },
     { name: 'About', path: '/about', icon: InformationCircleIcon },
     { name: 'Contact', path: '/contact', icon: PhoneIcon },
+    { name: 'Admin', path: '/admin-dashboard', icon: AcademicCapIcon },
   ];
 
   // Handle scroll effect

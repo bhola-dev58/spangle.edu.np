@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
-// API configuration
-const API_BASE_URL = process.env.REACT_APP_API_URL;
+// API configuration (fallback to localhost if env not set)
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 // Helper function to make API calls
 const apiCall = async (endpoint, options = {}) => {

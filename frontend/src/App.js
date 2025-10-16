@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Footer from './components/Footer';
+import AdminDashboard from './pages/AdminDashboard';
 // Cleaned up unused imports and improved organization
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
               </Routes>
             </main>
             <Footer />
