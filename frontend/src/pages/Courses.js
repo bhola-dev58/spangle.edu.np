@@ -8,20 +8,33 @@ const Courses = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCourses = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`${API_URL}/courses`);
-        const data = await res.json();
-        setCourses(Array.isArray(data) ? data : []);
-      } catch (e) {
-        setError('Failed to load courses');
-      } finally {
-        setLoading(false);
-      }
-    };
+    console.log('🔵 Courses page mounted, API_URL:', API_URL);
     fetchCourses();
   }, []);
+
+  const fetchCourses = async () => {
+    console.log('📥 Fetching courses from:', `${API_URL}/courses`);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`${API_URL}/courses`);
+      console.log('📡 Response status:', res.status);
+      
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      
+      const data = await res.json();
+      console.log('✅ Fetched courses:', data);
+      setCourses(Array.isArray(data) ? data : []);
+    } catch (e) {
+      console.error('❌ Error loading courses:', e);
+      setError(`Failed to load courses: ${e.message}`);
+      setCourses([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-16">
@@ -29,6 +42,12 @@ const Courses = () => {
         <div className="text-center mb-12">
           <h1 className="text-5xl font-extrabold text-blue-900 dark:text-yellow-300 mb-3">Our Courses</h1>
           <p className="text-lg text-blue-700 dark:text-blue-200">Explore and enroll in our latest offerings</p>
+          <button 
+            onClick={fetchCourses}
+            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
+          >
+            🔄 Refresh Courses
+          </button>
         </div>
 
         {loading && (

@@ -14,16 +14,23 @@ const AdminDashboard = () => {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
+    console.log('🔵 AdminDashboard mounted, API_URL:', API_URL);
     fetchCourses();
   }, []);
 
   const fetchCourses = async () => {
+    console.log('📥 Fetching courses from:', `${API_URL}/courses`);
     setLoading(true);
+    setError(null);
     try {
       const res = await axios.get(`${API_URL}/courses`);
-      setCourses(res.data);
+      console.log('✅ Fetched courses:', res.data);
+      setCourses(Array.isArray(res.data) ? res.data : []);
     } catch (err) {
-      setError('Failed to fetch courses');
+      console.error('❌ Error fetching courses:', err);
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to fetch courses';
+      setError(errorMsg);
+      setCourses([]);
     } finally {
       setLoading(false);
     }
@@ -35,24 +42,32 @@ const AdminDashboard = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log('📤 Submitting course:', editingId ? 'UPDATE' : 'CREATE', form);
+    setError(null);
     try {
       if (editingId) {
-        await axios.put(`${API_URL}/courses/${editingId}`, form);
+        const res = await axios.put(`${API_URL}/courses/${editingId}`, form);
+        console.log('✅ Course updated:', res.data);
         setNotification({ type: 'success', message: 'Course updated successfully' });
       } else {
-        await axios.post(`${API_URL}/courses`, form);
+        const res = await axios.post(`${API_URL}/courses`, form);
+        console.log('✅ Course created:', res.data);
         setNotification({ type: 'success', message: 'Course created successfully' });
       }
       setForm({ title: '', description: '', duration: '', fee: '' });
       setEditingId(null);
-      fetchCourses();
+      // Refresh courses list immediately
+      await fetchCourses();
     } catch (err) {
-      setError('Failed to save course');
-      setNotification({ type: 'error', message: 'Failed to save course' });
+      console.error('❌ Error saving course:', err);
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to save course';
+      setError(errorMsg);
+      setNotification({ type: 'error', message: errorMsg });
     }
   };
 
   const handleEdit = course => {
+    console.log('✏️ Editing course:', course);
     setForm({
       title: course.title,
       description: course.description,
@@ -60,17 +75,24 @@ const AdminDashboard = () => {
       fee: course.fee
     });
     setEditingId(course.id);
+    setError(null);
   };
 
   const handleDelete = async id => {
     if (!window.confirm('Are you sure you want to delete this course?')) return;
+    console.log('🗑️ Deleting course ID:', id);
+    setError(null);
     try {
-      await axios.delete(`${API_URL}/courses/${id}`);
+      const res = await axios.delete(`${API_URL}/courses/${id}`);
+      console.log('✅ Course deleted:', res.data);
       setNotification({ type: 'success', message: 'Course deleted successfully' });
-      fetchCourses();
+      // Refresh courses list immediately
+      await fetchCourses();
     } catch (err) {
-      setError('Failed to delete course');
-      setNotification({ type: 'error', message: 'Failed to delete course' });
+      console.error('❌ Error deleting course:', err);
+      const errorMsg = err.response?.data?.message || err.message || 'Failed to delete course';
+      setError(errorMsg);
+      setNotification({ type: 'error', message: errorMsg });
     }
   };
 

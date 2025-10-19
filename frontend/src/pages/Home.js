@@ -55,7 +55,7 @@ const Home = () => {
 
   const stats = [
     { number: '5000+', label: 'Students Enrolled', icon: UserGroupIcon },
-    { number: '20+', label: 'Expert Instructors', icon: AcademicCapIcon },
+    { number: '15+', label: 'Expert Instructors', icon: AcademicCapIcon },
     { number: '25+', label: 'Course Programs', icon: ComputerDesktopIcon },
   ];
 
@@ -277,7 +277,6 @@ const Home = () => {
         <Link to="/courses" className="bg-white text-yellow-700 font-bold px-4 py-1 rounded shadow hover:bg-yellow-100 ml-2">Enroll Now</Link>
       </div>
 
-      {/* Header removed: navigation is handled by global Navbar */}
 
       {/* Hero Section */}
       <section className="min-h-[60vh] flex items-center justify-center px-2 sm:px-8 md:px-16 lg:px-32 xl:px-40 bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-gray-900">
@@ -325,8 +324,8 @@ const Home = () => {
   <section className="bg-blue-100 dark:bg-gray-00 py-10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
-            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">12,500+</span>
-            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Successful Graduates</span>
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">20,00+</span>
+            <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Successful Leaner</span>
             <svg className="h-8 w-8 text-yellow-400 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5z" /></svg>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
@@ -340,7 +339,7 @@ const Home = () => {
             <svg className="h-8 w-8 text-yellow-400 mb-1" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
-            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">20+</span>
+            <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">15+</span>
             <span className="text-sm text-gray-600 dark:text-gray-300 mb-2">Years & Excellence</span>
             <svg className="h-8 w-8 text-blue-500 dark:text-blue-300 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3" /></svg>
           </div>
