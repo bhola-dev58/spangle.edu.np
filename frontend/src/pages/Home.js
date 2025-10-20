@@ -273,7 +273,7 @@ const Home = () => {
   <div className="overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
       {/* Announcement Bar */}
       <div className="w-full bg-yellow-400 text-gray-900 py-2 px-4 flex justify-center items-center text-sm font-semibold">
-        <span>New batches for Full Stack Development start October 25th! &nbsp;</span>
+        <span>New batches for Diploma in Computer Application  start October 25th! &nbsp;</span>
         <Link to="/courses" className="bg-white text-yellow-700 font-bold px-4 py-1 rounded shadow hover:bg-yellow-100 ml-2">Enroll Now</Link>
       </div>
 

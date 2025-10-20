@@ -61,7 +61,7 @@ const About = () => {
           
         {/* </div> */}
       </section>
-      <section className="bg-blue-100 rounded-2xl shadow-xl p-8 animate-fade-in-up">
+      <section className="bg-blue-100 p-8 animate-fade-in-up">
                   {/* Meet Our Expert Team Section */}
           
             <h2 className="text-4xl font-bold text-center mb-4 text-blue-900 animate-fade-in-up">Meet Our Expert Team</h2>

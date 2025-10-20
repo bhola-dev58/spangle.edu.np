@@ -94,7 +94,7 @@ export const CourseCard = ({ course, actions, ...props }) => (
 );
 
 export const StaffCard = ({ staff, ...props }) => (
-  <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-row items-center max-w-3xl mx-auto transition-transform duration-300 hover:scale-[1.02] min-h-[160px] h-44 md:h-48 lg:h-52 w-full">
+  <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-row items-center max-w-3xl mx-auto transition-transform duration-300 hover:scale-[1.02] min-h-[176px] w-full">
     <div className="relative flex items-center justify-center w-28 h-28 md:w-32 md:h-32 flex-shrink-0 ml-6">
       <img
         src={staff.image}
