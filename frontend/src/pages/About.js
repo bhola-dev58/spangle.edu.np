@@ -14,9 +14,7 @@ const About = () => {
       </section>
 
       {/* Main Content */}
-      <section className="py-10">
-        <div className="container mx-auto px-2 max-w-screen-xl">
-          <div className="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8 animate-fade-in-up">
+      <section className="bg-blue-100 shadow-xl p-8 animate-fade-in-up">
             <h2 className="text-3xl font-bold mb-8 text-blue-700">Our Story</h2>
             <p className="text-gray-700 mb-6">
               Spangle Education and Computer Institute Pvt. Ltd. was established with a vision to provide quality education and computer training to students in Siddharthanagar and surrounding areas. Our institute is committed to empowering students with the knowledge and skills they need to succeed in today's digital world.
@@ -57,13 +55,13 @@ const About = () => {
                 </p>
               </div>
             </div>
-          </div>
+          
 
 
           
-        </div>
+        {/* </div> */}
       </section>
-      <section className="bg-blue-700 rounded-2xl shadow-xl p-8 mt-16 animate-fade-in-up">
+      <section className="bg-blue-100 rounded-2xl shadow-xl p-8 animate-fade-in-up">
                   {/* Meet Our Expert Team Section */}
           
             <h2 className="text-4xl font-bold text-center mb-4 text-blue-900 animate-fade-in-up">Meet Our Expert Team</h2>
