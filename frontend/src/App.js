@@ -19,7 +19,7 @@ function App() {
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
+          <div className="min-h-screen flex flex-col bg-green-300 transition-colors duration-300">
             <Navbar />
             <main className="flex-grow">
               <Routes>
@@ -30,7 +30,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/admin-dashboard" element={<AdminDashboard />} />
+                <Route path="/admin" element={<AdminDashboard />} />
               </Routes>
             </main>
             <Footer />

@@ -1,40 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+// Static frontend-only course data
+const staticCourses = [
+  {
+    id: 1,
+    title: 'Web Development Bootcamp',
+    description: 'Learn HTML, CSS, JavaScript, and React to build modern web applications.',
+    duration: '3 months',
+    fee: 'Rs. 10,000',
+  },
+  {
+    id: 2,
+    title: 'Python Programming',
+    description: 'Master Python for data science, automation, and backend development.',
+    duration: '2 months',
+    fee: 'Rs. 8,000',
+  },
+  {
+    id: 3,
+    title: 'Graphic Design Essentials',
+    description: 'Learn Photoshop, Illustrator, and design principles for creative projects.',
+    duration: '1.5 months',
+    fee: 'Rs. 7,000',
+  },
+];
 
 const Courses = () => {
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    console.log('🔵 Courses page mounted, API_URL:', API_URL);
-    fetchCourses();
-  }, []);
-
-  const fetchCourses = async () => {
-    console.log('📥 Fetching courses from:', `${API_URL}/courses`);
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch(`${API_URL}/courses`);
-      console.log('📡 Response status:', res.status);
-      
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      
-      const data = await res.json();
-      console.log('✅ Fetched courses:', data);
-      setCourses(Array.isArray(data) ? data : []);
-    } catch (e) {
-      console.error('❌ Error loading courses:', e);
-      setError(`Failed to load courses: ${e.message}`);
-      setCourses([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const courses = staticCourses;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-24 pb-16">
@@ -42,21 +34,11 @@ const Courses = () => {
         <div className="text-center mb-12">
           <h1 className="text-5xl font-extrabold text-blue-900 dark:text-yellow-300 mb-3">Our Courses</h1>
           <p className="text-lg text-blue-700 dark:text-blue-200">Explore and enroll in our latest offerings</p>
-          <button 
-            onClick={fetchCourses}
-            className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md hover:shadow-lg"
-          >
-            🔄 Refresh Courses
-          </button>
+          {/* Refresh Courses button removed since fetchCourses no longer exists */}
         </div>
 
-        {loading && (
-          <div className="flex items-center justify-center py-20 text-blue-700 dark:text-blue-200">Loading courses...</div>
-        )}
-        {error && (
-          <div className="max-w-xl mx-auto bg-red-50 text-red-700 px-4 py-3 rounded-lg shadow mb-8 text-center">{error}</div>
-        )}
-        {!loading && !error && courses.length === 0 && (
+        {/* Loading and error states removed for frontend-only static data */}
+        {courses.length === 0 && (
           <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 text-blue-800 dark:text-blue-200 px-6 py-8 rounded-2xl shadow text-center">No courses available yet.</div>
         )}
 

@@ -308,13 +308,7 @@ const Home = () => {
           <div className="flex-1 flex justify-center items-center animate-fade-in-up">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-video group border-4 border-blue-200 dark:border-white-800 mx-auto">
               <img src={require('../assets/bridge-course-team.jpg')} alt="Students" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              <button className="absolute inset-0 flex items-center justify-center">
-                <span className="bg-white bg-opacity-90 dark:bg-gray-900 dark:bg-opacity-90 rounded-full p-5 shadow-xl hover:scale-110 transition-transform duration-300 border-2 border-blue-300 dark:border-yellow-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="h-10 w-10 text-blue-700 dark:text-yellow-400">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-6.518-3.651A1 1 0 007 8.618v6.764a1 1 0 001.234.97l6.518-1.513a1 1 0 00.748-.97v-2.764a1 1 0 00-.748-.97z" />
-                  </svg>
-                </span>
-              </button>
+
             </div>
           </div>
         </div>
