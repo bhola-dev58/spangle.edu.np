@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { submitContact } from '../services/api';
+import { addMessage } from '../firebase/firestoreService';
 import LoadingSpinner from './LoadingSpinner';
 import { 
   UserIcon, 
@@ -69,12 +69,12 @@ const ContactForm = ({ className = '' }) => {
     if (!validateForm()) {
       return;
     }
-  // ...existing code...
 
     setStatus({ loading: true, success: false, error: null });
 
     try {
-      await submitContact(formData);
+      // Save message to Firebase Firestore
+      await addMessage(formData);
       
       setStatus({ 
         loading: false, 

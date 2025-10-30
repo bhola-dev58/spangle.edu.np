@@ -306,7 +306,7 @@ const Home = () => {
         </div>
         {/* Right: Image Card with Play Button */}
           <div className="flex-1 flex justify-center items-center animate-fade-in-up">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-video group border-4 border-blue-200 dark:border-white-800 mx-auto">
+            <div className="relative  shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl aspect-video group  mx-auto">
               <img src={require('../assets/bridge-course-team.jpg')} alt="Students" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
 
             </div>

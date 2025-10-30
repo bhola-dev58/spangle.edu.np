@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../assets/logo.png';
 import { Link } from 'react-router-dom';
+import { addSubscriber } from '../firebase/firestoreService';
 
 const socialLinks = [
-  { href: 'https://facebook.com/spangle.edu.np', label: 'Facebook', icon: (
+  { href: 'https://www.facebook.com/spangala.insticyuta.bhairahava', label: 'Facebook', icon: (
     <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.6 0 0 .6 0 1.326v21.348C0 23.4.6 24 1.326 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.92.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.4 24 24 23.4 24 22.674V1.326C24 .6 23.4 0 22.675 0"/></svg>
   ) },
   { href: 'https://twitter.com/', label: 'Twitter', icon: (
@@ -22,15 +23,56 @@ const navLinks = [
 ];
 
 
-const Footer = () => (
-  <footer style={{ backgroundColor: "#2b2c2e" }} className="border-t border-gray-800 text-white transition-colors duration-300">
-  <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
+const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [subscribeStatus, setSubscribeStatus] = useState({ loading: false, message: '', type: '' });
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      setSubscribeStatus({ loading: false, message: 'Please enter a valid email address', type: 'error' });
+      return;
+    }
+
+    setSubscribeStatus({ loading: true, message: '', type: '' });
+
+    try {
+      await addSubscriber(email);
+      setSubscribeStatus({ 
+        loading: false, 
+        message: 'Successfully subscribed! Thank you!', 
+        type: 'success' 
+      });
+      setEmail('');
+      
+      // Hide success message after 5 seconds
+      setTimeout(() => {
+        setSubscribeStatus({ loading: false, message: '', type: '' });
+      }, 5000);
+    } catch (error) {
+      setSubscribeStatus({ 
+        loading: false, 
+        message: error.message || 'Failed to subscribe. Please try again.', 
+        type: 'error' 
+      });
+      
+      // Hide error message after 5 seconds
+      setTimeout(() => {
+        setSubscribeStatus({ loading: false, message: '', type: '' });
+      }, 5000);
+    }
+  };
+
+  return (
+    <footer style={{ backgroundColor: "#2b2c2e" }} className="border-t border-gray-800 text-white transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10 pb-4 border-b border-gray-800">
-        <div className="flex items-center gap-4">
-         <img src={logo} alt="Spangle Logo" className="w-14 h-14 rounded-full shadow-lg border-2 transition-transform duration-300 hover:scale-110 hover:rotate-3" />
-          <span className="text-2xl md:text-3xl tracking-tight text-white drop-shadow">Spangle Education & Computer Institute Pvt.Ltd.</span>
+          <div className="flex items-center gap-4">
+            <img src={logo} alt="Spangle Logo" className="w-14 h-14 rounded-full shadow-lg border-2 transition-transform duration-300 hover:scale-110 hover:rotate-3" />
+            <span className="text-2xl md:text-3xl tracking-tight text-white drop-shadow">Spangle Education & Computer Institute Pvt.Ltd.</span>
+          </div>
         </div>
-      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
           <nav aria-label="Footer Navigation" className="col-span-1">
             <ul className="flex flex-col gap-4">
@@ -58,8 +100,38 @@ const Footer = () => (
           </ul>
         </div>
         <div className="col-span-1 flex flex-col gap-1">
-         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Follow Us</h4>
-         <div className="flex gap-4 mb-6">
+          <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Subscribe</h4>
+          <form className="flex flex-col sm:flex-row items-center gap-3 mb-2 w-full" onSubmit={handleSubscribe}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full sm:w-auto flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 text-gray-900"
+              required
+              disabled={subscribeStatus.loading}
+            />
+            <button
+              type="submit"
+              disabled={subscribeStatus.loading}
+              className={`px-6 py-2 rounded-lg bg-orange-500 text-black font-semibold shadow hover:bg-orange-600 transition-colors duration-200 ${
+                subscribeStatus.loading ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
+            </button>
+          </form>
+          {subscribeStatus.message && (
+            <div className={`mt-2 text-sm px-3 py-2 rounded ${
+              subscribeStatus.type === 'success' 
+                ? 'bg-green-100 text-green-800 border border-green-300' 
+                : 'bg-red-100 text-red-800 border border-red-300'
+            }`}>
+              {subscribeStatus.message}
+            </div>
+          )}
+          <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Follow Us</h4>
+          <div className="flex gap-4 mb-6">
             {socialLinks.map(({ href, label, icon }) => (
               <a
                 key={label}
@@ -73,7 +145,6 @@ const Footer = () => (
               </a>
             ))}
           </div>
-          
         </div>
 
 
@@ -85,6 +156,7 @@ const Footer = () => (
       </div>
     </div>
   </footer>
-);
+  );
+};
 
 export default Footer;
