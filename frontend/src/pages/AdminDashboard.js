@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import LoadingSpinner from '../components/LoadingSpinner';
 import Notification from '../components/Notification';
 import {
   getAllCourses,
@@ -14,14 +13,21 @@ import {
   deleteMessage,
   updateMessageStatus,
   getAllSubscribers,
-  deleteSubscriber
+  deleteSubscriber,
+  getAllTeam,
+  addTeam,
+  updateTeam,
+  deleteTeam
 } from '../firebase/firestoreService';
+import { migrateTeamData } from '../scripts/migrateTeamToFirebase';
+import { getTeamImagePath } from '../utils/imageHelper';
 
 const AdminDashboard = () => {
   const [courses, setCourses] = useState([]);
   const [staffs, setStaffs] = useState([]);
   const [messages, setMessages] = useState([]);
   const [subscribers, setSubscribers] = useState([]);
+  const [teamMembers, setTeamMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('courses');
   const [notification, setNotification] = useState(null);
@@ -57,6 +63,18 @@ const AdminDashboard = () => {
   });
   const [editingStaffId, setEditingStaffId] = useState(null);
 
+  // Team Form State
+  const [teamForm, setTeamForm] = useState({
+    name: '',
+    position: '',
+    department: '',
+    experience: 0,
+    rating: 4,
+    image: '',
+    quote: ''
+  });
+  const [editingTeamId, setEditingTeamId] = useState(null);
+
   useEffect(() => {
     loadData();
   }, []);
@@ -65,16 +83,18 @@ const AdminDashboard = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [coursesData, staffData, messagesData, subscribersData] = await Promise.all([
+      const [coursesData, staffData, messagesData, subscribersData, teamData] = await Promise.all([
         getAllCourses(),
         getAllStaff(),
         getAllMessages(),
-        getAllSubscribers()
+        getAllSubscribers(),
+        getAllTeam()
       ]);
       setCourses(coursesData);
       setStaffs(staffData);
       setMessages(messagesData);
       setSubscribers(subscribersData);
+      setTeamMembers(teamData);
     } catch (error) {
       console.error('Error loading data:', error);
       setNotification({ 
@@ -295,6 +315,107 @@ const AdminDashboard = () => {
     }
   };
 
+  // Team Handlers
+  const handleTeamChange = e => {
+    const { name, value } = e.target;
+    setTeamForm({
+      ...teamForm,
+      [name]: value
+    });
+  };
+
+  const handleTeamSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const teamData = {
+      ...teamForm,
+      experience: parseInt(teamForm.experience) || 0,
+      rating: parseFloat(teamForm.rating) || 4
+    };
+
+    try {
+      if (editingTeamId) {
+        await updateTeam(editingTeamId, teamData);
+        const updatedTeam = await getAllTeam();
+        setTeamMembers(updatedTeam);
+        setNotification({ type: 'success', message: 'Team member updated successfully!' });
+        resetTeamForm();
+      } else {
+        await addTeam(teamData);
+        const updatedTeam = await getAllTeam();
+        setTeamMembers(updatedTeam);
+        setNotification({ type: 'success', message: 'Team member added successfully!' });
+        resetTeamForm();
+      }
+    } catch (error) {
+      console.error('Error saving team member:', error);
+      setNotification({ type: 'error', message: 'Failed to save team member. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleTeamEdit = member => {
+    setTeamForm(member);
+    setEditingTeamId(member.id);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleTeamDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this team member?')) return;
+    
+    setLoading(true);
+    try {
+      await deleteTeam(id);
+      const updatedTeam = await getAllTeam();
+      setTeamMembers(updatedTeam);
+      setNotification({ type: 'success', message: 'Team member deleted successfully!' });
+    } catch (error) {
+      console.error('Error deleting team member:', error);
+      setNotification({ type: 'error', message: 'Failed to delete team member. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetTeamForm = () => {
+    setTeamForm({
+      name: '',
+      position: '',
+      department: '',
+      experience: 0,
+      rating: 4,
+      image: '',
+      quote: ''
+    });
+    setEditingTeamId(null);
+  };
+
+  // Migrate hardcoded team data to Firebase
+  const handleMigrateTeam = async () => {
+    if (!window.confirm('This will import 10 original team members to Firebase. Continue?')) return;
+    
+    setLoading(true);
+    try {
+      const result = await migrateTeamData();
+      const updatedTeam = await getAllTeam();
+      setTeamMembers(updatedTeam);
+      setNotification({ 
+        type: 'success', 
+        message: `Successfully migrated ${result.successCount} team members!` 
+      });
+    } catch (error) {
+      console.error('Error migrating team:', error);
+      setNotification({ 
+        type: 'error', 
+        message: 'Failed to migrate team data. Please try again.' 
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {notification && (
@@ -384,6 +505,19 @@ const AdminDashboard = () => {
               📧 Subscribers
               <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
                 {subscribers.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveTab('team')}
+              className={`py-4 px-2 font-semibold transition-colors relative ${
+                activeTab === 'team'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              👨‍🏫 Team
+              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+                {teamMembers.length}
               </span>
             </button>
           </div>
@@ -1164,6 +1298,219 @@ const AdminDashboard = () => {
                 </button>
               </div>
             )}
+          </div>
+        )}
+
+        {/* Team Tab */}
+        {activeTab === 'team' && (
+          <div>
+            <div className="mb-6 flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">Manage Expert Team</h1>
+                <p className="text-gray-600 text-sm mt-1">Add, edit or delete team members displayed on About page</p>
+              </div>
+              {teamMembers.length === 0 && (
+                <button
+                  onClick={handleMigrateTeam}
+                  disabled={loading}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors text-sm flex items-center gap-2"
+                >
+                  📥 Import Original Team (10)
+                </button>
+              )}
+            </div>
+
+            {/* Team Form */}
+            <form onSubmit={handleTeamSubmit} className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">
+                {editingTeamId ? '✏️ Edit Team Member' : '➕ Add New Team Member'}
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name *</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={teamForm.name}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Position *</label>
+                  <input
+                    type="text"
+                    name="position"
+                    value={teamForm.position}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    required
+                    placeholder="e.g., Lead Instructor, Managing Director"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Department *</label>
+                  <input
+                    type="text"
+                    name="department"
+                    value={teamForm.department}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    required
+                    placeholder="e.g., M.B.S Account, Bridge Course"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Experience (Years) *</label>
+                  <input
+                    type="number"
+                    name="experience"
+                    value={teamForm.experience}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    required
+                    min="0"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Rating *</label>
+                  <select
+                    name="rating"
+                    value={teamForm.rating}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  >
+                    <option value="5">⭐⭐⭐⭐⭐ (5.0)</option>
+                    <option value="4.5">⭐⭐⭐⭐✨ (4.5)</option>
+                    <option value="4">⭐⭐⭐⭐ (4.0)</option>
+                    <option value="3.5">⭐⭐⭐✨ (3.5)</option>
+                    <option value="3">⭐⭐⭐ (3.0)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Image URL *</label>
+                  <input
+                    type="text"
+                    name="image"
+                    value={teamForm.image}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    required
+                    placeholder="Image URL or path"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Quote *</label>
+                  <textarea
+                    name="quote"
+                    value={teamForm.quote}
+                    onChange={handleTeamChange}
+                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    rows="2"
+                    required
+                    placeholder="Inspirational quote or motto"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-3 mt-6">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                >
+                  {loading ? 'Saving...' : editingTeamId ? 'Update Member' : 'Add Member'}
+                </button>
+                {editingTeamId && (
+                  <button
+                    type="button"
+                    onClick={resetTeamForm}
+                    className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+            </form>
+
+            {/* Team List */}
+            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="min-w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Image</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Name</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Position</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Department</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Experience</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Rating</th>
+                      <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y">
+                    {teamMembers.length === 0 ? (
+                      <tr>
+                        <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                          No team members added yet. Add your first team member above!
+                        </td>
+                      </tr>
+                    ) : (
+                      teamMembers.map(member => (
+                        <tr key={member.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3">
+                            <img 
+                              src={getTeamImagePath(member.image)} 
+                              alt={member.name} 
+                              className="w-12 h-12 rounded-full object-cover" 
+                              onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/48x48/6366f1/white?text=👨‍🏫';
+                              }}
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="font-semibold text-gray-900 text-sm">{member.name}</div>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-700">{member.position}</td>
+                          <td className="px-4 py-3">
+                            <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">{member.department}</span>
+                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-700">{member.experience} years</td>
+                          <td className="px-4 py-3">
+                            <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                              ⭐ {member.rating}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => handleTeamEdit(member)}
+                                className="px-3 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600 transition-colors"
+                              >
+                                Edit
+                              </button>
+                              <button
+                                onClick={() => handleTeamDelete(member.id)}
+                                className="px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 transition-colors"
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         )}
       </main>

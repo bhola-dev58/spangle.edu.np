@@ -10,16 +10,16 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
+import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import AdminDashboard from './pages/AdminDashboard';
-// Cleaned up unused imports and improved organization
 
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen flex flex-col bg-green-300 transition-colors duration-300">
+          <div className="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
             <Navbar />
             <main className="flex-grow">
               <Routes>
@@ -31,6 +31,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
             <Footer />

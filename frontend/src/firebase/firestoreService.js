@@ -16,6 +16,7 @@ const COURSES_COLLECTION = 'courses';
 const STAFF_COLLECTION = 'staff';
 const MESSAGES_COLLECTION = 'messages';
 const SUBSCRIBERS_COLLECTION = 'subscribers';
+const TEAM_COLLECTION = 'team';
 
 // ==================== COURSES OPERATIONS ====================
 
@@ -274,6 +275,73 @@ export const deleteSubscriber = async (subscriberId) => {
     return subscriberId;
   } catch (error) {
     console.error('Error deleting subscriber:', error);
+    throw error;
+  }
+};
+
+// ==================== TEAM OPERATIONS ====================
+
+/**
+ * Get all team members from Firestore
+ */
+export const getAllTeam = async () => {
+  try {
+    const teamQuery = query(collection(db, TEAM_COLLECTION), orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(teamQuery);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error('Error getting team members:', error);
+    throw error;
+  }
+};
+
+/**
+ * Add a new team member to Firestore
+ */
+export const addTeam = async (teamData) => {
+  try {
+    const docRef = await addDoc(collection(db, TEAM_COLLECTION), {
+      ...teamData,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    return { id: docRef.id, ...teamData };
+  } catch (error) {
+    console.error('Error adding team member:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update an existing team member in Firestore
+ */
+export const updateTeam = async (teamId, teamData) => {
+  try {
+    const teamRef = doc(db, TEAM_COLLECTION, teamId);
+    await updateDoc(teamRef, {
+      ...teamData,
+      updatedAt: serverTimestamp()
+    });
+    return { id: teamId, ...teamData };
+  } catch (error) {
+    console.error('Error updating team member:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete a team member from Firestore
+ */
+export const deleteTeam = async (teamId) => {
+  try {
+    const teamRef = doc(db, TEAM_COLLECTION, teamId);
+    await deleteDoc(teamRef);
+    return teamId;
+  } catch (error) {
+    console.error('Error deleting team member:', error);
     throw error;
   }
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { getTeamImagePath } from '../utils/imageHelper';
 
 const ImageCard = ({ 
   image, 
@@ -93,15 +94,18 @@ export const CourseCard = ({ course, actions, ...props }) => (
   />
 );
 
-export const StaffCard = ({ staff, ...props }) => (
-  <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-row items-center max-w-3xl mx-auto transition-transform duration-300 hover:scale-[1.02] min-h-[176px] w-full">
-    <div className="relative flex items-center justify-center w-28 h-28 md:w-32 md:h-32 flex-shrink-0 ml-6">
-      <img
-        src={staff.image}
-        alt={staff.name}
-        className="w-24 h-24 md:w-28 md:h-28 object-cover transition-transform duration-500 group-hover:scale-105 rounded-full border-4 border-blue-200 bg-white shadow-lg"
-        onError={e => { e.target.src = 'https://via.placeholder.com/112x112/6366f1/white?text=Image+Not+Found'; }}
-      />
+export const StaffCard = ({ staff, ...props }) => {
+  const imageSrc = getTeamImagePath(staff.image);
+  
+  return (
+    <div className="bg-gradient-to-br from-white to-blue-50 dark:from-gray-900 dark:to-gray-800 rounded-2xl shadow-2xl overflow-hidden group flex flex-row items-center max-w-3xl mx-auto transition-transform duration-300 hover:scale-[1.02] min-h-[176px] w-full">
+      <div className="relative flex items-center justify-center w-28 h-28 md:w-32 md:h-32 flex-shrink-0 ml-6">
+        <img
+          src={imageSrc}
+          alt={staff.name}
+          className="w-24 h-24 md:w-28 md:h-28 object-cover transition-transform duration-500 group-hover:scale-105 rounded-full border-4 border-blue-200 bg-white shadow-lg"
+          onError={e => { e.target.src = 'https://via.placeholder.com/112x112/6366f1/white?text=Image+Not+Found'; }}
+        />
       <div className="absolute inset-0 bg-gradient-to-t from-blue-900/30 via-transparent to-transparent dark:from-black/40 dark:via-transparent dark:to-transparent pointer-events-none rounded-full"></div>
     </div>
     <div className="flex-1 px-6 py-4 flex flex-col justify-center min-w-0">
@@ -127,6 +131,7 @@ export const StaffCard = ({ staff, ...props }) => (
       <blockquote className="text-blue-800 dark:text-blue-200 italic border-l-4 border-blue-500 pl-3 md:pl-4 text-xs md:text-base">{staff.quote}</blockquote>
     </div>
   </div>
-);
+  );
+};
 
 export default ImageCard;

@@ -16,7 +16,6 @@ import { useAuth } from '../context/AuthContext';
 // Cleaned up unused imports and improved organization
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
@@ -29,16 +28,7 @@ const Navbar = () => {
     // Admin button removed from navigation
   ];
 
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      const isScrolled = window.scrollY > 10;
-      setScrolled(isScrolled);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // Scroll effect removed as not currently used in styling
 
   // Close mobile menu when route changes
   useEffect(() => {
@@ -74,7 +64,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <img src={require('../assets/logo.png')} alt="Spangle Education Logo" className="w-12 h-12 lg:w-16 lg:h-16 rounded-full border-2 border-blue-500 dark:border-yellow-300 shadow-xl" />
+              <img src={require('../assets/logo.jpg')} alt="Spangle Education Logo" className="w-12 h-12 lg:w-16 lg:h-16 rounded-full shadow-xl" style={{background: 'transparent'}} />
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-1xl lg:text-2xl font-black tracking-tight text-blue-900 dark:text-yellow-300">Spangle Education & Computer Institute Pvt. Ltd</span>

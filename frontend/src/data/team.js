@@ -6,7 +6,7 @@ const team = [
     department: 'M.B.S Account',
     experience: 15,
     rating: 5,
-    image: require('../assets/kk sir.jpg'),
+    image: require('../assets/our_experts/Jabbar_Ali.jpg'),
     quote: 'Transforming learners into skilled professionals with real-world accounting expertise.'
   },
   {
@@ -15,7 +15,7 @@ const team = [
     department: 'Office Management',
     experience: 8,
     rating: 4,
-    image: require('../assets/Amit_parjapati.jpg'),
+    image: require('../assets/our_experts/Amit_parjapati.jpg'),
     quote: 'Leading with vision and efficiency to create a culture of excellence in management.'
   },
   {
@@ -24,7 +24,7 @@ const team = [
     department: 'Bridge Course',
     experience: 8,
     rating: 4,
-    image: require('../assets/Rohit_yadav.jpg'),
+    image: require('../assets/our_experts/Rohit_yadav.jpg'),
     quote: 'Dedicated to enhancing vision and knowledge for a brighter future.'
   },
   {
@@ -33,7 +33,7 @@ const team = [
     department: 'Bridge Course',
     experience: 12,
     rating: 5,
-    image: require('../assets/Kushal_gautam.jpg'),
+    image: require('../assets/our_experts/Kushal_gautam.jpg'),
     quote: 'Empowering students to express their thoughts with confidence and clarity through language.'
   },
   {
@@ -42,7 +42,7 @@ const team = [
     department: 'Bridge Course',
     experience: 12,
     rating: 4,
-    image: require('../assets/Jatish chaudahry.jpg'),
+    image: require('../assets/our_experts/Jatish_chaudahry.jpg'),
     quote: 'Inspiring logical thinking and problem-solving through the beauty of mathematics.'
   },
   {
@@ -51,7 +51,7 @@ const team = [
     department: 'Bridge Course',
     experience: 15,
     rating: 4,
-    image: require('../assets/Bharat_Giri.jpg'),
+    image: require('../assets/our_experts/Bharat_Giri.jpg'),
     quote: 'Exploring the wonders of chemistry to understand the world at its core.'
   },
   {
@@ -60,7 +60,7 @@ const team = [
     department: 'Bridge Course',
     experience: 11,
     rating: 4,
-    image: require('../assets/Ashfaq_hussein.jpg'),
+    image: require('../assets/our_experts/Ashfaq_hussein.jpg'),
     quote: 'Connecting students with the science of life through curiosity and discovery.'
   },
   {
@@ -69,7 +69,7 @@ const team = [
     department: 'Bridge Course',
     experience: 12,
     rating: 4,
-    image: require('../assets/Sakcham_tripathi.jpg'),
+    image: require('../assets/our_experts/Sakcham_tripathi.jpg'),
     quote: 'Bridging medicine and biology to inspire future healthcare professionals.'
   },
   {
@@ -78,7 +78,7 @@ const team = [
     department: 'Bridge Course',
     experience: 8,
     rating: 4,
-    image: require('../assets/Bibash Dungana.png'),
+    image: require('../assets/our_experts/Bibash_Dungana.png'),
     quote: 'Teaching the harmony of life through biological science and animal care.'
   },
   {
@@ -87,7 +87,7 @@ const team = [
     department: 'Bridge Course',
     experience: 10,
     rating: 4,
-    image: require('../assets/Sailendra_yadav.jpg'),
+    image: require('../assets/our_experts/Sailendra_yadav.jpg'),
     quote: 'Unveiling the laws of the universe to spark scientific curiosity in every learner.'
   },
 ];

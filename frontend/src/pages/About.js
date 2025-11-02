@@ -1,8 +1,32 @@
-import React from 'react';
-import team from '../data/team';
+import React, { useState, useEffect } from 'react';
+import teamStaticData from '../data/team';
 import { StaffCard } from '../components/ImageCard';
+import { getAllTeam } from '../firebase/firestoreService';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const About = () => {
+  const [team, setTeam] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadTeam();
+  }, []);
+
+  const loadTeam = async () => {
+    setLoading(true);
+    try {
+      const teamData = await getAllTeam();
+      // If no data in Firebase, use static data as fallback
+      setTeam(teamData.length > 0 ? teamData : teamStaticData);
+    } catch (error) {
+      console.error('Error loading team:', error);
+      // Fallback to static data on error
+      setTeam(teamStaticData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100">
       {/* Hero Section */}
@@ -62,16 +86,22 @@ const About = () => {
         {/* </div> */}
       </section>
       <section className="bg-blue-100 p-8 animate-fade-in-up">
-                  {/* Meet Our Expert Team Section */}
-          
-            <h2 className="text-4xl font-bold text-center mb-4 text-blue-900 animate-fade-in-up">Meet Our Expert Team</h2>
-            <p className="text-lg text-center text-blue-700 mb-10 animate-fade-in-up" style={{animationDelay:'0.2s'}}>Our dedicated staff members bring years of experience and passion for education to help you achieve your academic goals.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {team.map((staff) => (
-                <StaffCard key={staff.name} staff={staff} imageHeight="h-100" />
-              ))}
-            </div>
-        </section>
+        {/* Meet Our Expert Team Section */}
+        <h2 className="text-4xl font-bold text-center mb-4 text-blue-900 animate-fade-in-up">Meet Our Expert Team</h2>
+        <p className="text-lg text-center text-blue-700 mb-10 animate-fade-in-up" style={{animationDelay:'0.2s'}}>Our dedicated staff members bring years of experience and passion for education to help you achieve your academic goals.</p>
+        
+        {loading ? (
+          <div className="flex justify-center items-center py-20">
+            <LoadingSpinner />
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {team.map((staff, index) => (
+              <StaffCard key={staff.id || staff.name || index} staff={staff} imageHeight="h-100" />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 };

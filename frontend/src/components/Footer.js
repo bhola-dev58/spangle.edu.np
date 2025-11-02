@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import logo from '../assets/logo.png';
+import logo from '../assets/logo.jpg';
 import { Link } from 'react-router-dom';
 import { addSubscriber } from '../firebase/firestoreService';
 
@@ -65,73 +65,24 @@ const Footer = () => {
   };
 
   return (
-    <footer style={{ backgroundColor: "#2b2c2e" }} className="border-t border-gray-800 text-white transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col gap-10">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-10 pb-4 border-b border-gray-800">
+    <footer style={{ backgroundColor: '#1a1a1a' }} className="text-white transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        {/* Top Section - Logo & Tagline */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 pb-10 mb-10 border-b border-gray-700">
           <div className="flex items-center gap-4">
-            <img src={logo} alt="Spangle Logo" className="w-14 h-14 rounded-full shadow-lg border-2 transition-transform duration-300 hover:scale-110 hover:rotate-3" />
-            <span className="text-2xl md:text-3xl tracking-tight text-white drop-shadow">Spangle Education & Computer Institute Pvt.Ltd.</span>
-          </div>
-        </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
-          <nav aria-label="Footer Navigation" className="col-span-1">
-            <ul className="flex flex-col gap-4">
-            {navLinks.map(link => (
-              <li key={link.to} className="transition-transform duration-300 hover:scale-105">
-                <Link to={link.to} className="font-semibold text-white hover:text-blue-400 transition-colors duration-200 focus:outline-none focus:underline">{link.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="col-span-1">
-         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Contact</h4>
-         <ul className="text-base flex flex-col gap-3">
-            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Location" role="img">📍</span> Siddharthanagar-13, Devkota Chowk, Rupandehi, Nepal</li>
-            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Phone" role="img">📞</span> <a href="tel:+9779804400140" className="hover:text-blue-400 transition-colors">+977-9804400140</a></li>
-            <li className="flex items-center gap-2 transition-transform duration-300 hover:scale-105"><span aria-label="Email" role="img">✉️</span> <a href="mailto:info@spangle.edu.np" className="hover:text-blue-400 transition-colors">info@spangle.edu.np</a></li>
-          </ul>
-        </div>
-        <div className="col-span-1">
-         <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Office Hours</h4>
-         <ul className="text-base flex flex-col gap-3">
-            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Sun - Fri:</span> 6:00 AM - 6:00 PM</li>
-            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Saturday:</span> 6:00 AM - 2:00 PM</li>
-            <li className="transition-transform duration-300 hover:scale-105"><span className="font-medium">Public Holidays:</span> Closed</li>
-          </ul>
-        </div>
-        <div className="col-span-1 flex flex-col gap-1">
-          <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Subscribe</h4>
-          <form className="flex flex-col sm:flex-row items-center gap-3 mb-2 w-full" onSubmit={handleSubscribe}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full sm:w-auto flex-1 px-4 py-2 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200 text-gray-900"
-              required
-              disabled={subscribeStatus.loading}
+            <img 
+              src={logo} 
+              alt="Spangle Logo" 
+              className="w-16 h-16 rounded-full shadow-2xl border-4 border-orange-500 transition-transform duration-300 hover:scale-110 hover:rotate-6" 
             />
-            <button
-              type="submit"
-              disabled={subscribeStatus.loading}
-              className={`px-6 py-2 rounded-lg bg-orange-500 text-black font-semibold shadow hover:bg-orange-600 transition-colors duration-200 ${
-                subscribeStatus.loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-            >
-              {subscribeStatus.loading ? 'Subscribing...' : 'Subscribe'}
-            </button>
-          </form>
-          {subscribeStatus.message && (
-            <div className={`mt-2 text-sm px-3 py-2 rounded ${
-              subscribeStatus.type === 'success' 
-                ? 'bg-green-100 text-green-800 border border-green-300' 
-                : 'bg-red-100 text-red-800 border border-red-300'
-            }`}>
-              {subscribeStatus.message}
+            <div>
+              <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                Spangle Institute
+              </h3>
+              <p className="text-sm text-gray-300 mt-1">Empowering Minds, Building Futures</p>
             </div>
-          )}
-          <h4 className="font-bold mb-4 text-white transition-transform duration-300 hover:scale-105">Follow Us</h4>
-          <div className="flex gap-4 mb-6">
+          </div>
+          <div className="flex items-center gap-3">
             {socialLinks.map(({ href, label, icon }) => (
               <a
                 key={label}
@@ -139,7 +90,7 @@ const Footer = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="rounded-full p-3 bg-gray-900 text-white hover:bg-blue-900 hover:text-blue-400 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400 shadow transition-transform duration-300 hover:scale-110 hover:-rotate-3"
+                className="group rounded-full p-3 bg-gray-700 text-gray-300 hover:bg-orange-500 hover:text-white transition-all duration-300 hover:scale-110 hover:rotate-12 shadow-lg hover:shadow-orange-500/50"
               >
                 {icon}
               </a>
@@ -147,15 +98,139 @@ const Footer = () => {
           </div>
         </div>
 
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+          
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+              <span className="text-orange-500">●</span> Quick Links
+            </h4>
+            <nav aria-label="Footer Navigation">
+              <ul className="space-y-3">
+                {navLinks.map(link => (
+                  <li key={link.to}>
+                    <Link 
+                      to={link.to} 
+                      className="text-gray-300 hover:text-orange-500 transition-all duration-200 hover:pl-2 inline-block group"
+                    >
+                      <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span> {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
 
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+              <span className="text-orange-500">●</span> Contact Us
+            </h4>
+            <ul className="space-y-4 text-gray-300">
+              <li className="flex items-start gap-3 hover:text-orange-500 transition-colors duration-200">
+                <span className="text-xl mt-1">📍</span>
+                <span className="text-sm leading-relaxed">Siddharthanagar-13, Devkota Chowk,<br />Rupandehi, Nepal</span>
+              </li>
+              <li className="flex items-center gap-3 hover:text-orange-500 transition-colors duration-200">
+                <span className="text-xl">📞</span>
+                <a href="tel:+9779804400140" className="text-sm">+977-9804400140</a>
+              </li>
+              <li className="flex items-center gap-3 hover:text-orange-500 transition-colors duration-200">
+                <span className="text-xl">✉️</span>
+                <a href="mailto:info@spangle.edu.np" className="text-sm">info@spangle.edu.np</a>
+              </li>
+            </ul>
+          </div>
 
+          {/* Office Hours */}
+          <div>
+            <h4 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+              <span className="text-orange-500">●</span> Office Hours
+            </h4>
+            <ul className="space-y-3 text-sm text-gray-300">
+              <li className="flex justify-between items-center p-2 bg-gray-700/50 rounded hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-white">Sun - Fri</span>
+                <span className="text-orange-500">6:00 AM - 6:00 PM</span>
+              </li>
+              <li className="flex justify-between items-center p-2 bg-gray-700/50 rounded hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-white">Saturday</span>
+                <span className="text-orange-500">6:00 AM - 2:00 PM</span>
+              </li>
+              <li className="flex justify-between items-center p-2 bg-gray-700/50 rounded hover:bg-gray-700 transition-colors">
+                <span className="font-medium text-white">Holidays</span>
+                <span className="text-red-400">Closed</span>
+              </li>
+            </ul>
+          </div>
 
+          {/* Newsletter Subscription */}
+          <div>
+            <h4 className="text-lg font-bold text-white mb-5 flex items-center gap-2">
+              <span className="text-orange-500">●</span> Stay Updated
+            </h4>
+            <p className="text-sm text-gray-300 mb-4">Subscribe to our newsletter for updates and news.</p>
+            <form onSubmit={handleSubscribe} className="space-y-3">
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg bg-white border border-gray-300 focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all duration-200 text-black placeholder-gray-500"
+                  required
+                  disabled={subscribeStatus.loading}
+                />
+                <span className="absolute right-3 top-3 text-gray-500">✉️</span>
+              </div>
+              <button
+                type="submit"
+                disabled={subscribeStatus.loading}
+                className={`w-full px-6 py-3 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-orange-500/50 transition-all duration-300 transform hover:scale-105 ${
+                  subscribeStatus.loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              >
+                {subscribeStatus.loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Subscribing...
+                  </span>
+                ) : (
+                  '🚀 Subscribe Now'
+                )}
+              </button>
+            </form>
+            
+            {subscribeStatus.message && (
+              <div className={`mt-4 text-sm px-4 py-3 rounded-lg flex items-start gap-2 animate-slide-in ${
+                subscribeStatus.type === 'success' 
+                  ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                  : 'bg-red-500/20 text-red-300 border border-red-500/30'
+              }`}>
+                <span>{subscribeStatus.type === 'success' ? '✓' : '✗'}</span>
+                <span>{subscribeStatus.message}</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom Section - Copyright */}
+        <div className="border-t border-gray-700 pt-8 mt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400">
+            <p className="text-center md:text-left">
+              &copy; {new Date().getFullYear()} <span className="text-white font-semibold">Spangle Education & Computer Institute Pvt. Ltd.</span> All rights reserved.
+            </p>
+            <div className="flex gap-6">
+              <a href="#privacy" className="hover:text-orange-500 transition-colors">Privacy Policy</a>
+              <a href="#terms" className="hover:text-orange-500 transition-colors">Terms of Service</a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="border-t border-gray-800 pt-8 text-center text-sm text-gray-400">
-        <p>&copy; {new Date().getFullYear()} Spangle Education and Computer Institute Pvt. Ltd. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
   );
 };
 

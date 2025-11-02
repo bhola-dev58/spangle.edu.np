@@ -1,17 +1,23 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-// Firebase configuration
-// TODO: Replace with your Firebase project credentials
+// Firebase configuration from environment variables
 const firebaseConfig = {
-  apiKey: "AIzaSyAQNx9MNddhRztuXZDOWgWHIU3M9UKDs00",
-  authDomain: "spangle-edu-1fef0.firebaseapp.com",
-  projectId: "spangle-edu-1fef0",
-  storageBucket: "spangle-edu-1fef0.firebasestorage.app",
-  messagingSenderId: "56010893093",
-  appId: "1:56010893093:web:539861021c4ad62a795ccc",
-  measurementId: "G-TY8C9TT32X"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
 };
+
+// Validate Firebase configuration
+if (!firebaseConfig.apiKey || !firebaseConfig.projectId) {
+  throw new Error(
+    'Firebase configuration is missing! Please check your .env file and ensure all REACT_APP_FIREBASE_* variables are set.'
+  );
+}
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
