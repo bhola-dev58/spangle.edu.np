@@ -345,3 +345,72 @@ export const deleteTeam = async (teamId) => {
     throw error;
   }
 };
+
+// ==================== ENROLLMENTS OPERATIONS ====================
+
+const ENROLLMENTS_COLLECTION = 'enrollments';
+
+/**
+ * Get all enrollments from Firestore
+ */
+export const getAllEnrollments = async () => {
+  try {
+    const enrollmentsQuery = query(collection(db, ENROLLMENTS_COLLECTION), orderBy('enrollmentDate', 'desc'));
+    const snapshot = await getDocs(enrollmentsQuery);
+    return snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error('Error getting enrollments:', error);
+    throw error;
+  }
+};
+
+/**
+ * Add a new enrollment to Firestore
+ */
+export const addEnrollment = async (enrollmentData) => {
+  try {
+    const docRef = await addDoc(collection(db, ENROLLMENTS_COLLECTION), {
+      ...enrollmentData,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+    return { id: docRef.id, ...enrollmentData };
+  } catch (error) {
+    console.error('Error adding enrollment:', error);
+    throw error;
+  }
+};
+
+/**
+ * Update enrollment status
+ */
+export const updateEnrollment = async (enrollmentId, updates) => {
+  try {
+    const enrollmentRef = doc(db, ENROLLMENTS_COLLECTION, enrollmentId);
+    await updateDoc(enrollmentRef, {
+      ...updates,
+      updatedAt: serverTimestamp()
+    });
+    return { id: enrollmentId, ...updates };
+  } catch (error) {
+    console.error('Error updating enrollment:', error);
+    throw error;
+  }
+};
+
+/**
+ * Delete an enrollment from Firestore
+ */
+export const deleteEnrollment = async (enrollmentId) => {
+  try {
+    const enrollmentRef = doc(db, ENROLLMENTS_COLLECTION, enrollmentId);
+    await deleteDoc(enrollmentRef);
+    return enrollmentId;
+  } catch (error) {
+    console.error('Error deleting enrollment:', error);
+    throw error;
+  }
+};

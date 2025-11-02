@@ -17,7 +17,10 @@ import {
   getAllTeam,
   addTeam,
   updateTeam,
-  deleteTeam
+  deleteTeam,
+  getAllEnrollments,
+  deleteEnrollment,
+  updateEnrollment
 } from '../firebase/firestoreService';
 import { migrateTeamData } from '../scripts/migrateTeamToFirebase';
 import { getTeamImagePath } from '../utils/imageHelper';
@@ -28,6 +31,7 @@ const AdminDashboard = () => {
   const [messages, setMessages] = useState([]);
   const [subscribers, setSubscribers] = useState([]);
   const [teamMembers, setTeamMembers] = useState([]);
+  const [enrollments, setEnrollments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('courses');
   const [notification, setNotification] = useState(null);
@@ -47,7 +51,8 @@ const AdminDashboard = () => {
     image: '💻',
     isBestSeller: false,
     isFree: false,
-    syllabus: ''
+    syllabus: '',
+    learnMoreDetails: ''
   });
   const [editingCourseId, setEditingCourseId] = useState(null);
 
@@ -83,18 +88,20 @@ const AdminDashboard = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [coursesData, staffData, messagesData, subscribersData, teamData] = await Promise.all([
+      const [coursesData, staffData, messagesData, subscribersData, teamData, enrollmentsData] = await Promise.all([
         getAllCourses(),
         getAllStaff(),
         getAllMessages(),
         getAllSubscribers(),
-        getAllTeam()
+        getAllTeam(),
+        getAllEnrollments()
       ]);
       setCourses(coursesData);
       setStaffs(staffData);
       setMessages(messagesData);
       setSubscribers(subscribersData);
       setTeamMembers(teamData);
+      setEnrollments(enrollmentsData);
     } catch (error) {
       console.error('Error loading data:', error);
       setNotification({ 
@@ -151,7 +158,8 @@ const AdminDashboard = () => {
   const handleCourseEdit = course => {
     setCourseForm({
       ...course,
-      syllabus: Array.isArray(course.syllabus) ? course.syllabus.join(', ') : ''
+      syllabus: Array.isArray(course.syllabus) ? course.syllabus.join(', ') : '',
+      learnMoreDetails: course.learnMoreDetails || ''
     });
     setEditingCourseId(course.id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -189,7 +197,8 @@ const AdminDashboard = () => {
       image: '💻',
       isBestSeller: false,
       isFree: false,
-      syllabus: ''
+      syllabus: '',
+      learnMoreDetails: ''
     });
     setEditingCourseId(null);
   };
@@ -392,6 +401,39 @@ const AdminDashboard = () => {
     setEditingTeamId(null);
   };
 
+  // Enrollment Handlers
+  const handleEnrollmentDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this enrollment?')) return;
+    
+    setLoading(true);
+    try {
+      await deleteEnrollment(id);
+      const updatedEnrollments = await getAllEnrollments();
+      setEnrollments(updatedEnrollments);
+      setNotification({ type: 'success', message: 'Enrollment deleted successfully!' });
+    } catch (error) {
+      console.error('Error deleting enrollment:', error);
+      setNotification({ type: 'error', message: 'Failed to delete enrollment. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEnrollmentStatusUpdate = async (id, newStatus) => {
+    setLoading(true);
+    try {
+      await updateEnrollment(id, { status: newStatus });
+      const updatedEnrollments = await getAllEnrollments();
+      setEnrollments(updatedEnrollments);
+      setNotification({ type: 'success', message: 'Enrollment status updated successfully!' });
+    } catch (error) {
+      console.error('Error updating enrollment status:', error);
+      setNotification({ type: 'error', message: 'Failed to update enrollment status. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Migrate hardcoded team data to Firebase
   const handleMigrateTeam = async () => {
     if (!window.confirm('This will import 10 original team members to Firebase. Continue?')) return;
@@ -518,6 +560,19 @@ const AdminDashboard = () => {
               👨‍🏫 Team
               <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
                 {teamMembers.length}
+              </span>
+            </button>
+            <button
+              onClick={() => setActiveTab('enrollments')}
+              className={`py-4 px-2 font-semibold transition-colors relative ${
+                activeTab === 'enrollments'
+                  ? 'text-blue-600 border-b-2 border-blue-600'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              📝 Enrollments
+              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+                {enrollments.length}
               </span>
             </button>
           </div>
@@ -726,6 +781,21 @@ const AdminDashboard = () => {
                   onChange={handleCourseChange}
                   placeholder="Topic 1, Topic 2, Topic 3..."
                   rows="2"
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Learn More Details
+                  <span className="text-xs text-gray-500 ml-2">(Detailed course description for course detail page)</span>
+                </label>
+                <textarea
+                  name="learnMoreDetails"
+                  value={courseForm.learnMoreDetails}
+                  onChange={handleCourseChange}
+                  placeholder="Provide detailed information about the course, what students will learn, prerequisites, outcomes, etc..."
+                  rows="5"
                   className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -1510,6 +1580,107 @@ const AdminDashboard = () => {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Enrollments Section */}
+        {activeTab === 'enrollments' && (
+          <div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+              <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 border-b">
+                <h2 className="text-xl font-bold text-white">📝 Course Enrollments</h2>
+                <p className="text-blue-100 text-sm mt-1">Manage student enrollment requests</p>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50 border-b">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Student Info</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Course</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Contact</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Enrollment Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {enrollments.length === 0 ? (
+                      <tr>
+                        <td colSpan="6" className="px-6 py-8 text-center text-gray-500">
+                          No enrollment requests yet
+                        </td>
+                      </tr>
+                    ) : (
+                      enrollments.map((enrollment) => (
+                        <tr key={enrollment.id} className="hover:bg-gray-50 transition-colors">
+                          <td className="px-6 py-4">
+                            <div>
+                              <div className="font-semibold text-gray-900">{enrollment.fullName}</div>
+                              <div className="text-sm text-gray-500">{enrollment.address}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div>
+                              <div className="font-medium text-gray-900">{enrollment.courseTitle}</div>
+                              <div className="text-sm text-gray-500">
+                                {enrollment.coursePrice > 0 ? `₹${enrollment.coursePrice?.toLocaleString()}` : 'FREE'} • {enrollment.courseDuration}
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4">
+                            <div className="text-sm">
+                              <div className="text-gray-900">{enrollment.email}</div>
+                              <div className="text-gray-500">{enrollment.phone}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 text-sm text-gray-500">
+                            {new Date(enrollment.enrollmentDate).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: 'short',
+                              day: 'numeric'
+                            })}
+                          </td>
+                          <td className="px-6 py-4">
+                            <select
+                              value={enrollment.status || 'pending'}
+                              onChange={(e) => handleEnrollmentStatusUpdate(enrollment.id, e.target.value)}
+                              className={`text-xs font-semibold px-3 py-1 rounded-full border-2 ${
+                                enrollment.status === 'approved' ? 'bg-green-50 text-green-700 border-green-200' :
+                                enrollment.status === 'rejected' ? 'bg-red-50 text-red-700 border-red-200' :
+                                'bg-yellow-50 text-yellow-700 border-yellow-200'
+                              }`}
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="approved">Approved</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+                          </td>
+                          <td className="px-6 py-4">
+                            <button
+                              onClick={() => handleEnrollmentDelete(enrollment.id)}
+                              className="text-red-600 hover:text-red-800 font-medium text-sm"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Enrollment Details Modal or Message Display */}
+              {enrollments.length > 0 && (
+                <div className="px-6 py-4 bg-gray-50 border-t">
+                  <p className="text-sm text-gray-600">
+                    <strong>Note:</strong> Contact students via email or phone to confirm enrollment. 
+                    Update status to keep track of enrollment progress.
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         )}

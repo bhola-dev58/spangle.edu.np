@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { getAllCourses } from '../firebase/firestoreService';
+import { useNavigate } from 'react-router-dom';
+import { getAllCourses, addEnrollment } from '../firebase/firestoreService';
 import LoadingSpinner from '../components/LoadingSpinner';
+import EnrollmentForm from '../components/EnrollmentForm';
+import Notification from '../components/Notification';
 
 const staticCourses = [
   // Computer Courses
@@ -519,6 +522,7 @@ const staticCourses = [
 ];
 
 const Courses = () => {
+  const navigate = useNavigate();
   const [allCourses, setAllCourses] = useState(staticCourses);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -530,6 +534,11 @@ const Courses = () => {
   const [sortBy, setSortBy] = useState('Popularity');
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 6;
+  
+  // Enrollment modal state
+  const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
 
   // Load courses from Firebase on component mount
   useEffect(() => {
@@ -600,6 +609,36 @@ const Courses = () => {
     setSelectedPrice('All');
     setSelectedRating('All');
     setSearchQuery('');
+  };
+
+  // Handle enrollment
+  const handleEnrollClick = (course) => {
+    setSelectedCourse(course);
+    setIsEnrollModalOpen(true);
+  };
+
+  const handleEnrollSubmit = async (enrollmentData) => {
+    try {
+      await addEnrollment(enrollmentData);
+      setNotification({
+        show: true,
+        message: 'Enrollment submitted successfully! We will contact you soon.',
+        type: 'success'
+      });
+      setTimeout(() => setNotification({ show: false, message: '', type: '' }), 5000);
+    } catch (error) {
+      setNotification({
+        show: true,
+        message: 'Failed to submit enrollment. Please try again.',
+        type: 'error'
+      });
+      setTimeout(() => setNotification({ show: false, message: '', type: '' }), 5000);
+    }
+  };
+
+  // Handle learn more
+  const handleLearnMore = (course) => {
+    navigate(`/course/${course.id}`);
   };
 
   if (loading) {
@@ -838,10 +877,16 @@ const Courses = () => {
                     
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-xs">
+                      <button 
+                        onClick={() => handleEnrollClick(course)}
+                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-xs"
+                      >
                         Enroll Now
                       </button>
-                      <button className="flex-1 bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2 px-3 rounded-lg border border-blue-600 transition-colors text-xs">
+                      <button 
+                        onClick={() => handleLearnMore(course)}
+                        className="flex-1 bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2 px-3 rounded-lg border border-blue-600 transition-colors text-xs"
+                      >
                         Learn More
                       </button>
                     </div>
@@ -905,6 +950,25 @@ const Courses = () => {
           </button>
         </div>
       </div>
+
+      {/* Enrollment Modal */}
+      {selectedCourse && (
+        <EnrollmentForm
+          isOpen={isEnrollModalOpen}
+          onClose={() => setIsEnrollModalOpen(false)}
+          course={selectedCourse}
+          onSubmit={handleEnrollSubmit}
+        />
+      )}
+
+      {/* Notification */}
+      {notification.show && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification({ show: false, message: '', type: '' })}
+        />
+      )}
     </div>
   );
 };

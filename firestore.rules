@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Courses collection - temporary open access for testing
+    match /courses/{courseId} {
+      allow read: if true;
+      allow write: if true;
+    }
+    
+    // Staff collection - temporary open access for testing
+    match /staff/{staffId} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
