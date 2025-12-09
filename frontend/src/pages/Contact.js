@@ -169,16 +169,18 @@ const Contact = () => {
             </p>
           </div>
           <div className="bg-white dark:bg-dark-light rounded-xl shadow-lg overflow-hidden">
-            <div className="h-96 bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-              <div className="text-center">
-                <MapPinIcon className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
-                <p className="text-gray-600 dark:text-gray-400 text-lg">
-                  Interactive Map Coming Soon
-                </p>
-                <p className="text-gray-500 dark:text-gray-500 mt-2">
-                  Siddharthanagar-13, Devkota Chowk, Rupandehi, Nepal
-                </p>
-              </div>
+            <div className="h-96 w-full">
+              <iframe
+                title="Spangle Institute Location"
+                src="https://www.google.com/maps?q=Siddharthanagar-13,+Devkota+Chowk,+Rupandehi,+Nepal&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="w-full h-full"
+              ></iframe>
             </div>
           </div>
         </div>

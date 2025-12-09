@@ -64,7 +64,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="relative">
-              <img src={require('../assets/logo.jpg')} alt="Spangle Education Logo" className="w-12 h-12 lg:w-16 lg:h-16 rounded-full shadow-xl" style={{background: 'transparent'}} />
+              <img src={require('../assets/logo.jpg')} alt="Spangle Education Logo" className="w-12 h-12 lg:w-16 lg:h-16 rounded-full shadow-xl" style={{ background: 'transparent' }} />
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-1xl lg:text-2xl font-black tracking-tight text-blue-900 dark:text-yellow-300">Spangle Education & Computer Institute Pvt. Ltd</span>
@@ -84,8 +84,8 @@ const Navbar = () => {
                   key={item.name}
                   to={item.path}
                   className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center space-x-2 group ${isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
                     }`}
                 >
                   <IconComponent className={`h-5 w-5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : ''
@@ -152,8 +152,8 @@ const Navbar = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               className={`p-2 rounded-xl transition-all duration-300 ${isOpen
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
+                ? 'bg-indigo-600 text-white'
+                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
                 }`}
               aria-label="Toggle menu"
             >
@@ -170,8 +170,8 @@ const Navbar = () => {
 
       {/* Mobile Navigation Menu */}
       <div className={`lg:hidden transition-all duration-300 ease-out ${isOpen
-          ? 'max-h-screen opacity-100 visible'
-          : 'max-h-0 opacity-0 invisible'
+        ? 'max-h-screen opacity-100 visible'
+        : 'max-h-0 opacity-0 invisible'
         } bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/20 dark:border-gray-700/20`}>
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col space-y-2">
@@ -183,8 +183,8 @@ const Navbar = () => {
                   key={item.name}
                   to={item.path}
                   className={`flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
+                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
                     }`}
                   style={{ animationDelay: `${index * 100}ms` }}
                 >
@@ -227,22 +227,7 @@ const Navbar = () => {
                     <span>Logout</span>
                   </button>
                 </>
-              ) : (
-                <div className="space-y-2">
-                  <Link
-                    to="/login"
-                    className="btn btn-outline w-full text-center py-3 transition-all duration-300"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="btn btn-primary w-full text-center py-3 shadow-lg transition-all duration-300"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

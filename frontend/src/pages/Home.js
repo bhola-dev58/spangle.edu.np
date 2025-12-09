@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  AcademicCapIcon, 
-  ComputerDesktopIcon, 
+import {
+  AcademicCapIcon,
+  ComputerDesktopIcon,
   UserGroupIcon,
   CheckCircleIcon,
   StarIcon,
@@ -19,7 +19,7 @@ const Home = () => {
   const [isVisible, setIsVisible] = useState({});
   const [teamMembers, setTeamMembers] = useState([]);
   const [loadingTeam, setLoadingTeam] = useState(true);
-  
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,7 +39,7 @@ const Home = () => {
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const parallaxElements = document.querySelectorAll('.parallax');
-      
+
       parallaxElements.forEach((element) => {
         const speed = element.dataset.speed || 0.5;
         const yPos = -(scrolled * speed);
@@ -121,11 +121,11 @@ const Home = () => {
   useEffect(() => {
     if (isAutoPlaying && teamMembers.length > 0) {
       const interval = setInterval(() => {
-        setCurrentStaffIndex((prevIndex) => 
+        setCurrentStaffIndex((prevIndex) =>
           prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
         );
       }, 4000); // Change every 4 seconds
-      
+
       return () => clearInterval(interval);
     }
   }, [isAutoPlaying, teamMembers.length]);
@@ -133,14 +133,14 @@ const Home = () => {
   // Navigation functions
   const goToPreviousStaff = () => {
     setIsAutoPlaying(false);
-    setCurrentStaffIndex((prevIndex) => 
+    setCurrentStaffIndex((prevIndex) =>
       prevIndex === 0 ? teamMembers.length - 1 : prevIndex - 1
     );
   };
 
   const goToNextStaff = () => {
     setIsAutoPlaying(false);
-    setCurrentStaffIndex((prevIndex) => 
+    setCurrentStaffIndex((prevIndex) =>
       prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
     );
   };
@@ -151,7 +151,7 @@ const Home = () => {
   };
 
   return (
-  <div className="overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
+    <div className="overflow-hidden bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen">
       {/* Announcement Bar */}
       <div className="w-full bg-yellow-400 text-gray-900 py-2 px-4 flex justify-center items-center text-sm font-semibold">
         <span>New batches for Diploma in Computer Application  start Soon! &nbsp;</span>
@@ -162,45 +162,45 @@ const Home = () => {
       {/* Hero Section */}
       <section className="min-h-[60vh] flex items-center justify-center px-2 sm:px-8 md:px-16 lg:px-32 xl:px-40 bg-gradient-to-br from-white via-blue-50 to-blue-100 dark:bg-gray-900">
         <div className="max-w-screen-xl w-full flex flex-col md:flex-row items-center gap-2 space-x-5 md:gap-6 xl:gap-10 py-6 md:py-12 xl:py-16">
-       { /* Left: Text */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center w-full">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 md:mb-6 xl:mb-8 leading-tight text-blue-900 dark:text-yellow-300">
-            <span className="block mb-2 font-bold text-4xl sm:text-2xl md:text-3xl lg:text-4xl">
-              Empowering Your Academic & Career Success
-            </span>
-            <span className="text-blue-600 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
-              Comprehensive Coaching & Professional Courses
-            </span>
-          </h1>
-          <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-center">
-            <Link to="/courses">
-              <button className="bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
-                Explore Our Courses
-              </button>
-            </Link>
-            <Link to="/contact">
-              <button className="bg-gradient-to-r from-gray-300 to-gray-100 text-gray-800 font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
-                Contact Us
-              </button>
-            </Link>
+          { /* Left: Text */}
+          <div className="flex-1 flex flex-col items-center justify-center text-center w-full">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold mb-4 md:mb-6 xl:mb-8 leading-tight text-blue-900 dark:text-yellow-300">
+              <span className="block mb-2 font-bold text-4xl sm:text-2xl md:text-3xl lg:text-4xl">
+                Empowering Your Academic & Career Success
+              </span>
+              <span className="text-blue-600 font-bold text-lg sm:text-xl md:text-2xl lg:text-3xl">
+                Comprehensive Coaching & Professional Courses
+              </span>
+            </h1>
+            <div className="flex flex-col sm:flex-row gap-4 w-full justify-center items-center">
+              <Link to="/courses">
+                <button className="bg-gradient-to-r from-blue-600 to-blue-400 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                  Explore Our Courses
+                </button>
+              </Link>
+              <Link to="/contact">
+                <button className="bg-gradient-to-r from-gray-300 to-gray-100 text-gray-800 font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 hover:shadow-xl transition-transform duration-300">
+                  Contact Us
+                </button>
+              </Link>
+            </div>
           </div>
-        </div>
-        {/* Right: Image Card with Play Button */}
+          {/* Right: Image Card with Play Button */}
           <div className="flex-1 flex justify-center items-center animate-fade-in-up">
             {/* <div className="relative shadow-2xl w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl group mx-auto" style={{height: '420px', minHeight: '350px', maxHeight: '500px'}}> */}
-              <img 
-                src={require('../assets/banners/herosection_banner.jpg')} 
-                alt="Students" 
-                className="w-full h-full rounded-lg object-cover group-hover:scale-110 transition-transform duration-500" 
-                style={{border: 'none', height: '100%', width: 'auto', objectFit: 'cover'}} 
-              />
+            <img
+              src={require('../assets/banners/herosection_banner.jpg')}
+              alt="Students"
+              className="w-full h-full rounded-lg object-cover group-hover:scale-110 transition-transform duration-500"
+              style={{ border: 'none', height: '100%', width: 'auto', objectFit: 'cover' }}
+            />
             {/* </div> */}
           </div>
         </div>
       </section>
 
-  
-  <section className="bg-blue-100 dark:bg-gray-00 py-10">
+
+      <section className="bg-blue-100 dark:bg-gray-00 py-10">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col items-center hover:scale-105 transition-transform duration-300">
             <span className="text-3xl font-bold text-blue-900 dark:text-yellow-300 mb-2">20,00+</span>
@@ -230,13 +230,13 @@ const Home = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center gap-12">
             {/* <div className="w-full md:w-1/2 relative"> */}
-              <div className="w-full md:w-1/2 md:h-1/2 relative flex justify-center items-center">
-                <img
-                  src={require('../assets/exclence.png')}
-                  alt="Institute Excellence"
-                  className="rounded-3xl w-full h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-1"
-                />
-              </div>
+            <div className="w-full md:w-1/2 md:h-1/2 relative flex justify-center items-center">
+              <img
+                src={require('../assets/exclence.png')}
+                alt="Institute Excellence"
+                className="rounded-3xl w-full h-auto object-cover transition-transform duration-500 ease-in-out hover:scale-105 hover:rotate-1"
+              />
+            </div>
 
             <div className="w-full md:w-1/2">
               <div className="space-y-6">
@@ -294,8 +294,8 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {features.map((feature, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="card group stagger-animation card-hover-lift"
                 style={{ animationDelay: `${index * 200}ms` }}
               >
@@ -358,7 +358,7 @@ const Home = () => {
               to help you achieve your academic goals.
             </p>
           </div>
-          
+
           {loadingTeam ? (
             <div className="flex justify-center items-center py-20">
               <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
@@ -389,7 +389,7 @@ const Home = () => {
                       </span>
                     </div>
                   </div>
-                  
+
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
                       {teamMembers[currentStaffIndex].name}
@@ -403,30 +403,29 @@ const Home = () => {
                     <p className="text-sm text-gray-600 mb-4">
                       {teamMembers[currentStaffIndex].experience} years of experience
                     </p>
-                    
+
                     {/* Rating */}
                     <div className="flex items-center mb-4">
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                          className={`w-4 h-4 ${
-                            i < teamMembers[currentStaffIndex].rating
-                              ? 'text-yellow-400 fill-current'
-                              : 'text-gray-300'
-                          }`}
+                          className={`w-4 h-4 ${i < teamMembers[currentStaffIndex].rating
+                            ? 'text-yellow-400 fill-current'
+                            : 'text-gray-300'
+                            }`}
                         />
                       ))}
                       <span className="ml-2 text-sm text-gray-600">
                         {teamMembers[currentStaffIndex].rating}/5
                       </span>
                     </div>
-                    
+
                     <blockquote className="text-gray-700 italic border-l-4 border-blue-500 pl-4">
                       "{teamMembers[currentStaffIndex].quote}"
                     </blockquote>
                   </div>
                 </div>
-                
+
                 {/* Navigation Buttons */}
                 <button
                   onClick={goToPreviousStaff}
@@ -435,7 +434,7 @@ const Home = () => {
                 >
                   <ChevronLeft className="w-6 h-6 text-gray-700" />
                 </button>
-                
+
                 <button
                   onClick={goToNextStaff}
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-90 hover:bg-opacity-100 rounded-full p-3 shadow-lg transition-all duration-200 hover:scale-110"
@@ -444,7 +443,7 @@ const Home = () => {
                   <ChevronRight className="w-6 h-6 text-gray-700" />
                 </button>
               </div>
-              
+
               {/* Controls */}
               <div className="flex flex-col items-center space-y-4 mt-8">
                 {/* Dots Navigation */}
@@ -453,11 +452,10 @@ const Home = () => {
                     <button
                       key={index}
                       onClick={() => goToStaff(index)}
-                      className={`w-3 h-3 rounded-full transition-all duration-200 ${
-                        index === currentStaffIndex
-                          ? 'bg-blue-600 scale-125'
-                          : 'bg-gray-300 hover:bg-gray-400'
-                      }`}
+                      className={`w-3 h-3 rounded-full transition-all duration-200 ${index === currentStaffIndex
+                        ? 'bg-blue-600 scale-125'
+                        : 'bg-gray-300 hover:bg-gray-400'
+                        }`}
                       aria-label={`Go to staff member ${index + 1}`}
                     />
                   ))}
