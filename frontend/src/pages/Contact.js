@@ -106,7 +106,7 @@ const Contact = () => {
                 We're Here to Help You
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                Have questions about our courses, admissions, or need guidance on your educational journey? 
+                Have questions about our courses, admissions, or need guidance on your educational journey?
                 We're here to help! Send us a message and we'll get back to you as soon as possible.
               </p>
 
@@ -172,7 +172,7 @@ const Contact = () => {
             <div className="h-96 w-full">
               <iframe
                 title="Spangle Institute Location"
-                src="https://www.google.com/maps?q=Siddharthanagar-13,+Devkota+Chowk,+Rupandehi,+Nepal&output=embed"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d4956.726790251138!2d83.45471054549174!3d27.50535238464197!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39969b9857bd42bf%3A0xfd8cf744f76eda73!2sSpangle%20Education%20%26%20Computer%20Institute!5e0!3m2!1sen!2sin!4v1765307007199!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
