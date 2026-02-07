@@ -39,6 +39,13 @@
     overflow: hidden;
   }
 
+  /* Scoped theme for Admin Dashboard */
+  .admin-theme *,
+  .admin-theme ::before,
+  .admin-theme ::after {
+    @apply border-orange-200;
+  }
+
   .btn::before {
     content: '';
     position: absolute;

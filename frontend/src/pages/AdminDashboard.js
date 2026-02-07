@@ -104,9 +104,9 @@ const AdminDashboard = () => {
       setEnrollments(enrollmentsData);
     } catch (error) {
       console.error('Error loading data:', error);
-      setNotification({ 
-        type: 'error', 
-        message: 'Failed to load data. Please check your Firebase configuration.' 
+      setNotification({
+        type: 'error',
+        message: 'Failed to load data. Please check your Firebase configuration.'
       });
     } finally {
       setLoading(false);
@@ -142,7 +142,7 @@ const AdminDashboard = () => {
         await addCourse(courseData);
         setNotification({ type: 'success', message: 'Course added successfully!' });
       }
-      
+
       // Reload courses from Firebase
       const updatedCourses = await getAllCourses();
       setCourses(updatedCourses);
@@ -167,7 +167,7 @@ const AdminDashboard = () => {
 
   const handleCourseDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this course?')) return;
-    
+
     setLoading(true);
     try {
       await deleteCourse(id);
@@ -221,7 +221,7 @@ const AdminDashboard = () => {
         await addStaff(staffForm);
         setNotification({ type: 'success', message: 'Staff added successfully!' });
       }
-      
+
       // Reload staff from Firebase
       const updatedStaffs = await getAllStaff();
       setStaffs(updatedStaffs);
@@ -242,7 +242,7 @@ const AdminDashboard = () => {
 
   const handleStaffDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this staff member?')) return;
-    
+
     setLoading(true);
     try {
       await deleteStaff(id);
@@ -273,7 +273,7 @@ const AdminDashboard = () => {
   // Message Handlers
   const handleMessageDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this message?')) return;
-    
+
     setLoading(true);
     try {
       await deleteMessage(id);
@@ -309,7 +309,7 @@ const AdminDashboard = () => {
   // Subscriber Handlers
   const handleSubscriberDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this subscriber?')) return;
-    
+
     setLoading(true);
     try {
       await deleteSubscriber(id);
@@ -373,7 +373,7 @@ const AdminDashboard = () => {
 
   const handleTeamDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this team member?')) return;
-    
+
     setLoading(true);
     try {
       await deleteTeam(id);
@@ -404,7 +404,7 @@ const AdminDashboard = () => {
   // Enrollment Handlers
   const handleEnrollmentDelete = async (id) => {
     if (!window.confirm('Are you sure you want to delete this enrollment?')) return;
-    
+
     setLoading(true);
     try {
       await deleteEnrollment(id);
@@ -437,21 +437,21 @@ const AdminDashboard = () => {
   // Migrate hardcoded team data to Firebase
   const handleMigrateTeam = async () => {
     if (!window.confirm('This will import 10 original team members to Firebase. Continue?')) return;
-    
+
     setLoading(true);
     try {
       const result = await migrateTeamData();
       const updatedTeam = await getAllTeam();
       setTeamMembers(updatedTeam);
-      setNotification({ 
-        type: 'success', 
-        message: `Successfully migrated ${result.successCount} team members!` 
+      setNotification({
+        type: 'success',
+        message: `Successfully migrated ${result.successCount} team members!`
       });
     } catch (error) {
       console.error('Error migrating team:', error);
-      setNotification({ 
-        type: 'error', 
-        message: 'Failed to migrate team data. Please try again.' 
+      setNotification({
+        type: 'error',
+        message: 'Failed to migrate team data. Please try again.'
       });
     } finally {
       setLoading(false);
@@ -459,7 +459,7 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 admin-theme">
       {notification && (
         <div className="fixed top-4 right-4 z-50 animate-slide-in">
           <Notification
@@ -470,17 +470,23 @@ const AdminDashboard = () => {
         </div>
       )}
 
-      {/* Top Navigation Bar */}
-      <nav className="bg-white shadow-sm border-b sticky top-0 z-40">
+      <nav className="bg-white shadow-sm border-b sticky top-0 z-40 border-orange-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center gap-3">
-              <div className="text-2xl font-bold text-blue-600">📚 Spangle Admin</div>
-              <span className="text-sm text-gray-500">Management Portal</span>
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="text-lg sm:text-2xl font-bold text-blue-600 flex items-center gap-2">
+                <span>📚</span>
+                <span className="hidden xs:inline">Spangle Admin</span>
+                <span className="xs:hidden">Admin</span>
+              </div>
+              <span className="hidden md:inline text-sm text-gray-500 border-l border-gray-300 pl-3">Management Portal</span>
             </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Welcome, Admin</span>
-              <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="hidden sm:flex flex-col items-end">
+                <span className="text-sm font-medium text-gray-700">Admin User</span>
+                <span className="text-xs text-gray-500">Super Admin</span>
+              </div>
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-sm sm:text-base ring-2 ring-blue-50 cursor-pointer hover:bg-blue-200 transition-colors">
                 A
               </div>
             </div>
@@ -489,16 +495,15 @@ const AdminDashboard = () => {
       </nav>
 
       {/* Tab Navigation */}
-      <div className="bg-white border-b">
+      <div className="bg-white border-b border-orange-600">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-2 sm:gap-4 md:gap-6 lg:gap-8 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setActiveTab('courses')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'courses'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'courses'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">📖 </span>Courses
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -507,11 +512,10 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('staffs')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'staffs'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'staffs'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">👥 </span>Staffs
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -520,11 +524,10 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('messages')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'messages'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'messages'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">💬 </span>Messages
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -538,11 +541,10 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('subscribers')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'subscribers'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'subscribers'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">📧 </span>Subscribers
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -551,11 +553,10 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('team')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'team'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'team'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">👨‍🏫 </span>Team
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -564,11 +565,10 @@ const AdminDashboard = () => {
             </button>
             <button
               onClick={() => setActiveTab('enrollments')}
-              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
-                activeTab === 'enrollments'
-                  ? 'text-blue-600 border-b-2 border-blue-600'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${activeTab === 'enrollments'
+                ? 'text-blue-600 border-b-2 border-blue-600'
+                : 'text-gray-500 hover:text-gray-700'
+                }`}
             >
               <span className="hidden sm:inline">📝 </span>Enrollments
               <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
@@ -589,11 +589,11 @@ const AdminDashboard = () => {
             </div>
 
             {/* Course Form */}
-            <form onSubmit={handleCourseSubmit} className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+            <form onSubmit={handleCourseSubmit} className="bg-white rounded-lg shadow-sm border border-orange-600 p-6 mb-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
                 {editingCourseId ? '✏️ Edit Course' : '➕ Add New Course'}
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
@@ -603,7 +603,7 @@ const AdminDashboard = () => {
                     value={courseForm.title}
                     onChange={handleCourseChange}
                     placeholder="Course Title"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -616,7 +616,7 @@ const AdminDashboard = () => {
                     value={courseForm.instructor}
                     onChange={handleCourseChange}
                     placeholder="Instructor Name"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -627,7 +627,7 @@ const AdminDashboard = () => {
                     name="category"
                     value={courseForm.category}
                     onChange={handleCourseChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     <option>Computer Courses</option>
@@ -647,7 +647,7 @@ const AdminDashboard = () => {
                     name="level"
                     value={courseForm.level}
                     onChange={handleCourseChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     <option>Beginner</option>
@@ -663,7 +663,7 @@ const AdminDashboard = () => {
                     name="skillLevel"
                     value={courseForm.skillLevel}
                     onChange={handleCourseChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     <option>Beginner</option>
@@ -681,7 +681,7 @@ const AdminDashboard = () => {
                     value={courseForm.duration}
                     onChange={handleCourseChange}
                     placeholder="e.g., 3 Months"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -694,7 +694,7 @@ const AdminDashboard = () => {
                     value={courseForm.price}
                     onChange={handleCourseChange}
                     placeholder="0"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -708,7 +708,7 @@ const AdminDashboard = () => {
                     value={courseForm.rating}
                     onChange={handleCourseChange}
                     placeholder="4.5"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -720,7 +720,7 @@ const AdminDashboard = () => {
                     value={courseForm.reviews}
                     onChange={handleCourseChange}
                     placeholder="0"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -732,7 +732,7 @@ const AdminDashboard = () => {
                     value={courseForm.image}
                     onChange={handleCourseChange}
                     placeholder="💻"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
 
@@ -768,7 +768,7 @@ const AdminDashboard = () => {
                   onChange={handleCourseChange}
                   placeholder="Course description..."
                   rows="3"
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   required
                 />
               </div>
@@ -781,7 +781,7 @@ const AdminDashboard = () => {
                   onChange={handleCourseChange}
                   placeholder="Topic 1, Topic 2, Topic 3..."
                   rows="2"
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -796,7 +796,7 @@ const AdminDashboard = () => {
                   onChange={handleCourseChange}
                   placeholder="Provide detailed information about the course, what students will learn, prerequisites, outcomes, etc..."
                   rows="5"
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
 
@@ -821,7 +821,7 @@ const AdminDashboard = () => {
             </form>
 
             {/* Courses List */}
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="p-4 border-b bg-gray-50">
                 <h2 className="text-lg font-semibold text-gray-900">All Courses ({courses.length})</h2>
               </div>
@@ -841,38 +841,38 @@ const AdminDashboard = () => {
                   <tbody className="divide-y">
                     {courses.length === 0 ? (
                       <tr>
-                        <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan="7" className="px-4 py-8 border-orange-600 text-center text-gray-500">
                           No courses added yet. Add your first course above!
                         </td>
                       </tr>
                     ) : (
                       courses.map(course => (
-                        <tr key={course.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3">
+                        <tr key={course.id} className="border-orange-600 hover:bg-gray-100">
+                          <td className="px-4 py-3 border-orange-600">
                             <span className="text-2xl">{course.image}</span>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600">
                             <div className="font-semibold text-gray-900 text-sm">{course.title}</div>
                             <div className="text-xs text-gray-500 line-clamp-1">{course.description}</div>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600">
                             <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">{course.category}</span>
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-700">{course.instructor}</td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 text-sm text-gray-700 border-orange-600">{course.instructor}</td>
+                          <td className="px-4 py-3 border-orange-600">
                             {course.isFree ? (
                               <span className="text-green-600 font-semibold text-sm">FREE</span>
                             ) : (
                               <span className="text-gray-900 font-semibold text-sm">₹{course.price}</span>
                             )}
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600">
                             <div className="flex items-center gap-1">
                               <span className="text-yellow-500 text-sm">★</span>
                               <span className="text-sm text-gray-700">{course.rating}</span>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600">
                             <div className="flex gap-2">
                               <button
                                 onClick={() => handleCourseEdit(course)}
@@ -906,11 +906,11 @@ const AdminDashboard = () => {
             </div>
 
             {/* Staff Form */}
-            <form onSubmit={handleStaffSubmit} className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+            <form onSubmit={handleStaffSubmit} className="bg-white rounded-lg shadow-sm border border-orange-600 p-6 mb-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
                 {editingStaffId ? '✏️ Edit Staff' : '➕ Add New Staff'}
               </h2>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
@@ -920,7 +920,7 @@ const AdminDashboard = () => {
                     value={staffForm.name}
                     onChange={handleStaffChange}
                     placeholder="Staff Name"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -933,7 +933,7 @@ const AdminDashboard = () => {
                     value={staffForm.position}
                     onChange={handleStaffChange}
                     placeholder="e.g., Senior Teacher"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -946,7 +946,7 @@ const AdminDashboard = () => {
                     value={staffForm.email}
                     onChange={handleStaffChange}
                     placeholder="email@example.com"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -959,7 +959,7 @@ const AdminDashboard = () => {
                     value={staffForm.phone}
                     onChange={handleStaffChange}
                     placeholder="+977 9812345678"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -970,7 +970,7 @@ const AdminDashboard = () => {
                     name="department"
                     value={staffForm.department}
                     onChange={handleStaffChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   >
                     <option>Teaching</option>
@@ -988,7 +988,7 @@ const AdminDashboard = () => {
                     name="joiningDate"
                     value={staffForm.joiningDate}
                     onChange={handleStaffChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -1001,7 +1001,7 @@ const AdminDashboard = () => {
                     value={staffForm.photo}
                     onChange={handleStaffChange}
                     placeholder="👨‍🏫"
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -1027,13 +1027,13 @@ const AdminDashboard = () => {
             </form>
 
             {/* Staff List */}
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="p-4 border-b bg-gray-50">
                 <h2 className="text-lg font-semibold text-gray-900">All Staff Members ({staffs.length})</h2>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50 border-b">
+              <div className="overflow-x-auto border-orange-600">
+                <table className="w-full border-orange-600">
+                  <thead className="bg-gray-50 border-b border-orange-600">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Photo</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Name</th>
@@ -1044,31 +1044,31 @@ const AdminDashboard = () => {
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y">
+                  <tbody className="divide-y border-orange-600">
                     {staffs.length === 0 ? (
                       <tr>
-                        <td colSpan="7" className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan="7" className="px-4 py-8 text-center text-gray-500 border-orange-600">
                           No staff members added yet. Add your first staff member above!
                         </td>
                       </tr>
                     ) : (
                       staffs.map(staff => (
-                        <tr key={staff.id} className="hover:bg-gray-50">
+                        <tr key={staff.id} className="hover:bg-gray-50 border-orange-600">
                           <td className="px-4 py-3">
-                            <span className="text-2xl">{staff.photo}</span>
+                            <span className="text-2xl border-orange-600">{staff.photo}</span>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600">
                             <div className="font-semibold text-gray-900 text-sm">{staff.name}</div>
                             <div className="text-xs text-gray-500">{staff.email}</div>
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-700">{staff.position}</td>
-                          <td className="px-4 py-3">
+                          <td className="px-4 py-3 border-orange-600 text-sm text-gray-700">{staff.position}</td>
+                          <td className="px-4 py-3 border-orange-600">
                             <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded">{staff.department}</span>
                           </td>
-                          <td className="px-4 py-3 text-sm text-gray-700">{staff.phone}</td>
-                          <td className="px-4 py-3 text-sm text-gray-700">{staff.joiningDate}</td>
-                          <td className="px-4 py-3">
-                            <div className="flex gap-2">
+                          <td className="px-4 py-3 border-orange-600 text-sm text-gray-700">{staff.phone}</td>
+                          <td className="px-4 py-3 border-orange-600 text-sm text-gray-700">{staff.joiningDate}</td>
+                          <td className="px-4 py-3 border-orange-600">
+                            <div className="flex gap-2 border-orange-600">
                               <button
                                 onClick={() => handleStaffEdit(staff)}
                                 className="px-3 py-1 bg-yellow-500 text-white text-xs rounded hover:bg-yellow-600 transition-colors"
@@ -1111,11 +1111,11 @@ const AdminDashboard = () => {
             </div>
 
             {/* Messages List */}
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="min-w-full">
-                  <thead className="bg-gray-50 border-b">
-                    <tr>
+                <table className="min-w-full border-orange-600">
+                  <thead className="bg-gray-50 border-b border-orange-600">
+                    <tr className="border-orange-600">
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Status</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Name</th>
                       <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600">Subject</th>
@@ -1140,18 +1140,17 @@ const AdminDashboard = () => {
                       </tr>
                     ) : (
                       messages.map(message => (
-                        <tr 
-                          key={message.id} 
+                        <tr
+                          key={message.id}
                           className={`hover:bg-gray-50 ${message.status === 'unread' ? 'bg-blue-50' : ''}`}
                         >
                           <td className="px-4 py-3">
                             <button
                               onClick={() => handleMessageStatusToggle(message.id, message.status)}
-                              className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${
-                                message.status === 'unread'
-                                  ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                              }`}
+                              className={`text-xs px-3 py-1 rounded-full font-medium transition-colors ${message.status === 'unread'
+                                ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                }`}
                             >
                               {message.status === 'unread' ? '🔵 Unread' : '✅ Read'}
                             </button>
@@ -1212,15 +1211,15 @@ const AdminDashboard = () => {
             {/* Message Statistics */}
             {messages.length > 0 && (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Total Messages</div>
                   <div className="text-2xl font-bold text-gray-900 mt-1">{messages.length}</div>
                 </div>
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Unread Messages</div>
                   <div className="text-2xl font-bold text-blue-600 mt-1">{unreadCount}</div>
                 </div>
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Read Messages</div>
                   <div className="text-2xl font-bold text-green-600 mt-1">
                     {messages.filter(msg => msg.status === 'read').length}
@@ -1240,7 +1239,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Subscribers List */}
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead className="bg-gray-50 border-b">
@@ -1321,17 +1320,17 @@ const AdminDashboard = () => {
             {/* Subscriber Statistics */}
             {subscribers.length > 0 && (
               <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Total Subscribers</div>
                   <div className="text-2xl font-bold text-blue-600 mt-1">{subscribers.length}</div>
                 </div>
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Active Subscribers</div>
                   <div className="text-2xl font-bold text-green-600 mt-1">
                     {subscribers.filter(sub => sub.status === 'active').length}
                   </div>
                 </div>
-                <div className="bg-white border rounded-lg p-4">
+                <div className="bg-white border border-orange-600 rounded-lg p-4">
                   <div className="text-sm text-gray-600">Latest Subscription</div>
                   <div className="text-sm font-medium text-gray-900 mt-1">
                     {subscribers[0]?.createdAt ? new Date(subscribers[0].createdAt.seconds * 1000).toLocaleDateString('en-US', {
@@ -1391,7 +1390,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Team Form */}
-            <form onSubmit={handleTeamSubmit} className="bg-white rounded-lg shadow-sm border p-6 mb-8">
+            <form onSubmit={handleTeamSubmit} className="bg-white rounded-lg shadow-sm border border-orange-600 p-6 mb-8">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">
                 {editingTeamId ? '✏️ Edit Team Member' : '➕ Add New Team Member'}
               </h2>
@@ -1403,7 +1402,7 @@ const AdminDashboard = () => {
                     name="name"
                     value={teamForm.name}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                   />
                 </div>
@@ -1415,7 +1414,7 @@ const AdminDashboard = () => {
                     name="position"
                     value={teamForm.position}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                     placeholder="e.g., Lead Instructor, Managing Director"
                   />
@@ -1428,7 +1427,7 @@ const AdminDashboard = () => {
                     name="department"
                     value={teamForm.department}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                     placeholder="e.g., M.B.S Account, Bridge Course"
                   />
@@ -1441,7 +1440,7 @@ const AdminDashboard = () => {
                     name="experience"
                     value={teamForm.experience}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                     min="0"
                   />
@@ -1453,7 +1452,7 @@ const AdminDashboard = () => {
                     name="rating"
                     value={teamForm.rating}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                   >
                     <option value="5">⭐⭐⭐⭐⭐ (5.0)</option>
                     <option value="4.5">⭐⭐⭐⭐✨ (4.5)</option>
@@ -1470,7 +1469,7 @@ const AdminDashboard = () => {
                     name="image"
                     value={teamForm.image}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     required
                     placeholder="Image URL or path"
                   />
@@ -1482,7 +1481,7 @@ const AdminDashboard = () => {
                     name="quote"
                     value={teamForm.quote}
                     onChange={handleTeamChange}
-                    className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                    className="w-full px-3 py-2 border border-orange-600 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     rows="2"
                     required
                     placeholder="Inspirational quote or motto"
@@ -1511,7 +1510,7 @@ const AdminDashboard = () => {
             </form>
 
             {/* Team List */}
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="min-w-full">
                   <thead className="bg-gray-50 border-b">
@@ -1536,10 +1535,10 @@ const AdminDashboard = () => {
                       teamMembers.map(member => (
                         <tr key={member.id} className="hover:bg-gray-50">
                           <td className="px-4 py-3">
-                            <img 
-                              src={getTeamImagePath(member.image)} 
-                              alt={member.name} 
-                              className="w-12 h-12 rounded-full object-cover" 
+                            <img
+                              src={getTeamImagePath(member.image)}
+                              alt={member.name}
+                              className="w-12 h-12 rounded-full object-cover"
                               onError={(e) => {
                                 e.target.src = 'https://via.placeholder.com/48x48/6366f1/white?text=👨‍🏫';
                               }}
@@ -1587,7 +1586,7 @@ const AdminDashboard = () => {
         {/* Enrollments Section */}
         {activeTab === 'enrollments' && (
           <div>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg shadow-sm border border-orange-600 overflow-hidden">
               <div className="px-6 py-4 bg-gradient-to-r from-blue-600 to-blue-700 border-b">
                 <h2 className="text-xl font-bold text-white">📝 Course Enrollments</h2>
                 <p className="text-blue-100 text-sm mt-1">Manage student enrollment requests</p>
@@ -1646,11 +1645,10 @@ const AdminDashboard = () => {
                             <select
                               value={enrollment.status || 'pending'}
                               onChange={(e) => handleEnrollmentStatusUpdate(enrollment.id, e.target.value)}
-                              className={`text-xs font-semibold px-3 py-1 rounded-full border-2 ${
-                                enrollment.status === 'approved' ? 'bg-green-50 text-green-700 border-green-200' :
+                              className={`text-xs font-semibold px-3 py-1 rounded-full border-2 ${enrollment.status === 'approved' ? 'bg-green-50 text-green-700 border-green-200' :
                                 enrollment.status === 'rejected' ? 'bg-red-50 text-red-700 border-red-200' :
-                                'bg-yellow-50 text-yellow-700 border-yellow-200'
-                              }`}
+                                  'bg-yellow-50 text-yellow-700 border-yellow-200'
+                                }`}
                             >
                               <option value="pending">Pending</option>
                               <option value="approved">Approved</option>
@@ -1674,9 +1672,9 @@ const AdminDashboard = () => {
 
               {/* Enrollment Details Modal or Message Display */}
               {enrollments.length > 0 && (
-                <div className="px-6 py-4 bg-gray-50 border-t">
+                <div className="px-6 py-4 bg-gray-50 border-t border-orange-600">
                   <p className="text-sm text-gray-600">
-                    <strong>Note:</strong> Contact students via email or phone to confirm enrollment. 
+                    <strong>Note:</strong> Contact students via email or phone to confirm enrollment.
                     Update status to keep track of enrollment progress.
                   </p>
                 </div>

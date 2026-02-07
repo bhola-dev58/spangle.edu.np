@@ -15,29 +15,40 @@ import NotFound from './pages/NotFound';
 import Footer from './components/Footer';
 import AdminDashboard from './pages/AdminDashboard';
 
+import { useLocation } from 'react-router-dom';
+
+const Layout = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
+      {!isAdminRoute && <Navbar />}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/courses" element={<Courses />} />
+          <Route path="/course/:courseId" element={<CourseDetail />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      {!isAdminRoute && <Footer />}
+    </div>
+  );
+};
+
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
-            <Navbar />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/courses" element={<Courses />} />
-                <Route path="/course/:courseId" element={<CourseDetail />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/admin" element={<AdminDashboard />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <Layout />
         </Router>
       </AuthProvider>
     </ErrorBoundary>
