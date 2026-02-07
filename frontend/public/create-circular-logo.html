@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Circular Logo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #f3f4f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #1f2937;
+            margin-bottom: 30px;
+        }
+
+        .logo-circle {
+            width: 512px;
+            height: 512px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions h2 {
+            color: #ea580c;
+            margin-top: 0;
+        }
+
+        .instructions ol {
+            line-height: 1.8;
+        }
+
+        .instructions code {
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .size-option {
+            cursor: pointer;
+            padding: 10px 20px;
+            background: #ea580c;
+            color: white;
+            border-radius: 6px;
+            border: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .size-option:hover {
+            background: #c2410c;
+        }
+
+        .size-option.active {
+            background: #9a3412;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Circular Logo Generator</h1>
+
+        <div class="size-options">
+            <button class="size-option active" onclick="setSize(512)">512x512</button>
+            <button class="size-option" onclick="setSize(192)">192x192</button>
+            <button class="size-option" onclick="setSize(64)">64x64 (Favicon)</button>
+        </div>
+
+        <div class="logo-circle" id="logoCircle">
+            <img src="logo.jpg" alt="Spangle Logo" id="logoImg">
+        </div>
+
+        <div class="instructions">
+            <h2>📸 How to Create Your Circular Logo:</h2>
+            <ol>
+                <li>Select the size you want using the buttons above</li>
+                <li>Right-click on the circular logo above</li>
+                <li>Select <code>Inspect Element</code> or <code>Inspect</code></li>
+                <li>In the DevTools, right-click on the <code>&lt;div class="logo-circle"&gt;</code> element</li>
+                <li>Select <code>Capture node screenshot</code></li>
+                <li>Save the image as:
+                    <ul>
+                        <li><code>logo-512.png</code> for 512x512</li>
+                        <li><code>logo-192.png</code> for 192x192</li>
+                        <li><code>favicon.png</code> for 64x64</li>
+                    </ul>
+                </li>
+                <li>Place the files in the <code>public</code> folder</li>
+            </ol>
+
+            <h2>🎨 Alternative Method (Screenshot):</h2>
+            <ol>
+                <li>Use Windows Snipping Tool or Snip & Sketch</li>
+                <li>Take a screenshot of just the circular logo</li>
+                <li>Save as PNG with the appropriate name</li>
+                <li>Make sure the background is transparent or white</li>
+            </ol>
+
+            <h2>🌐 Online Tool (Easiest):</h2>
+            <p>You can also use an online tool like:</p>
+            <ul>
+                <li><strong>Canva</strong> - Create a circular design</li>
+                <li><strong>Remove.bg</strong> - Remove background and make circular</li>
+                <li><strong>Photopea</strong> - Free online Photoshop alternative</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function setSize(size) {
+            const circle = document.getElementById('logoCircle');
+            circle.style.width = size + 'px';
+            circle.style.height = size + 'px';
+
+            // Update active button
+            document.querySelectorAll('.size-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>
