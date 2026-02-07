@@ -40,10 +40,17 @@ const Navbar = () => {
               />
             </Link>
             <Link to="/" className="flex flex-col hover:opacity-80 transition-opacity">
-              <span className="text-orange-800 font-bold text-sm md:text-base lg:text-lg leading-tight">
+              {/* Mobile: Show short name */}
+              <span className="block md:hidden text-orange-800 font-bold text-sm sm:text-base leading-tight">
+                Spangle Education &<br />
+                Computer Institute Pvt. Ltd
+              </span>
+              {/* Desktop: Show full name */}
+              <span className="hidden md:block text-orange-800 font-bold text-sm md:text-base lg:text-lg leading-tight">
                 Spangle Education & Computer Institute
               </span>
-              <span className="text-gray-900 text-xs md:text-sm font-medium leading-tight">
+              {/* Desktop only: Show tagline */}
+              <span className="hidden md:block text-gray-900 text-xs md:text-sm font-medium leading-tight">
                 Empowering Minds, Building Futures
               </span>
             </Link>

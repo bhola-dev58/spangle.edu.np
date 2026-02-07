@@ -147,7 +147,7 @@ const Contact = () => {
           allowFullScreen=""
           loading="lazy"
           title="Spangle Location"
-          className="filter grayscale contrast-125 opacity-90 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+          className=""
         ></iframe>
       </section>
     </div>

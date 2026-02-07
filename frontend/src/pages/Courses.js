@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import { getAllCourses, addEnrollment } from '../firebase/firestoreService';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EnrollmentForm from '../components/EnrollmentForm';
@@ -183,7 +184,7 @@ const staticCourses = [
     duration: '3 months',
     syllabus: ['Basic Computer Course', 'Explain Hardware', 'Explain Networking', 'Maintenance and Assembling Computer System', '15 Days Offsite Training for Hardware and Networking']
   },
-  
+
   // Government Job Preparation
   {
     id: 12,
@@ -217,7 +218,7 @@ const staticCourses = [
     duration: '6 months',
     syllabus: ['नेपाल राष्ट्र बैंक', 'नेपाल बैंक लिमिटेड', 'राष्ट्रिय वाणिज्य बैंक', 'कृषि विकास बैंक']
   },
-  
+
   // Tuition Classes
   {
     id: 14,
@@ -283,7 +284,7 @@ const staticCourses = [
     duration: 'Monthly',
     syllabus: ['Advanced Topics', 'Research Methodology', 'Thesis Guidance', 'Publication Support']
   },
-  
+
   // Language Classes
   {
     id: 18,
@@ -365,7 +366,7 @@ const staticCourses = [
     duration: '6 months',
     syllabus: ['A1, A2, B1 Levels', 'Grammar', 'Conversation', 'TestDaF Preparation']
   },
-  
+
   // Entrance Preparation
   {
     id: 23,
@@ -415,7 +416,7 @@ const staticCourses = [
     duration: '6 months',
     syllabus: ['Physics', 'Chemistry', 'Mathematics', 'English', 'Mock Tests', 'Problem Solving']
   },
-  
+
   // Study Abroad
   {
     id: 26,
@@ -534,7 +535,22 @@ const Courses = () => {
   const [sortBy, setSortBy] = useState('Popularity');
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 6;
-  
+
+  // Collapsible sections state - expanded on desktop, collapsed on mobile
+  const [expandedSections, setExpandedSections] = useState({
+    categories: typeof window !== 'undefined' && window.innerWidth >= 1024,
+    skillLevel: typeof window !== 'undefined' && window.innerWidth >= 1024,
+    price: typeof window !== 'undefined' && window.innerWidth >= 1024,
+    rating: typeof window !== 'undefined' && window.innerWidth >= 1024
+  });
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
+
   // Enrollment modal state
   const [isEnrollModalOpen, setIsEnrollModalOpen] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
@@ -584,17 +600,17 @@ const Courses = () => {
 
   const filteredCourses = allCourses.filter(course => {
     const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchQuery.toLowerCase());
+      course.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(course.category);
     const matchesSkillLevel = selectedSkillLevel === 'All Levels' || course.skillLevel === selectedSkillLevel;
-    const matchesPrice = selectedPrice === 'All' || 
-                        (selectedPrice === 'Free' && course.isFree) ||
-                        (selectedPrice === 'Paid' && !course.isFree);
-    const matchesRating = selectedRating === 'All' || 
-                         (selectedRating === '5' && course.rating >= 5) ||
-                         (selectedRating === '4' && course.rating >= 4) ||
-                         (selectedRating === '3' && course.rating >= 3);
-    
+    const matchesPrice = selectedPrice === 'All' ||
+      (selectedPrice === 'Free' && course.isFree) ||
+      (selectedPrice === 'Paid' && !course.isFree);
+    const matchesRating = selectedRating === 'All' ||
+      (selectedRating === '5' && course.rating >= 5) ||
+      (selectedRating === '4' && course.rating >= 4) ||
+      (selectedRating === '3' && course.rating >= 3);
+
     return matchesSearch && matchesCategory && matchesSkillLevel && matchesPrice && matchesRating;
   });
 
@@ -658,7 +674,7 @@ const Courses = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Explore Our Courses</h1>
           <p className="text-gray-600 mb-6">From beginner to expert, find the right course to achieve id goals.</p>
-          
+
           <div className="flex flex-col sm:flex-row gap-2">
             <div className="flex-1 relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
@@ -683,103 +699,147 @@ const Courses = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
-          
+
           {/* Left Sidebar - Filters */}
           <aside className="w-full lg:w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-4 lg:sticky lg:top-24 border border-gray-200">
-              
+
               {/* Filter Header */}
               <div className="mb-4 pb-3 border-b border-gray-200">
                 <h2 className="text-lg font-bold text-gray-900">Filters</h2>
               </div>
 
               {/* Categories Filter */}
-              <div className="mb-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">Categories</h3>
-                <div className="space-y-2">
-                  {categories.slice(0, showMoreCategories ? categories.length : 6).map(cat => (
-                    <label key={cat.name} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={selectedCategories.includes(cat.name)}
-                        onChange={() => toggleCategory(cat.name)}
-                        className="w-3.5 h-3.5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                      />
-                      <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600 flex-1">
-                        {cat.name}
-                      </span>
-                      <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
-                        {cat.count}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-                {categories.length > 6 && (
-                  <button 
-                    onClick={() => setShowMoreCategories(!showMoreCategories)}
-                    className="w-full text-blue-600 text-xs font-semibold mt-2 py-1.5 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
-                  >
-                    {showMoreCategories ? '- Show Less' : '+ Show More'}
-                  </button>
-                )}
-              </div>
-
               <div className="mb-4 pb-3 border-b border-gray-200">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">Skill Level</h3>
-                <div className="space-y-1.5">
-                  {['Beginner', 'Intermediate', 'Advanced', 'All Levels'].map(level => (
-                    <label key={level} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                      <input
-                        type="radio"
-                        name="skillLevel"
-                        checked={selectedSkillLevel === level}
-                        onChange={() => setSelectedSkillLevel(level)}
-                        className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{level}</span>
-                    </label>
-                  ))}
+                <button
+                  onClick={() => toggleSection('categories')}
+                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
+                >
+                  <h3 className="text-sm font-semibold text-gray-900">Categories</h3>
+                  <ChevronDownIcon
+                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.categories ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.categories ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="space-y-2">
+                    {categories.slice(0, showMoreCategories ? categories.length : 6).map(cat => (
+                      <label key={cat.name} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                        <input
+                          type="checkbox"
+                          checked={selectedCategories.includes(cat.name)}
+                          onChange={() => toggleCategory(cat.name)}
+                          className="w-3.5 h-3.5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600 flex-1">
+                          {cat.name}
+                        </span>
+                        <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                          {cat.count}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  {categories.length > 6 && (
+                    <button
+                      onClick={() => setShowMoreCategories(!showMoreCategories)}
+                      className="w-full text-blue-600 text-xs font-semibold mt-2 py-1.5 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
+                    >
+                      {showMoreCategories ? '- Show Less' : '+ Show More'}
+                    </button>
+                  )}
                 </div>
               </div>
 
               <div className="mb-4 pb-3 border-b border-gray-200">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">Price</h3>
-                <div className="space-y-1.5">
-                  {['All', 'Free', 'Paid'].map(price => (
-                    <label key={price} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                      <input
-                        type="radio"
-                        name="price"
-                        checked={selectedPrice === price}
-                        onChange={() => setSelectedPrice(price)}
-                        className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{price}</span>
-                    </label>
-                  ))}
+                <button
+                  onClick={() => toggleSection('skillLevel')}
+                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
+                >
+                  <h3 className="text-sm font-semibold text-gray-900">Skill Level</h3>
+                  <ChevronDownIcon
+                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.skillLevel ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.skillLevel ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="space-y-1.5">
+                    {['Beginner', 'Intermediate', 'Advanced', 'All Levels'].map(level => (
+                      <label key={level} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                        <input
+                          type="radio"
+                          name="skillLevel"
+                          checked={selectedSkillLevel === level}
+                          onChange={() => setSelectedSkillLevel(level)}
+                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{level}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-4 pb-3 border-b border-gray-200">
+                <button
+                  onClick={() => toggleSection('price')}
+                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
+                >
+                  <h3 className="text-sm font-semibold text-gray-900">Price</h3>
+                  <ChevronDownIcon
+                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.price ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.price ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="space-y-1.5">
+                    {['All', 'Free', 'Paid'].map(price => (
+                      <label key={price} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                        <input
+                          type="radio"
+                          name="price"
+                          checked={selectedPrice === price}
+                          onChange={() => setSelectedPrice(price)}
+                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{price}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               <div className="mb-4">
-                <h3 className="text-sm font-semibold text-gray-900 mb-2">Rating</h3>
-                <div className="space-y-1.5">
-                  {[
-                    { value: 'All', label: 'All Rating' },
-                    { value: '5', label: '★★★★★ 5+' },
-                    { value: '4', label: '★★★★☆ 4+' },
-                    { value: '3', label: '★★★☆☆ 3+' }
-                  ].map(rating => (
-                    <label key={rating.value} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                      <input
-                        type="radio"
-                        name="rating"
-                        checked={selectedRating === rating.value}
-                        onChange={() => setSelectedRating(rating.value)}
-                        className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="ml-2 text-xs text-gray-700 group-hover:text-blue-600">{rating.label}</span>
-                    </label>
-                  ))}
+                <button
+                  onClick={() => toggleSection('rating')}
+                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
+                >
+                  <h3 className="text-sm font-semibold text-gray-900">Rating</h3>
+                  <ChevronDownIcon
+                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.rating ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.rating ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="space-y-1.5">
+                    {[
+                      { value: 'All', label: 'All Rating' },
+                      { value: '5', label: '★★★★★ 5+' },
+                      { value: '4', label: '★★★★☆ 4+' },
+                      { value: '3', label: '★★★☆☆ 3+' }
+                    ].map(rating => (
+                      <label key={rating.value} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                        <input
+                          type="radio"
+                          name="rating"
+                          checked={selectedRating === rating.value}
+                          onChange={() => setSelectedRating(rating.value)}
+                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
+                        />
+                        <span className="ml-2 text-xs text-gray-700 group-hover:text-blue-600">{rating.label}</span>
+                      </label>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -794,7 +854,7 @@ const Courses = () => {
 
           {/* Main Content - Right Side */}
           <main className="flex-1 min-w-0">
-            
+
             {/* Courses Header with Count and Sort */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-3 bg-white p-3 rounded-lg shadow-sm border border-gray-200">
               <div>
@@ -844,7 +904,7 @@ const Courses = () => {
                       {course.title}
                     </h3>
                     <p className="text-xs text-gray-600 mb-2 line-clamp-2">{course.description}</p>
-                    
+
                     {/* Instructor and Level */}
                     <div className="flex items-center gap-1.5 mb-2 text-[11px] text-gray-600">
                       <span className="font-medium truncate">{course.instructor}</span>
@@ -874,16 +934,16 @@ const Courses = () => {
                         </span>
                       )}
                     </div>
-                    
+
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button 
+                      <button
                         onClick={() => handleEnrollClick(course)}
                         className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-xs"
                       >
                         Enroll Now
                       </button>
-                      <button 
+                      <button
                         onClick={() => handleLearnMore(course)}
                         className="flex-1 bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2 px-3 rounded-lg border border-blue-600 transition-colors text-xs"
                       >
@@ -905,7 +965,7 @@ const Courses = () => {
                 >
                   Previous
                 </button>
-                
+
                 {[...Array(totalPages)].map((_, index) => {
                   const pageNum = index + 1;
                   if (pageNum === 1 || pageNum === totalPages || (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)) {
@@ -913,11 +973,10 @@ const Courses = () => {
                       <button
                         key={pageNum}
                         onClick={() => setCurrentPage(pageNum)}
-                        className={`px-4 py-2 rounded-lg font-semibold text-sm sm:text-base transition-all ${
-                          currentPage === pageNum
-                            ? 'bg-blue-600 text-white shadow-md'
-                            : 'border border-gray-300 hover:bg-gray-50 text-gray-700'
-                        }`}
+                        className={`px-4 py-2 rounded-lg font-semibold text-sm sm:text-base transition-all ${currentPage === pageNum
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'border border-gray-300 hover:bg-gray-50 text-gray-700'
+                          }`}
                       >
                         {pageNum}
                       </button>
