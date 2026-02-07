@@ -491,87 +491,87 @@ const AdminDashboard = () => {
       {/* Tab Navigation */}
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-8">
+          <div className="flex gap-2 sm:gap-4 md:gap-6 lg:gap-8 overflow-x-auto scrollbar-hide">
             <button
               onClick={() => setActiveTab('courses')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'courses'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              📖 Courses
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">📖 </span>Courses
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {courses.length}
               </span>
             </button>
             <button
               onClick={() => setActiveTab('staffs')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'staffs'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              👥 Staffs
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">👥 </span>Staffs
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {staffs.length}
               </span>
             </button>
             <button
               onClick={() => setActiveTab('messages')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'messages'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              💬 Messages
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">💬 </span>Messages
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {messages.length}
               </span>
               {unreadCount > 0 && (
-                <span className="ml-1 bg-red-500 text-white text-xs px-2 py-0.5 rounded-full animate-pulse">
+                <span className="ml-1 bg-red-500 text-white text-xs px-1.5 sm:px-2 py-0.5 rounded-full animate-pulse">
                   {unreadCount} new
                 </span>
               )}
             </button>
             <button
               onClick={() => setActiveTab('subscribers')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'subscribers'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              📧 Subscribers
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">📧 </span>Subscribers
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {subscribers.length}
               </span>
             </button>
             <button
               onClick={() => setActiveTab('team')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'team'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              👨‍🏫 Team
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">👨‍🏫 </span>Team
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {teamMembers.length}
               </span>
             </button>
             <button
               onClick={() => setActiveTab('enrollments')}
-              className={`py-4 px-2 font-semibold transition-colors relative ${
+              className={`py-3 sm:py-4 px-2 sm:px-3 font-semibold transition-colors relative whitespace-nowrap text-sm sm:text-base ${
                 activeTab === 'enrollments'
                   ? 'text-blue-600 border-b-2 border-blue-600'
                   : 'text-gray-500 hover:text-gray-700'
               }`}
             >
-              📝 Enrollments
-              <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+              <span className="hidden sm:inline">📝 </span>Enrollments
+              <span className="ml-1 sm:ml-2 bg-blue-100 text-blue-600 text-xs px-1.5 sm:px-2 py-0.5 rounded-full">
                 {enrollments.length}
               </span>
             </button>

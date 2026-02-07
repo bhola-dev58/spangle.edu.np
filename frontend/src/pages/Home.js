@@ -221,7 +221,7 @@ const Home = () => {
           </div>
           {/* Right: Image Card */}
           <div className="flex-1 flex justify-center items-center animate-fade-in-up w-full">
-            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800">
+            <div className="relative w-full aspect-[4/3] overflow-hidden">
               <img
                 src={require('../assets/banners/herosection_banner.jpg')}
                 alt="Students"

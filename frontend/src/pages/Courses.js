@@ -899,7 +899,7 @@ const Courses = () => {
             {/* Course Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
               {currentCourses.map(course => (
-                <div key={course.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group border-2 border-black flex flex-col h-full">
+                <div key={course.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group border-2 border-gray-800 hover:border-orange-600 flex flex-col h-full">
                   {/* Course Image */}
                   <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 h-36 flex items-center justify-center">
                     <span className="text-5xl transform group-hover:scale-105 transition-transform duration-200">{course.image}</span>
