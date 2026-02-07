@@ -13,6 +13,9 @@ frontend/dist/
 build/
 dist/
 
+# Generated CSS (Tailwind)
+frontend/src/output.css
+
 # IDE and editor files
 .vscode/
 .idea/

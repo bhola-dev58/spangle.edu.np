@@ -17,7 +17,10 @@
     "start": "tailwindcss -i ./src/input.css -o ./src/output.css && react-scripts start",
     "build": "tailwindcss -i ./src/input.css -o ./src/output.css --minify && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "serve": "serve -s build",
+    "deploy": "npm run build && firebase deploy --only hosting",
+    "predeploy": "npm run build"
   },
   "eslintConfig": {
     "extends": [

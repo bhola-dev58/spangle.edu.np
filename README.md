@@ -1,120 +1,241 @@
-# 🎓 Spangle Education and Computer Institute
+# Spangle Education & Computer Institute
 
-A modern, full-featured educational platform built with **React.js**, **Firebase/Firestore**, and **Tailwind CSS**.
+A modern, responsive web application for Spangle Education & Computer Institute built with React, Firebase, and Tailwind CSS.
 
-[![React](https://img.shields.io/badge/React-18.2.0-blue.svg)](https://reactjs.org/)
-[![Firebase](https://img.shields.io/badge/Firebase-12.4.0-orange.svg)](https://firebase.google.com/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4.17-38B2AC.svg)](https://tailwindcss.com/)
+## 🚀 Features
 
----
+- **Modern UI/UX**: Clean, responsive design with Tailwind CSS
+- **Authentication**: Firebase Authentication for secure user management
+- **Course Management**: Browse and explore educational courses
+- **Contact System**: Integrated contact form with Google Maps
+- **Responsive Design**: Mobile-first approach, works on all devices
+- **PWA Ready**: Progressive Web App with offline capabilities
 
-## ✨ Features
+## 📋 Prerequisites
 
-- ✅ Modern, responsive UI with Tailwind CSS
-- ✅ Real-time data with Firebase/Firestore
-- ✅ Full CRUD Admin Dashboard
-- ✅ 35+ courses across 8 categories
-- ✅ Dynamic team profiles
-- ✅ Contact form with validation
-- ✅ Newsletter subscription system
-- ✅ Secure environment-based configuration
-- ✅ Error boundaries and loading states
+Before you begin, ensure you have the following installed:
+- Node.js (v14 or higher)
+- npm or yarn
+- Git
+- Firebase account
 
----
+## 🛠️ Installation
 
-## 🚀 Quick Start
+### 1. Clone the Repository
 
 ```bash
-# Clone and install
 git clone https://github.com/bhola-dev58/spangle.edu.np.git
-cd spangle.edu.np/frontend
+cd spangle.edu.np
+```
+
+### 2. Install Dependencies
+
+```bash
+cd frontend
 npm install
+```
 
-# Setup environment
+### 3. Environment Setup
+
+Create a `.env` file in the `frontend` directory:
+
+```bash
 cp .env.example .env
-# Edit .env with your Firebase credentials
+```
 
-# Start development
+Update the `.env` file with your Firebase configuration:
+
+```env
+REACT_APP_FIREBASE_API_KEY=your_api_key_here
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_project_id.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_project_id.firebasestorage.app
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+REACT_APP_FIREBASE_MEASUREMENT_ID=your_measurement_id
+```
+
+## 🏃 Running Locally
+
+### Development Mode
+
+```bash
+cd frontend
 npm start
 ```
 
-📖 **See [ENVIRONMENT_SETUP.md](./ENVIRONMENT_SETUP.md) for detailed setup**
+The application will open at `http://localhost:3000`
 
----
+### Build for Production
+
+```bash
+cd frontend
+npm run build
+```
+
+This creates an optimized production build in the `frontend/build` directory.
+
+## 🚀 Deployment
+
+### Deploy to Firebase Hosting
+
+1. **Install Firebase CLI**:
+```bash
+npm install -g firebase-tools
+```
+
+2. **Login to Firebase**:
+```bash
+firebase login
+```
+
+3. **Initialize Firebase** (if not already done):
+```bash
+firebase init hosting
+```
+
+4. **Build the project**:
+```bash
+cd frontend
+npm run build
+```
+
+5. **Deploy**:
+```bash
+firebase deploy --only hosting
+```
+
+### Deploy to Vercel
+
+1. **Install Vercel CLI**:
+```bash
+npm install -g vercel
+```
+
+2. **Deploy**:
+```bash
+cd frontend
+vercel
+```
+
+### Deploy to Netlify
+
+1. **Build the project**:
+```bash
+cd frontend
+npm run build
+```
+
+2. **Deploy via Netlify CLI**:
+```bash
+npm install -g netlify-cli
+netlify deploy --prod --dir=build
+```
+
+Or drag and drop the `build` folder to Netlify's web interface.
 
 ## 📁 Project Structure
 
 ```
 spangle.edu.np/
-├── frontend/              # React application
+├── frontend/
+│   ├── public/              # Static files
+│   │   ├── favicon.png      # Favicon
+│   │   ├── logo-192.png     # App icon (192x192)
+│   │   ├── logo-512.png     # App icon (512x512)
+│   │   ├── manifest.json    # PWA manifest
+│   │   └── index.html       # HTML template
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── firebase/      # Firebase integration
-│   │   ├── context/       # React contexts
-│   │   └── utils/         # Helper functions
-│   └── public/            # Static assets
-│
-├── firebase.json          # Firebase configuration
-├── firestore.rules        # Security rules
-└── README.md             # This file
+│   │   ├── assets/          # Images, fonts, etc.
+│   │   ├── components/      # React components
+│   │   ├── context/         # React context (Auth, etc.)
+│   │   ├── firebase/        # Firebase configuration
+│   │   ├── pages/           # Page components
+│   │   ├── services/        # API services
+│   │   ├── utils/           # Utility functions
+│   │   ├── App.js           # Main App component
+│   │   ├── index.js         # Entry point
+│   │   └── input.css        # Tailwind CSS input
+│   ├── .env.example         # Environment variables template
+│   ├── package.json         # Dependencies
+│   └── tailwind.config.js   # Tailwind configuration
+├── firestore.rules          # Firestore security rules
+├── firestore.indexes.json   # Firestore indexes
+├── firebase.json            # Firebase configuration
+└── README.md                # This file
 ```
 
----
+## 🔧 Configuration
 
-## 🛠️ Tech Stack
+### Tailwind CSS
 
-- **React 18.2.0** - UI Framework
-- **Firebase 12.4.0** - Backend & Database
-- **Tailwind CSS 3.4.17** - Styling
-- **React Router 6.22.1** - Routing
-- **Heroicons 2.1.1** - Icons
+Tailwind is configured in `tailwind.config.js`. To customize:
 
----
+```javascript
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        // Add custom colors
+      }
+    }
+  }
+}
+```
 
-## 📜 Scripts
+### Firebase
+
+Firebase configuration is in `frontend/src/firebase/config.js`. Ensure your `.env` file has the correct credentials.
+
+## 🧪 Testing
 
 ```bash
-npm start      # Start development server
-npm run build  # Build for production
-npm test       # Run tests
+cd frontend
+npm test
 ```
 
----
+## 📱 PWA Features
 
-## 🔐 Security
+The app includes:
+- Offline support
+- Add to home screen
+- Custom app icons (circular logo)
+- Optimized for mobile devices
 
-- Environment variables for all credentials
+## 🔒 Security
+
+- Environment variables for sensitive data
 - Firebase security rules configured
-- Input validation on all forms
-- Protected .env file (not in git)
+- HTTPS enforced in production
+- Input validation and sanitization
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is private and proprietary to Spangle Education & Computer Institute.
+
+## 👥 Contact
+
+- **Website**: [spangle.edu.np](https://spangle.edu.np)
+- **Email**: info@spangle.edu.np
+- **Phone**: +977 980-4472777
+- **Location**: Siddharthanagar, Rupandehi, Nepal
+
+## 🙏 Acknowledgments
+
+- React Team for the amazing framework
+- Firebase for backend services
+- Tailwind CSS for the utility-first CSS framework
+- All contributors and supporters
 
 ---
 
-## 📱 Pages
-
-- **Home** - Hero, features, team carousel
-- **Courses** - Browse and search courses
-- **About** - Team and company info
-- **Contact** - Contact form
-- **Admin** - Full CRUD dashboard
-
----
-
-## 📄 Documentation
-
-- [Environment Setup](./ENVIRONMENT_SETUP.md) - Complete setup guide
-- [Firebase Setup](./FIREBASE_SETUP.md) - Firebase configuration
-- [Security](./SECURITY.md) - Security best practices
-
----
-
-## 📞 Contact
-
-- Email: info@spangle.edu.np
-- Phone: +977-9804400140
-- Location: Devkota Chowk, Siddharthanagar-13, Rupandehi, Nepal
-
----
-
-**© 2025 Spangle Education Institute - All Rights Reserved**
+**Made with ❤️ by Spangle Education & Computer Institute**
