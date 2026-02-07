@@ -12,13 +12,11 @@ import {
 import { StarIcon as Star } from '@heroicons/react/24/solid';
 import ScrollingCountryFlags from '../components/ScrollingCountryFlags';
 import '../components/ScrollingCountryFlags.css';
-import { getAllTeam } from '../firebase/firestoreService';
-import { getTeamImagePath } from '../utils/imageHelper';
+
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState({});
-  const [teamMembers, setTeamMembers] = useState([]);
-  const [loadingTeam, setLoadingTeam] = useState(true);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -94,65 +92,15 @@ const Home = () => {
     }
   ];
 
-  const [currentStaffIndex, setCurrentStaffIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  // Fetch team members from Firebase
-  useEffect(() => {
-    const fetchTeamMembers = async () => {
-      try {
-        setLoadingTeam(true);
-        const teamData = await getAllTeam();
-        setTeamMembers(teamData);
-      } catch (error) {
-        console.error('Error fetching team members:', error);
-      } finally {
-        setLoadingTeam(false);
-      }
-    };
-
-    fetchTeamMembers();
-  }, []);
-
-  // Auto-play functionality for staff carousel
-  useEffect(() => {
-    if (isAutoPlaying && teamMembers.length > 0) {
-      const interval = setInterval(() => {
-        setCurrentStaffIndex((prevIndex) =>
-          prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
-        );
-      }, 4000); // Change every 4 seconds
-
-      return () => clearInterval(interval);
-    }
-  }, [isAutoPlaying, teamMembers.length]);
-
-  // Navigation functions
-  const goToPreviousStaff = () => {
-    setIsAutoPlaying(false);
-    setCurrentStaffIndex((prevIndex) =>
-      prevIndex === 0 ? teamMembers.length - 1 : prevIndex - 1
-    );
-  };
-
-  const goToNextStaff = () => {
-    setIsAutoPlaying(false);
-    setCurrentStaffIndex((prevIndex) =>
-      prevIndex === teamMembers.length - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  const goToStaff = (index) => {
-    setIsAutoPlaying(false);
-    setCurrentStaffIndex(index);
-  };
 
   return (
     <div className="overflow-hidden bg-white min-h-screen">
       {/* Announcement Bar */}
       <div className="w-full bg-orange-500 text-white py-2 px-4 flex justify-center items-center text-sm font-semibold">
-        <span>New batches for Diploma in Computer Application start Soon! &nbsp;</span>
-        <Link to="/courses" className="bg-white text-orange-600 font-bold px-4 py-1 rounded shadow hover:bg-gray-100 ml-2">Enroll Now</Link>
+        <marquee behavior="alternate" direction="left">
+          <span>New batches for Diploma in Computer Application start Soon! &nbsp;</span>
+        </marquee>
       </div>
 
 
@@ -306,6 +254,58 @@ const Home = () => {
         </div>
       </section>
 
+      <section id="services" className="relative overflow-hidden py-20 border-b border-gray-800" style={{ backgroundColor: 'rgb(26, 26, 26)' }}>
+        {/* Background SVG Pattern */}
+        <figure className="absolute top-0 left-0 -mt-20 -ml-10 hidden md:block opacity-60 pointer-events-none text-gray-700">
+          <svg className="fill-current" width="768.8px" height="1386px" viewBox="0 0 768.8 1386" xmlSpace="preserve">
+            <path d="M647.6,748.4c1.9,6,3.3,12.2,3.8,18.4c2.2,18.9-0.7,38.9-9.1,61.5c-15.6,41.9-47.8,85.3-81.6,131.5 c-46.1,63.1-94.5,128.4-108.1,199.1c-15.7,80.6,17.2,154.5,101.1,226.1l-0.4,0.4c-188.1-160.7-84.4-301.8,7.3-426.2 c33.9-46,65.8-89.6,81.4-131.2c17.5-46.8,11.8-84.9-18-119.6c-39.6-46.6-86.5-86.9-135.7-129.3C339.1,450.3,184.9,317.3,240.6,4.6 l0.6,0.1C185.7,317,339.7,450.1,488.7,578.7c49.3,42.7,95.8,82.8,135.8,129.6C635.5,721,643.1,734.2,647.6,748.4z"></path>
+            <path d="M636.2,722.3c23.4,73.7-25.2,149.2-76.5,228.7c-40.8,63.5-83,129.1-91.9,198.3c-9.9,78.2,25.9,150,109.6,219 l-0.4,0.7c-45-37.1-75.4-74-93.5-112.7c-15.9-34.5-21.2-69.5-16.5-106.8c8.9-69.5,51-135.1,91.9-198.6 C616.4,861.3,671,776.5,622,694.1c-39.6-66.6-102.4-118.8-169-174.2c-68.7-57.3-140-116.4-188.1-195.3 c-25.9-42.6-42.9-86.9-51.5-135.2c-9.8-54.6-9.2-112.9,2-177.9l0.6,0.1c-46.5,271.4,97.9,391.7,237.5,507.9 c66.7,55.4,129.4,107.7,169.1,174.5C628.8,702.7,633.1,712.6,636.2,722.3z"></path>
+            <path d="M624.6,687.5c11.7,37,10.5,76.9-3.8,121.9c-13.7,43.3-38.1,87.4-61.8,130.2c-35.7,64.2-72.5,130.4-76.3,198.6 c-4.4,76.5,34.5,146.1,118.7,213.3l-0.6,0.8c-188.5-150.2-114.3-284-42.6-413.2c49.3-88.7,95.7-172.7,62.4-260.6 c-31.5-83-108.5-141.7-189.7-204C363,422.5,293.2,369,244.9,298c-26.1-38.5-43.3-78.4-53-121.8C181.2,127,180.6,75,190.2,16.8l0.9,0 C151,259.3,293.5,368.3,431.2,473.7c81.5,62.2,158.3,121.3,190.1,204.2C622.6,681.2,623.6,684.4,624.6,687.5z"></path>
+            <path d="M614.6,642.5c2.2,6.8,4.1,13.7,5.4,20.8c18.1,91.8-22.3,177.4-61.1,260.2c-32.2,68.8-62.8,133.6-62.1,201.3 c0.8,76.3,41.6,143,128.7,209.2l-0.6,0.8c-46.1-35.1-78.8-70-100.3-106.8c-19.1-32.9-28.6-66.6-28.9-103.1 c-0.6-67.6,29.8-132.7,62.3-201.6c38.8-82.7,79-168.2,60.9-259.8c-19.1-96.7-109.2-158.6-204.5-224.2 c-68.3-47.1-139.2-95.6-188.9-160.4c-56.1-73.2-75.8-157-60.3-255.8l0.9,0c-34.9,220.7,109.1,319.7,248.6,415.2 C503.4,499.3,587.6,557.2,614.6,642.5z"></path>
+            <path d="M610.8,603.9c4.4,13.9,7.1,28.7,7.8,44.6c3.6,91.5-28.4,172.7-59.3,251.2c-28.5,72.3-55.1,140.5-50.2,208.8 c5.2,76.6,49.9,143,140.1,208.8l-0.4,0.7c-90.5-66-135.2-132.4-140.8-209.2c-5-68.6,21.9-136.9,50.3-209.4 c30.9-78.5,62.6-159.6,59.1-250.9c-4.2-109-107.3-171.8-216.8-238.5c-70.1-42.7-142.8-87-194.2-146.1 c-58.1-66.8-79.9-143.6-66-234.6l1,0.3c-30.7,202.9,117.1,292.9,259.8,379.6C494.9,466.2,584.1,520.8,610.8,603.9z"></path>
+            <path d="M610.7,570.7c6.1,19.2,8.4,40.1,6,62.8c-8.3,84.1-33.8,160.3-55.9,227.3c-27.6,83.2-51.4,154.9-42.7,226 c9.5,78.4,58.7,146,155,213l-0.6,0.8c-96.5-66.7-145.8-134.6-155.4-213.2c-8.8-71.4,15.2-143.4,42.8-226.7 c22.3-67.1,47.6-143.3,55.9-227.3c12-120.7-104.2-182.9-227.6-248.9c-72.3-38.6-147.1-78.7-200.6-132.7 c-60.6-61-84.2-131.8-72-216.2l1.2,0.2C89.9,223.5,242,305,389.1,383.7C488.9,437.2,584.6,488.6,610.7,570.7z"></path>
+            <path d="M613,540.8c7.3,23.1,8.5,48.7,1.9,77.9c-14,63.3-31.8,122.1-47.4,173.8c-30,99.3-56,185.2-45,263.4 c11.7,84.3,67.2,156.6,174.2,227.2l-0.5,1c-56.6-37.2-98.1-74.3-126.8-113.1c-26.6-35.7-42.3-73.2-47.9-114.7 c-11.1-78.8,14.9-164.4,45.1-264c15.7-51.7,33.4-110.5,47.5-173.6C643.5,486.7,513.4,426,375.8,361.9 c-74.9-34.9-152.2-71-207.6-120.1c-63-55.7-88.3-121-78-199.6l1.1-0.1c-10.5,78.1,14.8,143.1,77.7,198.6 c55.4,49.1,132.7,85.3,207.5,119.9C484,410.7,587.1,458.9,613,540.8z"></path>
+            <path d="M617.2,512.9c8.3,26.2,8,56.1-3.5,90.9c-5.6,17.1-11.2,33.9-16.5,50c-47.8,143.4-85.7,256.4-76.5,351.9 c9.7,99.7,71.5,180,200.4,260.4l-0.5,1c-67.3-41.9-115.6-83.2-148.1-126.6c-30.9-41-48.1-85.2-52.8-134.8 c-9.3-95.8,28.8-208.9,76.6-352.3c5.6-16.2,10.9-32.9,16.5-50c47.5-143.5-96.3-201.6-248.6-263.1c-77.7-31.1-157.6-63.5-215.4-108.2 C83.3,181.7,56.1,121.4,65.2,48l1.2,0.2c-9,72.7,18.1,132.8,83.1,183c57.8,44.6,137.6,76.8,214.8,108.1 C480.2,386,591.2,431,617.2,512.9z"></path>
+            <path d="M622.4,486.7c9.6,30.2,6.1,63.9-10.3,102.3C465,933,463,1084.4,745.1,1249l-0.8,1.1 c-143.5-83.6-211.5-162.5-227.9-263.5c-17.4-106.8,25.3-236.4,94.5-398.1c18.6-43.4,20.4-80.4,6-113.1 C583.7,401.1,471.1,362,351.5,320.8C189.7,265,22.7,207.3,40,54.3l1.2,0.2C23.8,206.4,190.5,263.8,351.7,319.6 C471.4,361,584.6,400,617.6,475C619.7,478.9,621.2,482.8,622.4,486.7z"></path>
+            <path d="M628.6,461.4c10.3,32.5,4.4,69.6-18,112.8c-93.9,182.2-122.9,308.3-94.5,408.8c26.1,92.5,101.7,167,252.8,249 l-0.8,1.1c-151.5-82.5-227.2-157.2-253.6-249.9c-28.5-100.7,0.5-227.1,94.5-409.9c24.3-47.3,29-87.1,14.3-121.5 c-32.7-76-155.1-112-284.6-149.7C172.6,253.7,0.1,203.5,15.1,60.4l1.2,0.2c-14.6,141.8,157,191.9,323.2,240.6 c129.9,37.9,252.4,73.9,285.3,150.4C626.2,454.9,627.5,458,628.6,461.4z"></path>
+          </svg>
+        </figure>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="inline-block py-1 px-3 rounded-md bg-white text-gray-900 text-sm font-semibold mb-4">
+              🚀 Discover what we offer
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Best Education Center Services by
+            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-6">
+              Spangle Education & Computer Institute
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[
+              { id: "01", title: "Bridge Course" },
+              { id: "02", title: "CTEVT Prepration" },
+              { id: "03", title: "Computer Course" },
+              { id: "04", title: "Graphic Designing" },
+              { id: "05", title: "Page Designing" },
+              { id: "06", title: "Personality Development" },
+              { id: "07", title: "Tuition Class" },
+              { id: "08", title: "Web Page Designing" }
+            ].map((service) => (
+              <div key={service.id} className="group bg-white rounded-xl p-6 pt-10 text-center relative mt-8 hover:-translate-y-2 transition-transform duration-300 shadow-xl">
+                <div className="absolute transform -translate-x-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg group-hover:bg-orange-600 transition-colors">
+                  <h6 className="text-blue-600 font-bold text-lg mb-0 group-hover:text-white transition-colors">{service.id}.</h6>
+                </div>
+                <h5 className="font-bold text-gray-900 text-lg mb-2 mt-4">{service.title}</h5>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section id="section-features" className={`section-padding bg-gray-50 dark:bg-gray-800 ${isVisible['section-features'] ? 'animate-fade-in' : 'opacity-0'}`}>
         <div className="container mx-auto px-4">
@@ -365,96 +365,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Staff Section */}
-      <section className="bg-gray-900 text-white py-20">
-        <div className="max-w-6xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Meet Our Expert Team
-            </h2>
-            <div className="h-1 w-20 bg-orange-500 mx-auto mb-6"></div>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Our dedicated staff members bring years of experience and passion for education.
-            </p>
-          </div>
 
-          {loadingTeam ? (
-            <div className="flex justify-center items-center py-20">
-              <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500"></div>
-            </div>
-          ) : teamMembers.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-gray-400 text-lg">No team members available at the moment.</p>
-            </div>
-          ) : (
-            <>
-              <div className="relative">
-                {/* Staff Card */}
-                <div className="max-w-md mx-auto bg-white rounded-xl shadow-2xl overflow-hidden group">
-                  <div className="relative overflow-hidden bg-gray-200 h-[450px]">
-                    <img
-                      src={getTeamImagePath(teamMembers[currentStaffIndex].image)}
-                      alt={teamMembers[currentStaffIndex].name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x450/cccccc/000000?text=Staff';
-                      }}
-                    />
-                  </div>
-
-                  <div className="p-8 text-center bg-white">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                      {teamMembers[currentStaffIndex].name}
-                    </h3>
-                    <p className="text-orange-600 font-bold uppercase text-sm mb-4 tracking-wider">
-                      {teamMembers[currentStaffIndex].position}
-                    </p>
-
-                    <div className="flex justify-center items-center mb-4">
-                      <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">{teamMembers[currentStaffIndex].department}</span>
-                      <span className="mx-2 text-gray-300">•</span>
-                      <span className="text-sm text-gray-500">{teamMembers[currentStaffIndex].experience} years exp.</span>
-                    </div>
-
-                    <blockquote className="text-gray-600 italic text-sm">
-                      "{teamMembers[currentStaffIndex].quote}"
-                    </blockquote>
-                  </div>
-                </div>
-
-                {/* Navigation Buttons */}
-                <button
-                  onClick={goToPreviousStaff}
-                  className="hidden md:block absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white text-gray-900 hover:text-orange-600 rounded-full p-4 shadow-xl transition-all"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-
-                <button
-                  onClick={goToNextStaff}
-                  className="hidden md:block absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-1/2 bg-white text-gray-900 hover:text-orange-600 rounded-full p-4 shadow-xl transition-all"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Controls */}
-              <div className="flex justify-center space-x-3 mt-8">
-                {teamMembers.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToStaff(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentStaffIndex
-                      ? 'bg-orange-500 w-8'
-                      : 'bg-gray-700 hover:bg-gray-600'
-                      }`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      </section>
 
       <ScrollingCountryFlags />
 
