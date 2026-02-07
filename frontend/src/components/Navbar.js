@@ -19,6 +19,8 @@ const Navbar = () => {
     setIsOpen(false);
   }, [location]);
 
+
+
   const isActiveLink = (path) => location.pathname === path;
 
   const whatsappNumber = '+9779804472777';

@@ -32,8 +32,8 @@ const About = () => {
             {/* Hero Section */}
             <section className="bg-gray-900 text-white py-16 shadow w-full">
                 <div className="container mx-auto px-4 max-w-screen-xl relative">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
-                    <h1 className="text-5xl md:text-6xl font-extrabold text-center mb-6 animate-fade-in-up">About Spangle Education</h1>
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-gray-500/5 rounded-full blur-3xl -mr-32 -mt-32"></div>
+                    <h1 className="text-5xl md:text-6xl font-extrabold text-center mb-6 animate-fade-in-up text-orange-500">About Spangle Institute</h1>
                     <p className="text-xl text-center text-gray-300 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>Empowering students with quality education and computer training in Siddharthanagar.</p>
                 </div>
             </section>

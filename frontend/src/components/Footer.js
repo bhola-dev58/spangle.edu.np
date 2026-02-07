@@ -211,10 +211,10 @@ const Footer = () => {
               </li>
               <li className="flex justify-between items-center p-2 bg-gray-700/50 rounded hover:bg-gray-700 transition-colors">
                 <span className="font-medium text-white">Saturday</span>
-                <span className="text-orange-500">6:00 AM - 2:00 PM</span>
+                <span className="text-orange-500">Closed</span>
               </li>
               <li className="flex justify-between items-center p-2 bg-gray-700/50 rounded hover:bg-gray-700 transition-colors">
-                <span className="font-medium text-white">Holidays</span>
+                <span className="font-medium text-white">Public Holidays</span>
                 <span className="text-red-400">Closed</span>
               </li>
             </ul>

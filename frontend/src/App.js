@@ -40,7 +40,7 @@ function App() {
           </div>
         </Router>
       </AuthProvider>
-      </ErrorBoundary>
-    );
+    </ErrorBoundary>
+  );
 }
 export default App;

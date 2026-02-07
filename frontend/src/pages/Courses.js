@@ -536,6 +536,9 @@ const Courses = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const coursesPerPage = 6;
 
+  // Master filter dropdown state
+  const [showFilters, setShowFilters] = useState(typeof window !== 'undefined' && window.innerWidth >= 1024);
+
   // Collapsible sections state - expanded on desktop, collapsed on mobile
   const [expandedSections, setExpandedSections] = useState({
     categories: typeof window !== 'undefined' && window.innerWidth >= 1024,
@@ -659,7 +662,7 @@ const Courses = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 pt-20 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 pt-20 lg:pt-28 pb-16 flex items-center justify-center">
         <div className="text-center">
           <LoadingSpinner />
           <p className="mt-4 text-gray-600">Loading courses...</p>
@@ -669,10 +672,10 @@ const Courses = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-16">
+    <div className="min-h-screen bg-gray-50 pt-20 lg:pt-28 pb-16">
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Explore Our Courses</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-orange-600 mb-2">Explore Our Courses</h1>
           <p className="text-gray-600 mb-6">From beginner to expert, find the right course to achieve id goals.</p>
 
           <div className="flex flex-col sm:flex-row gap-2">
@@ -704,151 +707,165 @@ const Courses = () => {
           <aside className="w-full lg:w-64 flex-shrink-0">
             <div className="bg-white rounded-lg shadow-sm p-4 lg:sticky lg:top-24 border border-gray-200">
 
-              {/* Filter Header */}
-              <div className="mb-4 pb-3 border-b border-gray-200">
-                <h2 className="text-lg font-bold text-gray-900">Filters</h2>
-              </div>
-
-              {/* Categories Filter */}
-              <div className="mb-4 pb-3 border-b border-gray-200">
-                <button
-                  onClick={() => toggleSection('categories')}
-                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
-                >
-                  <h3 className="text-sm font-semibold text-gray-900">Categories</h3>
-                  <ChevronDownIcon
-                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.categories ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.categories ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <div className="space-y-2">
-                    {categories.slice(0, showMoreCategories ? categories.length : 6).map(cat => (
-                      <label key={cat.name} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                        <input
-                          type="checkbox"
-                          checked={selectedCategories.includes(cat.name)}
-                          onChange={() => toggleCategory(cat.name)}
-                          className="w-3.5 h-3.5 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 cursor-pointer"
-                        />
-                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600 flex-1">
-                          {cat.name}
-                        </span>
-                        <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
-                          {cat.count}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                  {categories.length > 6 && (
-                    <button
-                      onClick={() => setShowMoreCategories(!showMoreCategories)}
-                      className="w-full text-blue-600 text-xs font-semibold mt-2 py-1.5 hover:text-blue-700 hover:bg-blue-50 rounded transition-colors"
-                    >
-                      {showMoreCategories ? '- Show Less' : '+ Show More'}
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4 pb-3 border-b border-gray-200">
-                <button
-                  onClick={() => toggleSection('skillLevel')}
-                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
-                >
-                  <h3 className="text-sm font-semibold text-gray-900">Skill Level</h3>
-                  <ChevronDownIcon
-                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.skillLevel ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.skillLevel ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <div className="space-y-1.5">
-                    {['Beginner', 'Intermediate', 'Advanced', 'All Levels'].map(level => (
-                      <label key={level} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                        <input
-                          type="radio"
-                          name="skillLevel"
-                          checked={selectedSkillLevel === level}
-                          onChange={() => setSelectedSkillLevel(level)}
-                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{level}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-4 pb-3 border-b border-gray-200">
-                <button
-                  onClick={() => toggleSection('price')}
-                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
-                >
-                  <h3 className="text-sm font-semibold text-gray-900">Price</h3>
-                  <ChevronDownIcon
-                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.price ? 'rotate-180' : ''}`}
-                  />
-                </button>
-
-                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.price ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <div className="space-y-1.5">
-                    {['All', 'Free', 'Paid'].map(price => (
-                      <label key={price} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                        <input
-                          type="radio"
-                          name="price"
-                          checked={selectedPrice === price}
-                          onChange={() => setSelectedPrice(price)}
-                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="ml-2 text-sm text-gray-700 group-hover:text-blue-600">{price}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
+              {/* Master Filter Header */}
               <div className="mb-4">
                 <button
-                  onClick={() => toggleSection('rating')}
-                  className="w-full flex items-center justify-between text-left mb-2 hover:text-blue-600 transition-colors"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="w-full flex items-center justify-between text-left hover:bg-orange-50 p-2 rounded-lg transition-colors group"
                 >
-                  <h3 className="text-sm font-semibold text-gray-900">Rating</h3>
+                  <h2 className="text-lg font-bold text-gray-900 group-hover:text-orange-600">Filter Course</h2>
                   <ChevronDownIcon
-                    className={`w-4 h-4 text-gray-600 transition-transform duration-300 ${expandedSections.rating ? 'rotate-180' : ''}`}
+                    className={`w-5 h-5 text-orange-600 transition-transform duration-300 ${showFilters ? 'rotate-180' : ''}`}
                   />
                 </button>
-
-                <div className={`transition-all duration-300 overflow-hidden ${expandedSections.rating ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
-                  <div className="space-y-1.5">
-                    {[
-                      { value: 'All', label: 'All Rating' },
-                      { value: '5', label: '★★★★★ 5+' },
-                      { value: '4', label: '★★★★☆ 4+' },
-                      { value: '3', label: '★★★☆☆ 3+' }
-                    ].map(rating => (
-                      <label key={rating.value} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
-                        <input
-                          type="radio"
-                          name="rating"
-                          checked={selectedRating === rating.value}
-                          onChange={() => setSelectedRating(rating.value)}
-                          className="w-3.5 h-3.5 text-blue-600 focus:ring-blue-500"
-                        />
-                        <span className="ml-2 text-xs text-gray-700 group-hover:text-blue-600">{rating.label}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
               </div>
 
-              <button
-                onClick={clearFilters}
-                className="w-full py-2 text-sm text-blue-600 border border-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
-              >
-                Clear Filters
-              </button>
+              {/* All Filters Container */}
+              <div className={`transition-all duration-300 overflow-hidden ${showFilters ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+
+                {/* Categories Filter */}
+                <div className="mb-4 pb-3 border-b border-gray-200">
+                  <button
+                    onClick={() => toggleSection('categories')}
+                    className="w-full flex items-center justify-between text-left mb-2 hover:text-orange-600 transition-colors group"
+                  >
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-orange-600">Categories</h3>
+                    <ChevronDownIcon
+                      className={`w-4 h-4 text-orange-500 transition-transform duration-300 ${expandedSections.categories ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  <div className={`transition-all duration-300 overflow-hidden ${expandedSections.categories ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="space-y-2">
+                      {categories.slice(0, showMoreCategories ? categories.length : 6).map(cat => (
+                        <label key={cat.name} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                          <input
+                            type="checkbox"
+                            checked={selectedCategories.includes(cat.name)}
+                            onChange={() => toggleCategory(cat.name)}
+                            className="w-3.5 h-3.5 text-orange-600 rounded focus:ring-2 focus:ring-orange-500 cursor-pointer"
+                          />
+                          <span className="ml-2 text-sm text-gray-700 group-hover:text-orange-600 flex-1">
+                            {cat.name}
+                          </span>
+                          <span className="text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded">
+                            {cat.count}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                    {categories.length > 6 && (
+                      <button
+                        onClick={() => setShowMoreCategories(!showMoreCategories)}
+                        className="w-full text-orange-600 text-xs font-semibold mt-2 py-1.5 hover:text-orange-700 hover:bg-orange-50 rounded transition-colors"
+                      >
+                        {showMoreCategories ? '- Show Less' : '+ Show More'}
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                <div className="mb-4 pb-3 border-b border-gray-200">
+                  <button
+                    onClick={() => toggleSection('skillLevel')}
+                    className="w-full flex items-center justify-between text-left mb-2 hover:text-orange-600 transition-colors group"
+                  >
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-orange-600">Skill Level</h3>
+                    <ChevronDownIcon
+                      className={`w-4 h-4 text-orange-500 transition-transform duration-300 ${expandedSections.skillLevel ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  <div className={`transition-all duration-300 overflow-hidden ${expandedSections.skillLevel ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="space-y-1.5">
+                      {['Beginner', 'Intermediate', 'Advanced', 'All Levels'].map(level => (
+                        <label key={level} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                          <input
+                            type="radio"
+                            name="skillLevel"
+                            checked={selectedSkillLevel === level}
+                            onChange={() => setSelectedSkillLevel(level)}
+                            className="w-3.5 h-3.5 text-orange-600 focus:ring-orange-500"
+                          />
+                          <span className="ml-2 text-sm text-gray-700 group-hover:text-orange-600">{level}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-4 pb-3 border-b border-gray-200">
+                  <button
+                    onClick={() => toggleSection('price')}
+                    className="w-full flex items-center justify-between text-left mb-2 hover:text-orange-600 transition-colors group"
+                  >
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-orange-600">Price</h3>
+                    <ChevronDownIcon
+                      className={`w-4 h-4 text-orange-500 transition-transform duration-300 ${expandedSections.price ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  <div className={`transition-all duration-300 overflow-hidden ${expandedSections.price ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="space-y-1.5">
+                      {['All', 'Free', 'Paid'].map(price => (
+                        <label key={price} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                          <input
+                            type="radio"
+                            name="price"
+                            checked={selectedPrice === price}
+                            onChange={() => setSelectedPrice(price)}
+                            className="w-3.5 h-3.5 text-orange-600 focus:ring-orange-500"
+                          />
+                          <span className="ml-2 text-sm text-gray-700 group-hover:text-orange-600">{price}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-4">
+                  <button
+                    onClick={() => toggleSection('rating')}
+                    className="w-full flex items-center justify-between text-left mb-2 hover:text-orange-600 transition-colors group"
+                  >
+                    <h3 className="text-sm font-semibold text-gray-900 group-hover:text-orange-600">Rating</h3>
+                    <ChevronDownIcon
+                      className={`w-4 h-4 text-orange-500 transition-transform duration-300 ${expandedSections.rating ? 'rotate-180' : ''}`}
+                    />
+                  </button>
+
+                  <div className={`transition-all duration-300 overflow-hidden ${expandedSections.rating ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'}`}>
+                    <div className="space-y-1.5">
+                      {[
+                        { value: 'All', label: 'All Rating' },
+                        { value: '5', label: '★★★★★ 5+' },
+                        { value: '4', label: '★★★★☆ 4+' },
+                        { value: '3', label: '★★★☆☆ 3+' }
+                      ].map(rating => (
+                        <label key={rating.value} className="flex items-center cursor-pointer group hover:bg-gray-50 p-1.5 rounded transition-colors">
+                          <input
+                            type="radio"
+                            name="rating"
+                            checked={selectedRating === rating.value}
+                            onChange={() => setSelectedRating(rating.value)}
+                            className="w-3.5 h-3.5 text-orange-600 focus:ring-orange-500"
+                          />
+                          <span className="ml-2 text-xs text-gray-700 group-hover:text-orange-600">{rating.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={clearFilters}
+                  className="w-full py-2 text-sm text-orange-600 border border-orange-600 rounded-lg font-semibold hover:bg-orange-50 transition-colors mt-4"
+                >
+                  Clear Filters
+                </button>
+              </div>
+              {/* End of All Filters Container */}
+
             </div>
           </aside>
 
@@ -882,7 +899,7 @@ const Courses = () => {
             {/* Course Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
               {currentCourses.map(course => (
-                <div key={course.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group border border-gray-200 hover:border-blue-400 flex flex-col h-full">
+                <div key={course.id} className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden group border-2 border-black flex flex-col h-full">
                   {/* Course Image */}
                   <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 h-36 flex items-center justify-center">
                     <span className="text-5xl transform group-hover:scale-105 transition-transform duration-200">{course.image}</span>
@@ -939,13 +956,13 @@ const Courses = () => {
                     <div className="flex gap-2">
                       <button
                         onClick={() => handleEnrollClick(course)}
-                        className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-xs"
+                        className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2 px-3 rounded-lg transition-colors text-xs"
                       >
                         Enroll Now
                       </button>
                       <button
                         onClick={() => handleLearnMore(course)}
-                        className="flex-1 bg-white hover:bg-gray-50 text-blue-600 font-semibold py-2 px-3 rounded-lg border border-blue-600 transition-colors text-xs"
+                        className="flex-1 bg-white hover:bg-orange-50 text-orange-600 font-semibold py-2 px-3 rounded-lg border border-orange-600 transition-colors text-xs"
                       >
                         Learn More
                       </button>
@@ -1004,7 +1021,7 @@ const Courses = () => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">Become an Instructor</h2>
           <p className="text-blue-100 mb-6 text-sm sm:text-base">Share your knowledge with students around world and earn an income.</p>
-          <button className="px-6 sm:px-8 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+          <button className="px-6 sm:px-8 py-3 bg-orange-600 text-white rounded-lg font-semibold hover:bg-orange-700 transition-colors shadow-lg">
             Start Teaching Today
           </button>
         </div>
