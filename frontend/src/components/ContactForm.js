@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { addMessage } from '../firebase/firestoreService';
 import LoadingSpinner from './LoadingSpinner';
-import { 
-  UserIcon, 
-  EnvelopeIcon, 
+import {
+  UserIcon,
+  EnvelopeIcon,
   PhoneIcon,
   PaperAirplaneIcon,
   CheckCircleIcon,
@@ -75,13 +75,13 @@ const ContactForm = ({ className = '' }) => {
     try {
       // Save message to Firebase Firestore
       await addMessage(formData);
-      
-      setStatus({ 
-        loading: false, 
-        success: true, 
-        error: null 
+
+      setStatus({
+        loading: false,
+        success: true,
+        error: null
       });
-      
+
       // Reset form
       setFormData({
         name: '',
@@ -97,15 +97,15 @@ const ContactForm = ({ className = '' }) => {
       }, 5000);
 
     } catch (error) {
-      setStatus({ 
-        loading: false, 
-        success: false, 
-        error: error.message || 'Failed to send message. Please try again.' 
+      setStatus({
+        loading: false,
+        success: false,
+        error: error.message || 'Failed to send message. Please try again.'
       });
     }
   };
 
-  const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200";
+  const inputClasses = "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all duration-200";
   const labelClasses = "block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2";
 
   return (

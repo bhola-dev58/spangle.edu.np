@@ -3,238 +3,118 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   Bars3Icon,
   XMarkIcon,
-  HomeIcon,
-  AcademicCapIcon,
-  InformationCircleIcon,
-  PhoneIcon,
-  UserIcon,
   ChevronDownIcon,
+  UserIcon,
   ArrowRightOnRectangleIcon
 } from '@heroicons/react/24/outline';
 import { useAuth } from '../context/AuthContext';
+import logoImg from '../assets/logo.jpg';
+import flagImg from '../assets/nepali_flag.gif';
 
-// Cleaned up unused imports and improved organization
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
   const location = useLocation();
 
   const navItems = [
-    { name: 'Home', path: '/', icon: HomeIcon },
-    { name: 'Courses', path: '/courses', icon: AcademicCapIcon },
-    { name: 'About', path: '/about', icon: InformationCircleIcon },
-    { name: 'Contact', path: '/contact', icon: PhoneIcon },
-    // Admin button removed from navigation
+    { name: 'Home', path: '/' },
+    { name: 'Courses', path: '/courses' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' },
   ];
 
-  // Scroll effect removed as not currently used in styling
-
-  // Close mobile menu when route changes
   useEffect(() => {
-    setIsOpen(false);
+    setUserMenuOpen(false);
   }, [location]);
 
-  const isActiveLink = (path) => {
-    return location.pathname === path;
-  };
+  const isActiveLink = (path) => location.pathname === path;
 
   const handleLogout = async () => {
     await logout();
     setUserMenuOpen(false);
   };
 
-  // Close dropdowns when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (userMenuOpen && !event.target.closest('.user-menu')) {
-        setUserMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [userMenuOpen]);
-
   return (
-    <nav className="fixed top-0 w-full z-50 bg-white shadow-md transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b shadow-sm">
+      <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between gap-4">
 
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center h-16 lg:h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <img src={require('../assets/logo.jpg')} alt="Spangle Education Logo" className="w-12 h-12 lg:w-16 lg:h-16 rounded-full shadow-xl" style={{ background: 'transparent' }} />
-            </div>
-            <div className="flex flex-col justify-center">
-              <span className="text-1xl lg:text-2xl font-black tracking-tight text-blue-900 dark:text-yellow-300">Spangle Education & Computer Institute Pvt. Ltd</span>
-              <span className="text-xs lg:text-base font-semibold text-blue-700 dark:text-blue-200 hidden sm:block">
-                Devkota chowk Bhairahawa Rupandehi Nepal
-              </span>
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navItems.map((item) => {
-              const IconComponent = item.icon;
-              const isActive = isActiveLink(item.path);
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`relative px-4 py-2 rounded-xl font-medium transition-all duration-300 flex items-center space-x-2 group ${isActive
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
-                    }`}
-                >
-                  <IconComponent className={`h-5 w-5 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : ''
-                    }`} />
-                  <span>{item.name}</span>
-                  {isActive && (
-                    <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"></div>
-                  )}
-                </Link>
-              );
-            })}
+        {/* LOGO */}
+        <Link to="/" className="flex items-center gap-3 min-w-0 flex-shrink-0">
+          <img
+            src={logoImg}
+            alt="Logo"
+            className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 rounded-full flex-shrink-0"
+          />
+          <div className="min-w-0 hidden sm:block">
+            <p className="text-orange-800 font-bold text-sm md:text-base lg:text-xl leading-tight truncate">
+              Spangle Education & Computer Institute
+            </p>
+            <p className="text-gray-600 text-xs md:text-sm truncate">
+              Empowering Minds, Building Futures
+            </p>
           </div>
+        </Link>
 
-          {/* Desktop Actions */}
-          <div className="hidden lg:flex items-center space-x-4">
-            {isAuthenticated ? (
-              <div className="relative user-menu">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center space-x-2 p-2 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-300"
-                >
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
-                    {user?.profile?.firstName?.[0] || user?.email?.[0] || 'U'}
-                  </div>
-                  <span className="font-medium">{user?.profile?.firstName || 'User'}</span>
-                  <ChevronDownIcon className={`h-4 w-4 transition-transform ${userMenuOpen ? 'rotate-180' : ''
-                    }`} />
-                </button>
-
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-2 z-50">
-                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {user?.profile?.firstName} {user?.profile?.lastName}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
-                    </div>
-                    <Link
-                      to="/profile"
-                      className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      <UserIcon className="h-4 w-4" />
-                      <span>Profile</span>
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="flex items-center space-x-2 w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-left"
-                    >
-                      <ArrowRightOnRectangleIcon className="h-4 w-4" />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : null}
-            {/* Nepali flag on right side of navbar */}
-            <img src={require('../assets/nepali_flag.gif')} alt="Nepali Flag" className="w-10 h-10 ml-4 rounded shadow-lg" />
-          </div>
-
-          {/* Mobile menu controls */}
-          <div className="lg:hidden flex items-center space-x-3">
-
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className={`p-2 rounded-xl transition-all duration-300 ${isOpen
-                ? 'bg-indigo-600 text-white'
-                : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                }`}
-              aria-label="Toggle menu"
+        {/* NAVIGATION LINKS */}
+        <div className="flex items-center gap-3 md:gap-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.name}
+              to={item.path}
+              className={`px-3 md:px-4 py-2 rounded-md text-sm md:text-base font-semibold transition whitespace-nowrap
+                ${isActiveLink(item.path)
+                  ? 'bg-orange-600 text-white'
+                  : 'text-gray-800 hover:text-orange-600'}
+              `}
             >
-              <div className="relative w-6 h-6">
-                <Bars3Icon className={`absolute inset-0 h-6 w-6 transition-all duration-300 ${isOpen ? 'rotate-90 scale-0 opacity-0' : 'rotate-0 scale-100 opacity-100'
-                  }`} />
-                <XMarkIcon className={`absolute inset-0 h-6 w-6 transition-all duration-300 ${isOpen ? 'rotate-0 scale-100 opacity-100' : '-rotate-90 scale-0 opacity-0'
-                  }`} />
-              </div>
-            </button>
-          </div>
+              {item.name}
+            </Link>
+          ))}
         </div>
-      </div>
 
-      {/* Mobile Navigation Menu */}
-      <div className={`lg:hidden transition-all duration-300 ease-out ${isOpen
-        ? 'max-h-screen opacity-100 visible'
-        : 'max-h-0 opacity-0 invisible'
-        } bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-200/20 dark:border-gray-700/20`}>
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col space-y-2">
-            {navItems.map((item, index) => {
-              const IconComponent = item.icon;
-              const isActive = isActiveLink(item.path);
-              return (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-xl font-medium transition-all duration-300 transform hover:scale-105 ${isActive
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-indigo-600 dark:hover:text-indigo-400'
-                    }`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <IconComponent className="h-5 w-5" />
-                  <span>{item.name}</span>
-                  {isActive && (
-                    <div className="ml-auto w-2 h-2 bg-white rounded-full"></div>
-                  )}
-                </Link>
-              );
-            })}
+        {/* USER & FLAG */}
+        <div className="flex items-center gap-3 md:gap-4 flex-shrink-0">
+          {isAuthenticated && (
+            <div className="relative">
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="flex items-center gap-2 font-semibold text-gray-800 hover:text-orange-600"
+              >
+                <div className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-sm">
+                  {user?.profile?.firstName?.[0] || 'U'}
+                </div>
+                <span className="text-sm hidden lg:inline">{user?.profile?.firstName}</span>
+                <ChevronDownIcon className="w-4 h-4 hidden lg:inline" />
+              </button>
 
-            {/* Mobile Auth Buttons */}
-            <div className="pt-4 border-t border-gray-200/20 dark:border-gray-700/20 space-y-3">
-              {isAuthenticated ? (
-                <>
-                  <div className="flex items-center space-x-3 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
-                      {user?.profile?.firstName?.[0] || user?.email?.[0] || 'U'}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {user?.profile?.firstName} {user?.profile?.lastName}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{user?.email}</p>
-                    </div>
-                  </div>
+              {userMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-50">
                   <Link
                     to="/profile"
-                    className="flex items-center space-x-2 px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 text-sm hover:bg-orange-50"
                   >
-                    <UserIcon className="h-5 w-5" />
-                    <span>Profile</span>
+                    <UserIcon className="w-5 h-5 text-gray-400" />
+                    My Profile
                   </Link>
+                  <div className="border-t border-gray-100"></div>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center space-x-2 w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-xl transition-colors text-left"
+                    className="flex w-full items-center gap-3 px-4 py-3 text-sm text-red-600 hover:bg-red-50"
                   >
-                    <ArrowRightOnRectangleIcon className="h-5 w-5" />
-                    <span>Logout</span>
+                    <ArrowRightOnRectangleIcon className="w-5 h-5" />
+                    Logout
                   </button>
-                </>
-              ) : null}
+                </div>
+              )}
             </div>
-          </div>
+          )}
+
+          <img src={flagImg} alt="Nepal Flag" className="w-8 md:w-10 lg:w-12" />
         </div>
       </div>
     </nav>
-
   );
 };
 
-export default Navbar; 
+export default Navbar;

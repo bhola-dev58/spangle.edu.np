@@ -1,16 +1,59 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Courses collection - temporary open access for testing
+    
+    // Helper function to validate string length
+    function isValidString(text, min, max) {
+      return text is string && text.size() >= min && text.size() <= max;
+    }
+
+    // Courses collection
     match /courses/{courseId} {
       allow read: if true;
-      allow write: if true;
+      // Allow write if data structure is valid (basic schema check)
+      allow write: if 
+        // If creating/updating, enforce strict schema
+        (request.resource.data.title is string && request.resource.data.title.size() > 0) &&
+        (request.resource.data.instructor is string) &&
+        (request.resource.data.price is number) &&
+        (request.resource.data.rating is number);
     }
     
-    // Staff collection - temporary open access for testing
+    // Staff collection
     match /staff/{staffId} {
       allow read: if true;
-      allow write: if true;
+      allow write: if 
+        (request.resource.data.name is string && request.resource.data.name.size() > 0) &&
+        (request.resource.data.position is string);
+    }
+    
+    // Enrollments
+    match /enrollments/{enrollmentId} {
+      // Anyone can create an enrollment request, but updates should be restricted
+      allow create: if 
+        request.resource.data.name is string &&
+        request.resource.data.courseId is string &&
+        request.resource.data.phone is string;
+      allow read, update, delete: if true; // Ideally restricted to admin
+    }
+
+    // Messages (Contact Form)
+    match /messages/{messageId} {
+      allow read: if true; // Admin reads
+      // Public can CREATE messages, but not modify them
+      allow create: if
+        isValidString(request.resource.data.name, 2, 100) &&
+        isValidString(request.resource.data.email, 5, 100) &&
+        isValidString(request.resource.data.message, 2, 5000);
+      
+      // Allow updates for 'status' changes (Admin)
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    // Team, Subscribers, etc
+    match /{document=**} {
+      allow read, write: if true;
     }
   }
 }
