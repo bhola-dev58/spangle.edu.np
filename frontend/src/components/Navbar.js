@@ -39,8 +39,13 @@ const Navbar = () => {
                 className="h-10 w-10 md:h-12 md:w-12 lg:h-14 lg:w-14 rounded-full"
               />
             </Link>
-            <Link to="/" className="logo-text text-orange-800 font-bold text-sm md:text-base lg:text-lg leading-tight hover:text-orange-600 transition-colors">
-              Spangle Education & Computer Institute
+            <Link to="/" className="flex flex-col hover:opacity-80 transition-opacity">
+              <span className="text-orange-800 font-bold text-sm md:text-base lg:text-lg leading-tight">
+                Spangle Education & Computer Institute
+              </span>
+              <span className="text-gray-900 text-xs md:text-sm font-medium leading-tight">
+                Empowering Minds, Building Futures
+              </span>
             </Link>
           </div>
 
