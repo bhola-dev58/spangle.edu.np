@@ -24,7 +24,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 transition-colors duration-300">
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow mt-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/courses" element={<Courses />} />

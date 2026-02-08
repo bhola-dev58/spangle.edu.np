@@ -13,9 +13,21 @@ import { StarIcon as Star } from '@heroicons/react/24/solid';
 import ScrollingCountryFlags from '../components/ScrollingCountryFlags';
 import '../components/ScrollingCountryFlags.css';
 
+import Popup from '../components/Popup';
 
 const Home = () => {
   const [isVisible, setIsVisible] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    // Show popup on mount
+    setShowPopup(true);
+  }, []);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
 
 
   useEffect(() => {
@@ -103,6 +115,13 @@ const Home = () => {
         </marquee>
       </div>
 
+      <Popup
+        isOpen={showPopup}
+        onClose={closePopup}
+        imageSrc={require('../assets/Pop-up_img.png')}
+      />
+
+
 
       {/* Hero Section */}
       <section className="min-h-[60vh] flex items-center justify-center px-4 sm:px-8 md:px-16 lg:px-32 xl:px-40 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 relative overflow-hidden">
@@ -169,7 +188,7 @@ const Home = () => {
           </div>
           {/* Right: Image Card */}
           <div className="flex-1 flex justify-center items-center animate-fade-in-up w-full">
-            <div className="relative w-full aspect-[4/3] overflow-hidden">
+            <div className="relative w-full ">
               <img
                 src={require('../assets/banners/herosection_banner.jpg')}
                 alt="Students"
